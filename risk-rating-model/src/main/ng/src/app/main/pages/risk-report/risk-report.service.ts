@@ -92,10 +92,22 @@ export class RiskReportService {
                          queryParams = queryParams + "riskProjectTypeCode=" + value + "&";
                          break;
                      }
-                     // case 3: {
-                     //     queryParams = queryParams + "projectPhase=" + value + "&";
-                     //     break;
-                     // }
+                      case 3: {
+                          if (value)
+                             queryParams = queryParams + "activeLoansOnly=true"  + "&";
+                          if (!value)
+                              queryParams = queryParams + "activeLoansOnly=false"  + "&";
+
+                          break;
+                       }
+                     case 4: {
+                         if (value)
+                             queryParams = queryParams + "latestRatingsOnly=true"  + "&";
+                         if (!value)
+                             queryParams = queryParams + "latestRatingsOnly=false"  + "&";
+
+                         break;
+                     }
                  }
              }
              i++;

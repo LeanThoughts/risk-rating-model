@@ -46,7 +46,17 @@
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
-
+                </div>
+                <div fxLayout="row">
+                    <mat-checkbox  formControlName="activeLoanAccountsOnly"
+                                  (change)="applyActiveLoanAccountsOnly()">
+                        Active Loan Accounts Only
+                    </mat-checkbox>
+                    <mat-checkbox  formControlName="latestRatingsOnly"
+                                   (change)="applyLatestRatingsOnly()">
+                        Latest Ratings Only
+                    </mat-checkbox>
+                </div>
                     <!--<mat-form-field fxFlex="25">-->
                         <!--<mat-select placeholder="Project Status" formControlName="projectPhase"  >-->
                             <!--<mat-option> </mat-option>-->
@@ -56,7 +66,7 @@
                         <!--</mat-select>-->
                     <!--</mat-form-field>-->
 
-                </div>
+
 
                 <div class="pt-12" fxLayout="row" fxLayoutAlign="left center">
                     <button class="mr-8" mat-raised-button type="button" color="accent" (click)="fetchRiskReport()">
@@ -156,6 +166,19 @@
                 </mat-cell>
             </ng-container>
 
+            <ng-container matColumnDef="createdTime">
+                <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="20">Creation Time</mat-header-cell>
+                <mat-cell *matCellDef="let riskReport"fxFlex="15">
+                    <p class="text-truncate">{{ riskReport.createdTime}}</p>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="processedBy">
+                <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="20">Processor </mat-header-cell>
+                <mat-cell *matCellDef="let riskReport"fxFlex="15">
+                    <p class="text-truncate">{{ riskReport.processedBy}}</p>
+                </mat-cell>
+            </ng-container>
             <ng-container matColumnDef="processDate">
                 <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="20">Process Date</mat-header-cell>
                 <mat-cell *matCellDef="let riskReport"fxFlex="15">
@@ -163,10 +186,25 @@
                 </mat-cell>
             </ng-container>
 
+            <ng-container matColumnDef="processTime">
+                <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="20">Process Time</mat-header-cell>
+                <mat-cell *matCellDef="let riskReport"fxFlex="15">
+                    <p class="text-truncate">{{ riskReport.processTime}}</p>
+                </mat-cell>
+            </ng-container>
+
+
             <ng-container matColumnDef="finalRating">
                 <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="15">Final Rating</mat-header-cell>
                 <mat-cell *matCellDef="let riskReport"fxFlex="15">
                     <p class="text-truncate">{{ riskReport.finalRating}}</p>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="riskCategory">
+                <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="15">Risk Category</mat-header-cell>
+                <mat-cell *matCellDef="let riskReport"fxFlex="15">
+                    <p class="text-truncate">{{ riskReport.riskCategory}}</p>
                 </mat-cell>
             </ng-container>
 

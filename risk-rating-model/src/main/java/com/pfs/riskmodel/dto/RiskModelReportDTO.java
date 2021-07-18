@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.aspectj.lang.annotation.After;
 
+import java.sql.Time;
 import java.util.Date;
 
 /**
@@ -33,11 +34,24 @@ public class RiskModelReportDTO {
       //    Initiator
             private String initiator;
       // Creation date
-            private Date createDate;
-      //    Process date (After finalapproval)
-            private  Date processDate;
+            private String createDate;
+      // Creation Time
+            private String createdTime;
+
+            //    Process date (After finalapproval)
+
+            private  String processDate;
+
+            private String processTime;
+
+            // Processed By
+            private String processedBy;
+
       //    FinalRating
             private String finalRating;
+
+      //    Risk Category
+            private String riskCategory;
 
 
 

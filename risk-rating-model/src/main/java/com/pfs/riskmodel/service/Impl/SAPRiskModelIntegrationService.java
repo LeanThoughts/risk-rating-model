@@ -275,8 +275,11 @@ public class SAPRiskModelIntegrationService implements ISAPRiskModelIntegrationS
 
 
         try {
+            log.info("POSTING RISK MODEL TO SAP  FOR LOAN : " + riskEvaluationInSAP.LoanContractId);
+            log.info("POSTING RISK MODEL TO SAP  FOR PROJECT : " + riskEvaluationInSAP.ProjectName);
             riskEvaluation = restTemplate.exchange(postURL, HttpMethod.POST, requestToPost, RiskEvaluationInSAP.class);
         } catch (Exception ex) {
+            log.info("EXCEPTION POSTING RISK MODEL TO SAP  FOR LOAN / PROJECT: " + riskEvaluationInSAP.LoanContractId + " / " + riskEvaluationInSAP.ProjectName);
             System.out.println(ex.getMessage());
             return null;
         }
@@ -332,9 +335,14 @@ public class SAPRiskModelIntegrationService implements ISAPRiskModelIntegrationS
 
 
         try {
+            log.info("POSTING RISK MODEL TO SAP  FOR LOAN : " + riskEvaluationInSAP.LoanContractId);
+            log.info("POSTING RISK MODEL TO SAP  FOR PROJECT : " + riskEvaluationInSAP.ProjectName);
             riskEvaluation = restTemplate.exchange(postURL, HttpMethod.POST, requestToPost, RiskEvaluationInSAP.class);
         } catch (Exception ex) {
+
+            log.info("EXCEPTION POSTING RISK MODEL TO SAP  FOR LOAN / PROJECT: " + riskEvaluationInSAP.LoanContractId + " / " + riskEvaluationInSAP.ProjectName);
             System.out.println(ex.getMessage());
+
             return null;
         }
 

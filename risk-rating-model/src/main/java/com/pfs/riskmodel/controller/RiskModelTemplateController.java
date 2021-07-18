@@ -6,8 +6,10 @@ import com.pfs.riskmodel.domain.*;
 import com.pfs.riskmodel.dto.*;
 import com.pfs.riskmodel.excel.RiskEvaluationReportExcelGen;
 import com.pfs.riskmodel.repository.*;
+import com.pfs.riskmodel.resource.LoanApplication;
 import com.pfs.riskmodel.resource.LoanApplicationResource;
 import com.pfs.riskmodel.resource.LoanNumberResource;
+import com.pfs.riskmodel.resource.SearchResource;
 import com.pfs.riskmodel.service.IRiskModelService;
 import com.pfs.riskmodel.service.IRiskModelTemplateService;
 import com.pfs.riskmodel.service.modelvaluator.Utils;
@@ -29,6 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.Principal;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
@@ -86,8 +89,8 @@ public class RiskModelTemplateController {
     @Autowired
     IRiskModelService riskModelService;
 
-    @Autowired
-    LMSEnquiryClient lmsEnquiryClient;
+
+    private final LMSEnquiryClient lmsEnquiryClient;
 
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -220,7 +223,17 @@ public class RiskModelTemplateController {
     @GetMapping("riskModel/report")
     public ResponseEntity findByLoanNumberRiskProjectTypeProjectName(@RequestParam(required = false) String loanNumber,
                                                                      @RequestParam(required = false) String riskProjectTypeCode,
-                                                                     @RequestParam(required = false) String projectName) {
+                                                                     @RequestParam(required = false) String projectName,
+                                                                     @RequestParam(required = false) Boolean activeLoanAccountsOnly,
+                                                                     @RequestParam(required = false) Boolean latestRatingsOnly,
+                                                                     HttpServletRequest request) throws ParseException {
+
+        if (activeLoanAccountsOnly == null) {
+            activeLoanAccountsOnly = false;
+        }
+        if (latestRatingsOnly == null) {
+            latestRatingsOnly = false;
+        }
 
         if (loanNumber != null && loanNumber.length() == 0 )
             loanNumber = null;
@@ -229,11 +242,36 @@ public class RiskModelTemplateController {
         if (projectName != null && projectName.length() == 0 )
             projectName = null;
 
+        SearchResource resource = new SearchResource();
+        if (projectName != null)
+            resource.setPartyName(projectName);
+        if (loanNumber != null)
+            resource.setLoanNumberFrom(Integer.parseInt(loanNumber));
 
-        List<RiskModelReportDTO> riskModelTemplates
-                    = riskModelTemplateService.findByLoanNumberAndRiskProjectTypeAndProjectName(loanNumber,riskProjectTypeCode,projectName);
 
-        return ResponseEntity.ok(riskModelTemplates);
+        ResponseEntity<List<LoanApplicationResource>>   resources = lmsEnquiryClient.searchEnquiries(resource, getAuthorizationBearer(request.getUserPrincipal()));
+        List<LoanApplicationResource> loanApplicationResourceList = resources.getBody();
+        List<LoanApplication> loanApplicationList = new ArrayList<>();
+
+        for (LoanApplicationResource loanApplicationResource: loanApplicationResourceList){
+            LoanApplication loanApplication = loanApplicationResource.getLoanApplication();
+            loanApplicationList.add(loanApplication);
+        }
+
+//        List<RiskModelReportDTO> riskModelTemplates
+//                    = riskModelTemplateService. findByLoanNumberAndRiskProjectTypeAndProjectName(loanNumber,riskProjectTypeCode,projectName);
+
+        List<RiskModelReportDTO> riskModelReportDTOS = riskModelTemplateService.findByLoanNumberAndRiskProjectTypeAndProjectNameFiltered(
+                loanApplicationList,
+                loanNumber,
+                riskProjectTypeCode,
+                projectName,
+                activeLoanAccountsOnly,
+                latestRatingsOnly);
+
+        riskModelReportDTOS = formatRiskModelReportDTO(riskModelReportDTOS);
+
+        return ResponseEntity.ok(riskModelReportDTOS);
     }
 
     @GetMapping("riskModel/report/excel")
@@ -241,7 +279,9 @@ public class RiskModelTemplateController {
             HttpServletResponse response,
             @RequestParam(required = false) String loanNumber,
             @RequestParam(required = false) String riskProjectTypeCode,
-            @RequestParam(required = false) String projectName) throws IOException {
+            @RequestParam(required = false) String projectName,
+            @RequestParam(required = false) Boolean activeLoanAccountsOnly,
+            @RequestParam(required = false) Boolean latestRatingsOnly,  HttpServletRequest request) throws IOException, ParseException {
 
         response.setContentType("application/octet-stream");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
@@ -251,6 +291,13 @@ public class RiskModelTemplateController {
         String headerValue = "attachment; filename=RiskEvaluationReport_" + currentDateTime + ".xlsx";
         response.setHeader(headerKey, headerValue);
 
+        if (activeLoanAccountsOnly == null) {
+            activeLoanAccountsOnly = false;
+        }
+        if (latestRatingsOnly == null) {
+            latestRatingsOnly = false;
+        }
+
         if (loanNumber != null && loanNumber.length() == 0 )
             loanNumber = null;
         if (riskProjectTypeCode != null && riskProjectTypeCode.length() == 0 )
@@ -259,10 +306,34 @@ public class RiskModelTemplateController {
             projectName = null;
 
 
-        List<RiskModelReportDTO> riskModelTemplates
-                = riskModelTemplateService.findByLoanNumberAndRiskProjectTypeAndProjectName(loanNumber,riskProjectTypeCode,projectName);
+        SearchResource resource = new SearchResource();
+        if (projectName != null)
+            resource.setPartyName(projectName);
+        if (loanNumber != null)
+            resource.setLoanNumberFrom(Integer.parseInt(loanNumber));
 
-        RiskEvaluationReportExcelGen riskEvaluationReportExcelGen = new RiskEvaluationReportExcelGen(riskModelTemplates);
+
+        ResponseEntity<List<LoanApplicationResource>>   resources = lmsEnquiryClient.searchEnquiries(resource, getAuthorizationBearer(request.getUserPrincipal()));
+        List<LoanApplicationResource> loanApplicationResourceList = resources.getBody();
+        List<LoanApplication> loanApplicationList = new ArrayList<>();
+
+        for (LoanApplicationResource loanApplicationResource: loanApplicationResourceList){
+            LoanApplication loanApplication = loanApplicationResource.getLoanApplication();
+            loanApplicationList.add(loanApplication);
+        }
+
+        List<RiskModelReportDTO> riskModelReportDTOS = riskModelTemplateService.findByLoanNumberAndRiskProjectTypeAndProjectNameFiltered(
+                loanApplicationList,
+                loanNumber,
+                riskProjectTypeCode,
+                projectName,
+                activeLoanAccountsOnly,
+                latestRatingsOnly);
+
+        riskModelReportDTOS = formatRiskModelReportDTO(riskModelReportDTOS);
+
+
+        RiskEvaluationReportExcelGen riskEvaluationReportExcelGen = new RiskEvaluationReportExcelGen(riskModelReportDTOS);
         riskEvaluationReportExcelGen.export(response);
      }
 
@@ -714,5 +785,18 @@ public class RiskModelTemplateController {
 
     }
 
+
+
+
+    private List<RiskModelReportDTO> formatRiskModelReportDTO(List<RiskModelReportDTO> riskModelReportDTOS) {
+        List<RiskModelReportDTO> riskModelReportDTOList = new ArrayList<>();
+
+        for (RiskModelReportDTO riskModelReportDTO: riskModelReportDTOS) {
+            riskModelReportDTO.setLoanNumber(riskModelReportDTO.getLoanNumber().replaceFirst("^0+(?!$)", ""));
+            riskModelReportDTOList.add(riskModelReportDTO);
+        }
+
+        return riskModelReportDTOList;
+    }
 
 }

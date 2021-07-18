@@ -34,6 +34,8 @@ export class RiskReportComponent implements OnInit {
     projectPhases: Array<any>;
     projectTypes: Array<any>;
 
+     activeLoanAccountsOnly : boolean = false;
+     latestRatingsOnly : boolean = false;
 
 
     @Input()
@@ -46,9 +48,14 @@ export class RiskReportComponent implements OnInit {
 
 
     displayedColumns = [
-        'riskModelId','loanNumber', 'projectName', 'projectType', 'projectPhase','initiatingDepartment', 'loanContractAmount', 'totalLoanDisbursedAmount' , 'initiator', 'createDate', 'processDate', 'finalRating'
+        'loanNumber', 'projectName', 'projectType', 'projectPhase','initiatingDepartment', 'loanContractAmount',
+        'totalLoanDisbursedAmount' , 'initiator', 'createDate','createdTime', 'processedBy','processDate','processTime' ,
+        'finalRating' ,'riskCategory'
     ];
-    columnsToDisplay = ['riskModelId', 'loanNumber', 'projectName', 'projectType', 'projectPhase','initiatingDepartment', 'loanContractAmount', 'totalLoanDisbursedAmount' , 'initiator', 'createDate', 'processDate', 'finalRating'];
+
+    //columnsToDisplay = ['riskModelId', 'loanNumber', 'projectName', 'projectType', 'projectPhase','initiatingDepartment',
+    // 'loanContractAmount', 'totalLoanDisbursedAmount' ,  'createDate', 'processedBy','processDate','processTime' ,
+    // 'finalRating' ,'riskCategory'];
 
 
 
@@ -64,7 +71,9 @@ export class RiskReportComponent implements OnInit {
         this.riskReportSearchForm = _formBuilder.group({
             loanNumber: [],
             projectName: [],
-            projectType: []
+            projectType: [],
+            activeLoanAccountsOnly:[],
+            latestRatingsOnly: []
             //projectPhase:[]
         });
         _service.selectedRiskReportItemId = undefined;
@@ -73,25 +82,52 @@ export class RiskReportComponent implements OnInit {
         this.projectPhases = RiskModelConstants.projectPhases;
         this.projectTypes = RiskModelConstants.projectTypes;
 
+        this.latestRatingsOnly = false;
+        this.activeLoanAccountsOnly = false;
     }
+
+
 
     ngOnInit() {
     }
 
+    applyActiveLoanAccountsOnly():void{
+        if (this.activeLoanAccountsOnly === true){
+            this.activeLoanAccountsOnly = false;
+
+        }
+        if (this.activeLoanAccountsOnly  === false) {
+            this.activeLoanAccountsOnly = true;
+        }
+        console.log("Active LOANS CHECK BOX : " + this.activeLoanAccountsOnly )
+
+    }
+    applyLatestRatingsOnly():void{
+        if (this.latestRatingsOnly === true){
+            this.latestRatingsOnly = false;
+        }
+        if (this.latestRatingsOnly === false) {
+            this.latestRatingsOnly = true;
+        }
+        console.log("LATEST RATINGS CHECK BOX : " + this.latestRatingsOnly )
+
+    }
     /*
         Fetch Risk Report
      */
     fetchRiskReport():void{
         const searchForm = this.riskReportSearchForm.value;
 
-        console.log("SEARCH PARAMS STRUCT   : " +this.riskReportSearchForm)
-        console.log("SEARCH PARAMS          : " +this.riskReportSearchForm.value)
 
         let searchParameters: Array<string> = [ searchForm.loanNumber,
                                                 searchForm.projectName,
-                                                searchForm.projectType
-                                                //searchForm.projectPhase
+                                                searchForm.projectType,
+                                                this.activeLoanAccountsOnly,
+                                                this.latestRatingsOnly
                                                ];
+
+        console.log("search parameter 3" + searchParameters[3]);
+        console.log("search parameter 4" + searchParameters[4]);
 
 
         this._service.getRiskReport(searchParameters).subscribe((result) => {
@@ -118,14 +154,18 @@ export class RiskReportComponent implements OnInit {
 
         const searchForm = this.riskReportSearchForm.value;
 
-        console.log("EXCEL SEARCH PARAMS STRUCT   : " +this.riskReportSearchForm)
-        console.log("EXCEL SEARCH PARAMS          : " +this.riskReportSearchForm.value)
+
+
 
         let searchParameters: Array<string> = [ searchForm.loanNumber,
             searchForm.projectName,
-            searchForm.projectType
-            //searchForm.projectPhase
+            searchForm.projectType,
+            this.activeLoanAccountsOnly,
+            this.latestRatingsOnly
         ];
+
+        console.log("search parameter 3" + searchParameters[3]);
+        console.log("search parameter 4" + searchParameters[4]);
 
         this._service.getRiskReportInExcel(searchParameters);
 

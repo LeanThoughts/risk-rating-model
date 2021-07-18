@@ -2,6 +2,7 @@ package com.pfs.riskmodel.resource;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import feign.Contract;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -195,6 +196,36 @@ public class LoanApplication {
      * 07-Approved
      * 08-Rejected
      */
+
+    //
+    //* ENQ Portal Status
+    //*01-Enquiry Stage
+    //*02-ICC ApprovalStage
+    //*03-Appraisal Stage
+    //*04-Board Approval Stage
+    //*05-Loan Documentation Stage
+    //*06-Loan Disbursement Stage
+    //*07-Approved
+    //*08-Rejected
+    //*09-Cancelled
+    //*10-Fully Disbursed
+    //*11-Withdrawn
+    //*12-Planned Completed
+    //*13-Actual Completed
+                                                    //* SAP Disbursement Status
+                                                    //*1           Not Disbursed
+                                                    //*2           Partially Disbursed
+                                                    //*3           Fully Disbursed
+    //* SAP STATUS
+    //*1  ICC stage
+    //*2  Application
+    //*20	Contract offer
+    //*31	Application completed/deleted
+    //*34	Contract offer completed
+    //*37	Contract Completed
+    //*60	Contract
+    //*90	Planned Completed
+    //*99	Actually Completed
     private Integer functionalStatus;
 
     /**

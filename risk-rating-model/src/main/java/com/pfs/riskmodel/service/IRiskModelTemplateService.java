@@ -4,8 +4,10 @@ import com.pfs.riskmodel.domain.RiskModelTemplate;
 import com.pfs.riskmodel.domain.RiskProjectType;
 import com.pfs.riskmodel.domain.RiskType;
 import com.pfs.riskmodel.dto.RiskModelReportDTO;
+import com.pfs.riskmodel.resource.LoanApplication;
 import com.pfs.riskmodel.resource.RiskEvaluationInSAP;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +22,14 @@ public interface IRiskModelTemplateService {
 
     public RiskModelTemplate getByRiskModelId(Long id);
 
-    public List<RiskModelReportDTO> findByLoanNumberAndRiskProjectTypeAndProjectName(String loanNumber, String riskProjectTypeCode, String projectName);
+    public List<RiskModelReportDTO> findByLoanNumberAndRiskProjectTypeAndProjectName(String loanNumber, String riskProjectTypeCode, String projectName) throws ParseException;
+
+    public List<RiskModelReportDTO> findByLoanNumberAndRiskProjectTypeAndProjectNameFiltered(List<LoanApplication> loanApplications,
+                                                                                             String loanNumber,
+                                                                                             String riskProjectTypeCode,
+                                                                                             String projectName,
+                                                                                             Boolean activeLoanAccountsOnly,
+                                                                                             Boolean latestRatingsOnly) throws ParseException;
 
 
 

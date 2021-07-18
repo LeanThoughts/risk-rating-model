@@ -9,6 +9,7 @@ import com.pfs.riskmodel.repository.ProjectRiskLevelRepository;
 import com.pfs.riskmodel.repository.RiskProjectTypeRepository;
 import com.pfs.riskmodel.repository.RiskModelTemplateRepository;
 import com.pfs.riskmodel.repository.RiskTypeRepository;
+import com.pfs.riskmodel.resource.LoanApplication;
 import com.pfs.riskmodel.service.IRiskModelTemplateService;
 import com.pfs.riskmodel.service.IRiskTypeService;
 import com.pfs.riskmodel.service.validator.RiskModelTemplateValidator;
@@ -18,7 +19,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by sajeev on 17-Dec-18.
@@ -54,7 +58,7 @@ public class RiskModelTemplateService implements IRiskModelTemplateService {
     }
 
     @Override
-    public List<RiskModelReportDTO> findByLoanNumberAndRiskProjectTypeAndProjectName(String loanNumber, String riskProjectTypeCode, String projectName) {
+    public List<RiskModelReportDTO> findByLoanNumberAndRiskProjectTypeAndProjectName(String loanNumber, String riskProjectTypeCode, String projectName) throws ParseException {
 
         List<RiskModelTemplate> riskModelTemplates = new ArrayList<>();
 
@@ -99,6 +103,18 @@ public class RiskModelTemplateService implements IRiskModelTemplateService {
 
 
         return riskModelReportDTOS;
+    }
+
+    @Override
+    public List<RiskModelReportDTO> findByLoanNumberAndRiskProjectTypeAndProjectNameFiltered(List<LoanApplication> loanApplications,String loanNumber, String riskProjectTypeCode, String projectName, Boolean activeLoanAccountsOnly, Boolean latestRatingsOnly) throws ParseException {
+
+        List<RiskModelReportDTO> riskModelReportDTOS = this.findByLoanNumberAndRiskProjectTypeAndProjectName(loanNumber,riskProjectTypeCode,projectName);
+
+        riskModelReportDTOS = this.filterOutput(loanApplications,riskModelReportDTOS,activeLoanAccountsOnly,latestRatingsOnly);
+
+        return riskModelReportDTOS;
+
+
     }
 
     @Override
@@ -288,14 +304,99 @@ public class RiskModelTemplateService implements IRiskModelTemplateService {
     }
 
 
-    private RiskModelReportDTO mapRiskModelTemplateToRiskModelDTO(RiskModelTemplate riskModelTemplate) {
+    private  List<RiskModelReportDTO> filterOutput(List<LoanApplication> loanApplications,
+                                                   List<RiskModelReportDTO> riskModelReportDTOS,
+                                                   Boolean activeLoanAccountsOnly,
+                                                   Boolean latestRatingsOnly) {
+
+
+
+        if (activeLoanAccountsOnly == true) {
+             loanApplications = this.filterLoans(loanApplications);
+        }
+        if (latestRatingsOnly == true) {
+            riskModelReportDTOS =   this.filterRiskModelDTOLatestDate(loanApplications,riskModelReportDTOS,activeLoanAccountsOnly,latestRatingsOnly);
+        }
+
+        return riskModelReportDTOS;
+
+    }
+
+    private List<LoanApplication> filterLoans (List<LoanApplication> loanApplications) {
+
+        List<LoanApplication> loanApplicationListFiltered = new ArrayList<>();
+
+        for (LoanApplication loanApplication : loanApplicationListFiltered) {
+            if (loanApplication.getLoanCurrentContractAmount() == 0 ||
+                    loanApplication.getFunctionalStatus() == 8 ||
+                    loanApplication.getFunctionalStatus() == 9 ||
+                    loanApplication.getFunctionalStatus() == 10 ||
+                    loanApplication.getFunctionalStatus() == 11 ||
+                    loanApplication.getFunctionalStatus() == 12 ||
+                    loanApplication.getFunctionalStatus() == 13
+                    ) {
+                loanApplicationListFiltered.add(loanApplication);
+            }
+        }
+
+        return loanApplicationListFiltered;
+    }
+
+//    private List<RiskModelReportDTO> filterByLoanStatus(List<LoanApplication> loanApplicationListFiltered, List<RiskModelReportDTO> riskModelReportDTOS) {
+//
+//        for (RiskModelReportDTO riskModelReportDTO : riskModelReportDTOS) {
+//            List<RiskModelReportDTO> riskModelReportDTOSForLoan =
+//                    riskModelReportDTOS.stream().filter(riskModelReportDTO -> riskModelReportDTO.getLoanNumber().equals(loanApplication.getLoanContractId()))
+//                            .collect(Collectors.toList());
+//        }
+//
+//
+//    }
+
+    private  List<RiskModelReportDTO> filterRiskModelDTOLatestDate(List<LoanApplication> loanApplications,
+                                                                   List<RiskModelReportDTO> riskModelReportDTOS,
+                                                                   Boolean activeLoanAccountsOnly,
+                                                                   Boolean latestRatingsOnly) {
+        List<RiskModelReportDTO> riskModelReportDTOSFiltered = new ArrayList<>();
+
+        for (LoanApplication loanApplication : loanApplications) {
+
+
+            List<RiskModelReportDTO> riskModelReportDTOSForLoan =
+                    riskModelReportDTOS.stream().filter(riskModelReportDTO -> riskModelReportDTO.getLoanNumber().equals(loanApplication.getLoanContractId()))
+                            .collect(Collectors.toList());
+
+            //if (riskModelReportDTOSForLoan.size() > 1) {
+                if (latestRatingsOnly == true) {
+                    Comparator<RiskModelReportDTO> riskModelReportDTOComparator = Comparator
+                            .comparing(RiskModelReportDTO::getCreateDate)
+                            .thenComparing(RiskModelReportDTO::getCreatedTime);
+
+                    riskModelReportDTOSForLoan = riskModelReportDTOSForLoan.stream()
+                            .sorted(riskModelReportDTOComparator)
+                            .collect(Collectors.toList());
+
+                    if (riskModelReportDTOSForLoan.size() > 0)
+                        riskModelReportDTOSFiltered.add(riskModelReportDTOSForLoan.get(riskModelReportDTOSForLoan.size()-1));
+
+                }
+            }
+
+       // }
+
+
+        return riskModelReportDTOSFiltered;
+
+    }
+
+    private RiskModelReportDTO mapRiskModelTemplateToRiskModelDTO(RiskModelTemplate riskModelTemplate) throws ParseException {
 
         RiskModelReportDTO riskModelReportDTO = new RiskModelReportDTO();
 
         //Id
         riskModelReportDTO.setRiskModelId(riskModelTemplate.getId());
         //    Loan number
-        riskModelReportDTO.setLoanNumber(riskModelTemplate.getLoanNumber());
+        riskModelReportDTO.setLoanNumber(riskModelTemplate.getLoanNumber());//.replaceFirst("^0+(?!$)", ""));
         //    Project Name
         riskModelReportDTO.setProjectName(riskModelTemplate.getProjectName());
         //    Project Type
@@ -315,14 +416,44 @@ public class RiskModelTemplateService implements IRiskModelTemplateService {
         //    Initiator
         riskModelReportDTO.setInitiator(riskModelTemplate.getCreatedBy());
 
-        // Creation date
-        riskModelReportDTO.setCreateDate(riskModelTemplate.getRatingDate());
+        SimpleDateFormat dateFormatter = new SimpleDateFormat(
+                "dd/MM/yyyy");
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+
+
+        //Create Date
+        if (riskModelTemplate.getRatingDate() != null) {
+            String date =  dateFormatter.parse(dateFormatter.format(riskModelTemplate.getRatingDate())).toString();
+            String time = timeFormat.format(riskModelTemplate.getRatingDate()).toString();
+
+            // Creation date
+            riskModelReportDTO.setCreateDate(date.substring(0,10));
+            riskModelReportDTO.setCreatedTime(time);
+         }
 
         //    Process date (After finalapproval)
-        riskModelReportDTO.setProcessDate(riskModelTemplate.getSecondApprovalProcessDate());
+        if (riskModelTemplate.getThirdApprovalProcessDate() != null) {
+            String date =  dateFormatter.parse(dateFormatter.format(riskModelTemplate.getThirdApprovalProcessDate())).toString();
+             String time = timeFormat.format(riskModelTemplate.getThirdApprovalProcessDate()) ; //.toString();
+
+            // Creation date
+            riskModelReportDTO.setProcessDate(date.substring(0,10));
+            riskModelReportDTO.setProcessTime(time);
+        }
+
+        // Processed By
+        riskModelReportDTO.setProcessedBy(riskModelTemplate.getThirdLevelApprover());
 
         //    FinalRating
         riskModelReportDTO.setFinalRating(riskModelTemplate.getFinalProjectGrade());
+
+        // Risk Category
+        Integer riskRating = Integer.parseInt(riskModelTemplate.getFinalProjectGrade().substring(6).replaceAll("\\s", ""));
+        if (riskRating >= 7) {
+            riskModelReportDTO.setRiskCategory("High Risk");
+        } else {
+            riskModelReportDTO.setRiskCategory("Low Risk");
+        }
 
 
         return riskModelReportDTO;

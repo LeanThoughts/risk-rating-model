@@ -9,8 +9,12 @@ export class RiskReportModel {
     totalLoanDisbursedAmount: number;
     initiator: string;
     createDate: Date;
+    createdTime: string;
+    processedBy: string;
     processDate: Date;
+    processTime: String;
     finalRating: string;
+    riskCategory: string;
 
     /**
      * constructor()
@@ -28,7 +32,11 @@ export class RiskReportModel {
         this.totalLoanDisbursedAmount = _riskReport.totalLoanDisbursedAmount ;
         this.initiator = _riskReport.initiator+ '' || '';
         this.createDate = _riskReport.createDate;
-        this.processDate = _riskReport.processDate;
-        this.finalRating = _riskReport.finalRating+ '' || '';
+        this.createdTime = _riskReport.createdTime + '' || '';
+        this.processedBy = _riskReport.processedBy;
+        this.processDate = _riskReport.processTime;  + '' || ''
+        this.processDate = _riskReport.processTime;  + '' || ''
+        this.finalRating = _riskReport.finalRating + '' || ''
+        this.riskCategory = _riskReport.riskCategory  + '' || '' ;
     }
 }
