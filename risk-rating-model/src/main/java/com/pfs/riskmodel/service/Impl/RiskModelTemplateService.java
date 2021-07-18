@@ -448,13 +448,16 @@ public class RiskModelTemplateService implements IRiskModelTemplateService {
         riskModelReportDTO.setFinalRating(riskModelTemplate.getFinalProjectGrade());
 
         // Risk Category
-        if (riskModelTemplate.getFinalProjectGrade() !=null || riskModelTemplate.getFinalProjectGrade().length() > 0) {
-            Integer riskRating = Integer.parseInt(riskModelTemplate.getFinalProjectGrade().substring(6).replaceAll("\\s", ""));
-        if (riskRating >= 7) {
-            riskModelReportDTO.setRiskCategory("High Risk");
-        } else {
-            riskModelReportDTO.setRiskCategory("Low Risk");
-        }
+        if (riskModelTemplate.getFinalProjectGrade() !=null || riskModelTemplate.getFinalProjectGrade().length() > 6) {
+            log.info("Final Project Grade :" + riskModelTemplate.getFinalProjectGrade());
+            if (riskModelTemplate.getFinalProjectGrade() != "") {
+                Integer riskRating = Integer.parseInt(riskModelTemplate.getFinalProjectGrade().substring(6).replaceAll("\\s", ""));
+                if (riskRating >= 7) {
+                    riskModelReportDTO.setRiskCategory("High Risk");
+                } else {
+                    riskModelReportDTO.setRiskCategory("Low Risk");
+                }
+            }
 
         }
 
