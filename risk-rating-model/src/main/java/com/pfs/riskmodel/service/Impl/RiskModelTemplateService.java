@@ -423,21 +423,21 @@ public class RiskModelTemplateService implements IRiskModelTemplateService {
 
         //Create Date
         if (riskModelTemplate.getRatingDate() != null) {
-            String date =  dateFormatter.parse(dateFormatter.format(riskModelTemplate.getRatingDate())).toString();
+            String date = dateFormatter.parse(dateFormatter.format(riskModelTemplate.getRatingDate())).toString();
             String time = timeFormat.format(riskModelTemplate.getRatingDate()).toString();
 
             // Creation date
-            riskModelReportDTO.setCreateDate(date.substring(0,10));
+            riskModelReportDTO.setCreateDate(date.substring(0, 10) + " " + date.substring(24, 28));
             riskModelReportDTO.setCreatedTime(time);
-         }
+        }
 
         //    Process date (After finalapproval)
         if (riskModelTemplate.getThirdApprovalProcessDate() != null) {
-            String date =  dateFormatter.parse(dateFormatter.format(riskModelTemplate.getThirdApprovalProcessDate())).toString();
-             String time = timeFormat.format(riskModelTemplate.getThirdApprovalProcessDate()) ; //.toString();
+            String date = dateFormatter.parse(dateFormatter.format(riskModelTemplate.getThirdApprovalProcessDate())).toString();
+            String time = timeFormat.format(riskModelTemplate.getThirdApprovalProcessDate()); //.toString();
 
             // Creation date
-            riskModelReportDTO.setProcessDate(date.substring(0,10));
+            riskModelReportDTO.setProcessDate(date.substring(0, 10) + " " + date.substring(24, 28));
             riskModelReportDTO.setProcessTime(time);
         }
 
@@ -448,13 +448,15 @@ public class RiskModelTemplateService implements IRiskModelTemplateService {
         riskModelReportDTO.setFinalRating(riskModelTemplate.getFinalProjectGrade());
 
         // Risk Category
-        Integer riskRating = Integer.parseInt(riskModelTemplate.getFinalProjectGrade().substring(6).replaceAll("\\s", ""));
+        if (riskModelTemplate.getFinalProjectGrade() !=null || riskModelTemplate.getFinalProjectGrade().length() > 0) {
+            Integer riskRating = Integer.parseInt(riskModelTemplate.getFinalProjectGrade().substring(6).replaceAll("\\s", ""));
         if (riskRating >= 7) {
             riskModelReportDTO.setRiskCategory("High Risk");
         } else {
             riskModelReportDTO.setRiskCategory("Low Risk");
         }
 
+        }
 
         return riskModelReportDTO;
 
