@@ -50,6 +50,8 @@ public class RiskModelTemplateService implements IRiskModelTemplateService {
     @Autowired
     ProjectRiskLevelRepository projectRiskLevelRepository;
 
+    List<LoanApplication> loanApplicationList;
+
     @Override
     public RiskModelTemplate getByRiskModelId(Long id) {
        Optional<RiskModelTemplate> riskModelTemplateOptional = riskModelTemplateRepository.findById(id);
@@ -58,9 +60,13 @@ public class RiskModelTemplateService implements IRiskModelTemplateService {
     }
 
     @Override
-    public List<RiskModelReportDTO> findByLoanNumberAndRiskProjectTypeAndProjectName(String loanNumber, String riskProjectTypeCode, String projectName) throws ParseException {
+    public List<RiskModelReportDTO> findByLoanNumberAndRiskProjectTypeAndProjectName(String loanNumber,
+                                                                                     String riskProjectTypeCode,
+                                                                                     String projectName,
+                                                                                     List<LoanApplication> loanApplications) throws ParseException {
 
         List<RiskModelTemplate> riskModelTemplates = new ArrayList<>();
+        this.loanApplicationList = loanApplications;
 
         RiskProjectType riskProjectType = riskProjectTypeRepository.findByCode(riskProjectTypeCode);
 
@@ -106,9 +112,13 @@ public class RiskModelTemplateService implements IRiskModelTemplateService {
     }
 
     @Override
-    public List<RiskModelReportDTO> findByLoanNumberAndRiskProjectTypeAndProjectNameFiltered(List<LoanApplication> loanApplications,String loanNumber, String riskProjectTypeCode, String projectName, Boolean activeLoanAccountsOnly, Boolean latestRatingsOnly) throws ParseException {
+    public List<RiskModelReportDTO> findByLoanNumberAndRiskProjectTypeAndProjectNameFiltered(List<LoanApplication> loanApplications,
+                                                                                             String loanNumber, String riskProjectTypeCode,
+                                                                                             String projectName,
+                                                                                             Boolean activeLoanAccountsOnly,
+                                                                                             Boolean latestRatingsOnly) throws ParseException {
 
-        List<RiskModelReportDTO> riskModelReportDTOS = this.findByLoanNumberAndRiskProjectTypeAndProjectName(loanNumber,riskProjectTypeCode,projectName);
+        List<RiskModelReportDTO> riskModelReportDTOS = this.findByLoanNumberAndRiskProjectTypeAndProjectName(loanNumber,riskProjectTypeCode,projectName, loanApplications);
 
         riskModelReportDTOS = this.filterOutput(loanApplications,riskModelReportDTOS,activeLoanAccountsOnly,latestRatingsOnly);
 
@@ -326,8 +336,8 @@ public class RiskModelTemplateService implements IRiskModelTemplateService {
 
         List<LoanApplication> loanApplicationListFiltered = new ArrayList<>();
 
-        for (LoanApplication loanApplication : loanApplicationListFiltered) {
-            if (loanApplication.getLoanCurrentContractAmount() == 0 ||
+        for (LoanApplication loanApplication : loanApplications) {
+            if (loanApplication.getLoanCurrentContractAmount() > 0 ||
                     loanApplication.getFunctionalStatus() == 8 ||
                     loanApplication.getFunctionalStatus() == 9 ||
                     loanApplication.getFunctionalStatus() == 10 ||
@@ -335,7 +345,9 @@ public class RiskModelTemplateService implements IRiskModelTemplateService {
                     loanApplication.getFunctionalStatus() == 12 ||
                     loanApplication.getFunctionalStatus() == 13
                     ) {
-                loanApplicationListFiltered.add(loanApplication);
+                if (loanApplication.getLoanContractAmount() > 0 || loanApplication.getLoanDisbursedAmount() > 0) {
+                    loanApplicationListFiltered.add(loanApplication);
+                }
             }
         }
 
@@ -408,10 +420,16 @@ public class RiskModelTemplateService implements IRiskModelTemplateService {
         riskModelReportDTO.setInitiatingDepartment(riskModelTemplate.getPurpose().getDescription());
 
         //    Loan contractamount(Rs Crores)
-        riskModelReportDTO.setLoanContractAmount(riskModelTemplate.getLoanContractAmount());
+        LoanApplication loanApplication = loanApplicationList.stream()
+                .filter(loanApplication1 -> riskModelTemplate.getLoanNumber().equals(loanApplication1.getLoanContractId()))
+                .findAny()
+                .orElse(null);
+        if (loanApplication  != null)
+        riskModelReportDTO.setLoanContractAmount(loanApplication.getLoanContractAmount());
 
         //    Total DisbursedAmt(Rs Crores)
-        riskModelReportDTO.setTotalLoanDisbursedAmount(riskModelTemplate.getLoanDisbursedAmount());
+        if (loanApplication != null)
+        riskModelReportDTO.setTotalLoanDisbursedAmount(loanApplication.getLoanDisbursedAmount());
 
         //    Initiator
         riskModelReportDTO.setInitiator(riskModelTemplate.getCreatedBy());

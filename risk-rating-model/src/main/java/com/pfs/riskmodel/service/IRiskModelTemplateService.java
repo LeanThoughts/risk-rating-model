@@ -22,7 +22,10 @@ public interface IRiskModelTemplateService {
 
     public RiskModelTemplate getByRiskModelId(Long id);
 
-    public List<RiskModelReportDTO> findByLoanNumberAndRiskProjectTypeAndProjectName(String loanNumber, String riskProjectTypeCode, String projectName) throws ParseException;
+    public List<RiskModelReportDTO> findByLoanNumberAndRiskProjectTypeAndProjectName(String loanNumber,
+                                                                                     String riskProjectTypeCode,
+                                                                                     String projectName,
+                                                                                      List<LoanApplication> loanApplications ) throws ParseException;
 
     public List<RiskModelReportDTO> findByLoanNumberAndRiskProjectTypeAndProjectNameFiltered(List<LoanApplication> loanApplications,
                                                                                              String loanNumber,

@@ -8,14 +8,12 @@ import com.pfs.riskmodel.excel.RiskEvaluationReportExcelGen;
 import com.pfs.riskmodel.repository.*;
 import com.pfs.riskmodel.resource.LoanApplication;
 import com.pfs.riskmodel.resource.LoanApplicationResource;
-import com.pfs.riskmodel.resource.LoanNumberResource;
 import com.pfs.riskmodel.resource.SearchResource;
 import com.pfs.riskmodel.service.IRiskModelService;
 import com.pfs.riskmodel.service.IRiskModelTemplateService;
 import com.pfs.riskmodel.service.modelvaluator.Utils;
 import com.pfs.riskmodel.util.Check;
 import com.pfs.riskmodel.util.CheckServiceResult;
-import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import org.dozer.DozerBeanMapper;
 import org.joda.time.DateTime;
@@ -224,12 +222,12 @@ public class RiskModelTemplateController {
     public ResponseEntity findByLoanNumberRiskProjectTypeProjectName(@RequestParam(required = false) String loanNumber,
                                                                      @RequestParam(required = false) String riskProjectTypeCode,
                                                                      @RequestParam(required = false) String projectName,
-                                                                     @RequestParam(required = false) Boolean activeLoanAccountsOnly,
+                                                                     @RequestParam(required = false) Boolean activeLoansOnly,
                                                                      @RequestParam(required = false) Boolean latestRatingsOnly,
                                                                      HttpServletRequest request) throws ParseException {
 
-        if (activeLoanAccountsOnly == null) {
-            activeLoanAccountsOnly = false;
+        if (activeLoansOnly == null) {
+            activeLoansOnly = false;
         }
         if (latestRatingsOnly == null) {
             latestRatingsOnly = false;
@@ -266,7 +264,7 @@ public class RiskModelTemplateController {
                 loanNumber,
                 riskProjectTypeCode,
                 projectName,
-                activeLoanAccountsOnly,
+                activeLoansOnly,
                 latestRatingsOnly);
 
         riskModelReportDTOS = formatRiskModelReportDTO(riskModelReportDTOS);
