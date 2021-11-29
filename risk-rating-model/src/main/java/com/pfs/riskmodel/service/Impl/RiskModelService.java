@@ -69,6 +69,9 @@ public class RiskModelService implements IRiskModelService {
     @Autowired
     ISAPRiskModelIntegrationService isapRiskModelIntegrationService;
 
+    @Autowired
+    IWorkflowAssignmentService workflowAssignmentService;
+
 
     @Override
     public Map<String, Object> createRiskModel(RiskModelTemplate riskModelTemplate,
@@ -120,7 +123,12 @@ public class RiskModelService implements IRiskModelService {
 
 
         //Determine Approvers
-        WorkflowAssignment workflowAssignment = workflowAssignmentRepository.findByPurpose(riskModelTemplate.getPurpose());
+        //WorkflowAssignment workflowAssignment = workflowAssignmentRepository.findByPurpose(riskModelTemplate.getPurpose());
+        // Changed on Nov 18, 2021 - Workflow Assignment Validity Period
+        WorkflowAssignment workflowAssignment =
+                workflowAssignmentService.getWorkFlowAssignmentForEvaluationDateAndPurpose(riskModelTemplate.getRatingDate(),riskModelTemplate.getPurpose());
+
+
         if (workflowAssignment != null){
 
             EmailId firstLevelApproverEmail = new EmailId(workflowAssignment.getFirstLevelApproverEmailId());

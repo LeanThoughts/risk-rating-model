@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
  import org.springframework.data.rest.core.annotation.RepositoryRestResource;
  import org.springframework.stereotype.Repository;
 
+ import java.util.Date;
+
 /**
  * Created by sajeev on 17-Dec-18.
  */
@@ -15,5 +17,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 @RepositoryRestResource
 public interface WorkflowAssignmentRepository extends JpaRepository<WorkflowAssignment, Long>{
 
-    WorkflowAssignment findByPurpose(RiskPurpose purpose);
+    //WorkflowAssignment findByPurpose(RiskPurpose purpose);
+    WorkflowAssignment findByPurposeAndValidFromDateGreaterThanEqualAndValidToDateLessThan(RiskPurpose riskPurpose, Date date1, Date date2);
 }

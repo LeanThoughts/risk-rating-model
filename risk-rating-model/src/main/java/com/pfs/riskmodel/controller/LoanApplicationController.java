@@ -8,6 +8,7 @@ import com.pfs.riskmodel.repository.RiskPurposeRepository;
 import com.pfs.riskmodel.repository.WorkflowAssignmentRepository;
 import com.pfs.riskmodel.resource.*;
 import com.pfs.riskmodel.service.IWelcomeService;
+import com.pfs.riskmodel.service.IWorkflowAssignmentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
+import java.util.Date;
 import java.util.List;
 
 
@@ -36,6 +38,9 @@ public class LoanApplicationController {
 
     @Autowired
     private IWelcomeService iWelcomeService;
+
+    @Autowired
+    private IWorkflowAssignmentService workflowAssignmentService;
 
     @GetMapping("/loanApplications/search")
     public ResponseEntity searchLoanApplications(@RequestParam(value = "projectName", required = false) String projectName,
@@ -64,7 +69,11 @@ public class LoanApplicationController {
 
         // Get Risk Dept. User
         RiskPurpose riskPurpose = riskPurposeRepository.findByCode("01");
-        WorkflowAssignment workflowAssignment = workflowAssignmentRepository.findByPurpose(riskPurpose);
+
+        //WorkflowAssignment workflowAssignment = workflowAssignmentRepository.findByPurpose(riskPurpose);
+        // Changed on Nov 18, 2021 - Workflow Assignment Validity Period
+        WorkflowAssignment workflowAssignment = workflowAssignmentService.getWorkFlowAssignmentForEvaluationDateAndPurpose(new Date(),riskPurpose);
+
         processorResource.setRiskDepartmentHead(workflowAssignment.getThirdLevelApproverEmailId());
 
 

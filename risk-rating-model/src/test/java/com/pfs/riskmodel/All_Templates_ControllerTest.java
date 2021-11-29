@@ -42,7 +42,9 @@ public  class All_Templates_ControllerTest extends AbstractTest {
         renewables_BUILD_Template();
         holdingCompanyTemplate();
         infraRoadHAM_BUILD_Template();
-        infraRoadHAM_OPERATIONAL_Template();
+
+        infraRoadHAM_OPERATIONAL_Template(); // Done
+
         infraRoadToll_BUILD_Template();
         infraRoadToll_OPERATIONAL_Template();
         infraTrans_BUILD_Template();

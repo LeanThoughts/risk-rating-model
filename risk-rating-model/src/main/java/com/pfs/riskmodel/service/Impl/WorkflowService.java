@@ -9,6 +9,7 @@ import com.pfs.riskmodel.repository.WorkflowStatusRepository;
 import com.pfs.riskmodel.resource.EmailId;
 import com.pfs.riskmodel.resource.LoanApplication;
 import com.pfs.riskmodel.resource.User;
+import com.pfs.riskmodel.service.IWorkflowAssignmentService;
 import com.pfs.riskmodel.service.IWorkflowService;
 import com.pfs.riskmodel.util.ValidationResult;
 import lombok.RequiredArgsConstructor;
@@ -74,6 +75,9 @@ public class WorkflowService implements IWorkflowService {
     @Autowired
     private LoanApplicationService loanApplicationService;
 
+    @Autowired
+    private IWorkflowAssignmentService workflowAssignmentService;
+
     private String firstLevelApproverEmailId;
     private String secondLevelApproverEmailId;
     private String thirdLevelApproverEmailId;
@@ -83,6 +87,8 @@ public class WorkflowService implements IWorkflowService {
     private String thirdLevelApproverName;
 
 
+
+
     @Override
     public Map<String, Object> processWorkflowAction(RiskModelTemplate riskModelTemplate,
                                                      Integer action,
@@ -90,7 +96,7 @@ public class WorkflowService implements IWorkflowService {
 
 
         //Set the Approver Emails
-        WorkflowAssignment workflowAssignment = getWorkFlowProcessor(riskModelTemplate.getPurpose());
+        WorkflowAssignment workflowAssignment = getWorkFlowProcessor(riskModelTemplate.getRatingDate(),riskModelTemplate.getPurpose());
         firstLevelApproverEmailId = workflowAssignment.getFirstLevelApproverEmailId();
         secondLevelApproverEmailId = workflowAssignment.getSecondLevelApproverEmailId();
         thirdLevelApproverEmailId = workflowAssignment.getThirdLevelApproverEmailId();
@@ -243,7 +249,7 @@ public class WorkflowService implements IWorkflowService {
 
         validationResult.setWorkflowError(false);
 
-        WorkflowAssignment workflowAssignment = getWorkFlowProcessor(riskModelTemplate.getPurpose());
+        WorkflowAssignment workflowAssignment = getWorkFlowProcessor(riskModelTemplate.getRatingDate(),riskModelTemplate.getPurpose());
 
         // Default
         riskModelTemplate.setRejectedByRiskDepartment(false);
@@ -287,7 +293,7 @@ public class WorkflowService implements IWorkflowService {
         Map<String, Object> output = new HashMap<>();
         ValidationResult validationResult = new ValidationResult();
 
-        WorkflowAssignment workflowAssignment = getWorkFlowProcessor(riskModelTemplate.getPurpose());
+        WorkflowAssignment workflowAssignment = getWorkFlowProcessor(riskModelTemplate.getRatingDate(),riskModelTemplate.getPurpose());
 
         TaskService taskService = processEngine.getTaskService();
         Task task = taskService.createTaskQuery().processInstanceId(riskModelTemplate.getProcessInstanceId()).singleResult();
@@ -449,7 +455,7 @@ public class WorkflowService implements IWorkflowService {
         variables = prepareVariables(riskModelTemplate, httpServletRequest);
 
 
-        WorkflowAssignment workflowAssignment = getWorkFlowProcessor(riskModelTemplate.getPurpose());
+        WorkflowAssignment workflowAssignment = getWorkFlowProcessor(riskModelTemplate.getRatingDate(),riskModelTemplate.getPurpose());
 
 
         switch (riskModelTemplate.getWorkflowStatus().getCode()) {
@@ -555,8 +561,12 @@ public class WorkflowService implements IWorkflowService {
     }
 
 
-    private WorkflowAssignment getWorkFlowProcessor(RiskPurpose purpose) {
-        return workflowAssignmentRepository.findByPurpose(purpose);
+    private WorkflowAssignment getWorkFlowProcessor(Date ratingDate , RiskPurpose purpose) {
+        //return workflowAssignmentRepository.findByPurpose(purpose);
+        // Changed on Nov 18, 2021 - Workflow Assignment Validity Period
+        WorkflowAssignment workflowAssignment =
+                workflowAssignmentService.getWorkFlowAssignmentForEvaluationDateAndPurpose(ratingDate,purpose);
+        return workflowAssignment;
     }
 
     private ValidationResult getWorkflowValidation(Boolean error, String attribute, String id, String message) {
@@ -584,7 +594,7 @@ public class WorkflowService implements IWorkflowService {
             variables.put("loanNumber", "Not assinged yet(In Enquiry Phase)");
 
 
-        WorkflowAssignment workflowAssignment = getWorkFlowProcessor(riskModelTemplate.getPurpose());
+        WorkflowAssignment workflowAssignment = getWorkFlowProcessor(riskModelTemplate.getRatingDate(),riskModelTemplate.getPurpose());
 
         //variables.put("fromEmailId", "pfsriskmodel@gmail.com");
         variables.put("fromEmailId", username);
@@ -623,7 +633,7 @@ public class WorkflowService implements IWorkflowService {
         else
             variables.put("loanNumber", "Not assinged yet(In Enquiry Phase)");
 
-        WorkflowAssignment workflowAssignment = getWorkFlowProcessor(riskModelTemplate.getPurpose());
+        WorkflowAssignment workflowAssignment = getWorkFlowProcessor(riskModelTemplate.getRatingDate(),riskModelTemplate.getPurpose());
 
         //variables.put("fromEmailId", "pfsriskmodel@gmail.com");
         variables.put("fromEmailId", username);

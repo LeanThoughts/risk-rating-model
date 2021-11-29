@@ -7,6 +7,7 @@ import org.springframework.lang.Nullable;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by sajeev on 26-Jan-19.
@@ -35,6 +36,9 @@ public class WorkflowAssignment implements Serializable {
     @OneToOne(  fetch = FetchType.EAGER, cascade = {CascadeType.MERGE,CascadeType.REFRESH})
      private RiskPurpose purpose;
 
+    // Validity Period : Added on 18th Nov 2021
+    private Date validFromDate;
+    private Date validToDate;
 
     private String firstLevelApproverName;
     private String firstLevelApproverEmailId;

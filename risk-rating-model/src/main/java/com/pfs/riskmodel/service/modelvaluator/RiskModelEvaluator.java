@@ -63,7 +63,7 @@ public class RiskModelEvaluator {
         // Evaluate Rating Modifiers
         if (riskModelTemplate.getRiskRatingModifiers() != null) {
             for (RiskRatingModifier riskRatingModifier : riskModelTemplate.getRiskRatingModifiers()) {
-                riskRatingModifier = riskRatingModifierEvaluator.evaluateRiskRatingModifier(riskRatingModifier);
+                riskRatingModifier = riskRatingModifierEvaluator.evaluateRiskRatingModifier(riskRatingModifier,riskModelTemplate);
             }
         }
 

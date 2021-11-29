@@ -1,7 +1,8 @@
 package com.pfs.riskmodel.ModelTemplates.InfraRoadHAM.BuildPhase;
 
 import com.pfs.riskmodel.ModelTemplates.AllParentalNotchupTemplate;
-import com.pfs.riskmodel.ModelTemplates.InfraRoadHAM.RiskRatingModifier.InfraRoadHAM_RatingModifierDTO;
+import com.pfs.riskmodel.ModelTemplates.InfraRoadHAM.RiskRatingModifier.InfraRoadHAM_BuildPhase_RatingModifierDTO;
+import com.pfs.riskmodel.ModelTemplates.InfraRoadHAM.RiskRatingModifier.InfraRoadHAM_OperationalPhase_RatingModifierDTO;
 import com.pfs.riskmodel.ModelTemplates.InfraRoadHAM.RiskTypes.InfraRoadHAM_PostProjectImplRiskTypes;
 import com.pfs.riskmodel.ModelTemplates.InfraRoadHAM.RiskTypes.InfraRoadHAM_ProjectImplRiskTypes;
 import com.pfs.riskmodel.dto.*;
@@ -87,8 +88,8 @@ public class InfraRoadHAM_BuildPhaseData {
 
         // Rating Modifiers
         List<RiskRatingModifierDTO> riskRatingModifierDTOSet = new ArrayList<>();
-        InfraRoadHAM_RatingModifierDTO infraRoadHAM_ratingModifierDTO = new InfraRoadHAM_RatingModifierDTO();
-        riskRatingModifierDTOSet = infraRoadHAM_ratingModifierDTO.getRiskRatingModifierDTOs();
+        InfraRoadHAM_BuildPhase_RatingModifierDTO infraRoadHAM_buildPhase_ratingModifierDTO = new InfraRoadHAM_BuildPhase_RatingModifierDTO();
+        riskRatingModifierDTOSet = infraRoadHAM_buildPhase_ratingModifierDTO.getRiskRatingModifierDTOs();
 
           riskModelTemplateDTO.setRiskRatingModifiers(riskRatingModifierDTOSet);
 

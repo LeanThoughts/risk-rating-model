@@ -1,17 +1,18 @@
 package com.pfs.riskmodel.businessconfig;
 
+import com.pfs.riskmodel.dao.WorkflowAssignmentDao;
 import com.pfs.riskmodel.domain.*;
 import com.pfs.riskmodel.repository.*;
+import com.pfs.riskmodel.service.IWorkflowAssignmentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by sajeev on 17-Dec-18.
@@ -48,6 +49,12 @@ public class Initializer implements CommandLineRunner{
 
     @Autowired
     private Environment environment;
+
+    @Autowired
+    private WorkflowAssignmentDao workflowAssignmentDao;
+
+    @Autowired
+    private IWorkflowAssignmentService workflowAssignmentService;
 
     @Override
     public void run(String... strings) throws Exception {
@@ -238,35 +245,48 @@ public class Initializer implements CommandLineRunner{
         WorkflowAssignment wa3 = new WorkflowAssignment();;
 
 
-/*
+
         System.out.println(" ");
         System.out.println(" ");
         System.out.println( "-------------------------------------------------------------------------------------");
         System.out.println( "-------------------------- Starting to add Workflow Assignments----------------------");
 
-         RiskPurpose  r1 = riskPurposeRepository.findByCode("01");
+        RiskPurpose  r1 = riskPurposeRepository.findByCode("01");
 
         System.out.println("  Risk Purpose for code 01: " + r1.getDescription());
 
+        Date validFromDate = new Date();
+        validFromDate = new GregorianCalendar(2001, Calendar.JANUARY, 01).getTime();
+        Date validToDate = new Date();
+        validToDate = new GregorianCalendar(2021, Calendar.OCTOBER, 22).getTime();
+
+
+        //Workflow Assignment is changed from October 23rd. Therefore, fetch the assignment between Jan 1st 2001 and Oct 23rd 2021
+        Date riskEvaluationDate = new GregorianCalendar(2021, Calendar.OCTOBER, 21).getTime();
 
         if (r1 != null) {
 
-            wa1 = workflowAssignmentRepository.findByPurpose(r1);
+
+            wa1 = workflowAssignmentService.getWorkFlowAssignmentForEvaluationDateAndPurpose(riskEvaluationDate, r1);
 
             if (wa1 == null) {
                 System.out.println(" Workflow Assignment Not Found for Risk Purpose " + r1.getDescription());
                 System.out.println("-------------------------- Starting to add Workflow Assignments----------------------");
 
-                wa1 = new WorkflowAssignment(null, r1, "Sitesh Kumar Sinha", "sksinha@ptcfinancial.com",
-                        "Neeraj Yadav", "neerajyadava@ptcfinancial.com",
+
+
+                wa1 = new WorkflowAssignment(null, r1, validFromDate,validToDate, "Sitesh Kumar Sinha", "sksinha@ptcfinancial.com",
+                        "Neeraj Yadav", "neerajyadav@ptcfinancial.com",
                         "Devesh Singh", "devesh@ptcfinancial.com");
 
             } else {
                 System.out.println(" Workflow Assignment Found for Risk Purpose " + r1.getDescription());
                 wa1.setPurpose(r1);
+                wa1.setValidFromDate(validFromDate);
+                wa1.setValidToDate(validToDate);
                 wa1.setFirstLevelApproverEmailId("sksinha@ptcfinancial.com");
                 wa1.setFirstLevelApproverName("Sitesh Kumar Sinha");
-                wa1.setSecondLevelApproverEmailId("neerajyadava@ptcfinancial.com");
+                wa1.setSecondLevelApproverEmailId("neerajyadav@ptcfinancial.com");
                 wa1.setSecondLevelApproverName("Neeraj Yadav");
                 wa1.setThirdLevelApproverEmailId("devesh@ptcfinancial.com");
                 wa1.setThirdLevelApproverName("Devesh Singh");
@@ -281,19 +301,21 @@ public class Initializer implements CommandLineRunner{
 
         if( r2 != null) {
 
-            wa2 = workflowAssignmentRepository.findByPurpose(r2);
+            wa2 = workflowAssignmentService.getWorkFlowAssignmentForEvaluationDateAndPurpose(riskEvaluationDate, r2);
+
             if (wa2 == null) {
                 System.out.println(" Workflow Assignment Not Found for Risk Purpose " + r2.getDescription());
 
-                wa2 = new WorkflowAssignment(null, r2, "Rony Mahajan", "pfsprojecthead@gmail.com",
-                        "Neeraj Yadav", "neerajyadava@ptcfinancial.com",
+                wa2 = new WorkflowAssignment(null, r2,validFromDate,validToDate, "Rony Mahajan", "pfsprojecthead@gmail.com",
+                        "Neeraj Yadav", "neerajyadav@ptcfinancial.com",
                         "Devesh Singh", "devesh@ptcfinancial.com");
             } else {
                 wa1.setPurpose(r2);
-
+                wa1.setValidFromDate(validFromDate);
+                wa1.setValidToDate(validToDate);
                 wa2.setFirstLevelApproverEmailId("rony.mahajan@ptcfinancial.com");
                 wa2.setFirstLevelApproverName("Rony Mahajan");
-                wa2.setSecondLevelApproverEmailId("neerajyadava@ptcfinancial.com");
+                wa2.setSecondLevelApproverEmailId("neerajyadav@ptcfinancial.com");
                 wa2.setSecondLevelApproverName("Neeraj Yadav");
                 wa2.setThirdLevelApproverEmailId("devesh@ptcfinancial.com");
                 wa2.setThirdLevelApproverName("Devesh Singh");
@@ -306,18 +328,85 @@ public class Initializer implements CommandLineRunner{
 
         RiskPurpose r3 = riskPurposeRepository.findByCode("03");
 
-        wa3 = workflowAssignmentRepository.findByPurpose(r3);
+        wa3 = workflowAssignmentService.getWorkFlowAssignmentForEvaluationDateAndPurpose(riskEvaluationDate, r3);
+
             if (wa3 == null) {
-                wa3 = new WorkflowAssignment(null,r3,"","","","","","");
+                wa3 = new WorkflowAssignment(null,r3,validFromDate,validToDate,"","","","","","");
             } else{
-                wa3 = new WorkflowAssignment(null, r3, "","","","","","");
+                wa3 = new WorkflowAssignment(null, r3,validFromDate,validToDate, "","","","","","");
             }
            // workflowAssignmentRepository.save(wa3);
 
 
-            log.info("-------------------------- Added Workflow Assignments data");
+        log.info("Workflow Assignments - Changed as of  October 23 2021");
+        //Workflow Assignment is changed from October 23rd. Therefore, fetch the assignment after and Oct 23rd 2021
+         riskEvaluationDate = new GregorianCalendar(2021, Calendar.OCTOBER, 25).getTime();
+
+        validFromDate = new Date();
+        validFromDate = new GregorianCalendar(2001, Calendar.OCTOBER, 23).getTime();
+        validToDate = new Date(); // Set it is as 31st Dec 9999
+        validToDate = new GregorianCalendar(9999, Calendar.DECEMBER, 31).getTime();
+
+
+        WorkflowAssignment  wa4 = workflowAssignmentService.getWorkFlowAssignmentForEvaluationDateAndPurpose(riskEvaluationDate, r1);
+
+        if (wa4 == null) {
+            System.out.println(" Revised Workflow Assignment Not Found for Risk Purpose " + r1.getDescription());
+            System.out.println("-------------------------- Starting to add Workflow Assignments----------------------");
+
+
+
+            wa4 = new WorkflowAssignment(null, r1, validFromDate,validToDate, "Sitesh Kumar Sinha", "sksinha@ptcfinancial.com",
+                    "Ankit Nagarnaik", "ankit.nagarnaik@ptcfinancial.com",
+                    "Devesh Singh", "devesh@ptcfinancial.com");
+
+        } else {
+            System.out.println(" Workflow Assignment Found for Risk Purpose " + r1.getDescription());
+            wa4.setPurpose(r1);
+            wa4.setValidFromDate(validFromDate);
+            wa4.setValidToDate(validToDate);
+            wa4.setFirstLevelApproverEmailId("sksinha@ptcfinancial.com");
+            wa4.setFirstLevelApproverName("Sitesh Kumar Sinha");
+            wa4.setSecondLevelApproverEmailId("ankit.nagarnaik@ptcfinancial.com");
+            wa4.setSecondLevelApproverName("Ankit Nagarnaik");
+            wa4.setThirdLevelApproverEmailId("devesh@ptcfinancial.com");
+            wa4.setThirdLevelApproverName("Devesh Singh");
         }
-*/
+
+        System.out.println(" Saving Workflow Assingment 4 :" + wa4.toString());
+        workflowAssignmentRepository.save(wa4);
+
+
+        WorkflowAssignment  wa5 = workflowAssignmentService.getWorkFlowAssignmentForEvaluationDateAndPurpose(riskEvaluationDate, r2);
+
+        if (wa5 == null) {
+            System.out.println(" Revised Workflow Assignment Not Found for Risk Purpose " + r2.getDescription());
+            System.out.println("-------------------------- Starting to add Workflow Assignments----------------------");
+
+
+
+            wa5 = new WorkflowAssignment(null, r2, validFromDate,validToDate, "Shray Shikhar", "shikhar@ptcfinancial.com",
+                    "Ankit Nagarnaik", "ankit.nagarnaik@ptcfinancial.com",
+                    "Devesh Singh", "devesh@ptcfinancial.com");
+
+        } else {
+            System.out.println(" Workflow Assignment Found for Risk Purpose " + r2.getDescription());
+            wa5.setPurpose(r2);
+            wa5.setValidFromDate(validFromDate);
+            wa5.setValidToDate(validToDate);
+            wa5.setFirstLevelApproverEmailId("shikhar@ptcfinancial.com");
+            wa5.setFirstLevelApproverName("Shray Shikhar");
+            wa5.setSecondLevelApproverEmailId("ankit.nagarnaik@ptcfinancial.com");
+            wa5.setSecondLevelApproverName("Ankit Nagarnaik");
+            wa5.setThirdLevelApproverEmailId("devesh@ptcfinancial.com");
+            wa5.setThirdLevelApproverName("Devesh Singh");
+        }
+
+        System.out.println(" Saving Workflow Assingment 5 :" + wa5.toString());
+        workflowAssignmentRepository.save(wa5);
+
+
+
 
 
         List<WorkflowAssignment> workflowAssignmentList = workflowAssignmentRepository.findAll();

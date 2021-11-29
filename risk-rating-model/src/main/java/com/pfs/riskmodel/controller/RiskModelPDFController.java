@@ -7,6 +7,8 @@ import com.pfs.riskmodel.pdfservice.RiskModelPDFBuilder;
 import com.pfs.riskmodel.pdfservice.RiskModelPDFBuilderDebugMode;
 import com.pfs.riskmodel.repository.RiskModelTemplateRepository;
 import com.pfs.riskmodel.repository.WorkflowAssignmentRepository;
+import com.pfs.riskmodel.service.IWorkflowAssignmentService;
+import com.pfs.riskmodel.service.Impl.WorkflowAssignmentService;
 import lombok.RequiredArgsConstructor;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.TaskService;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.ByteArrayOutputStream;
+import java.util.Date;
 
 /**
  * Created by sajeev on 15-Dec-18.
@@ -37,6 +40,10 @@ public class RiskModelPDFController {
 
     @Autowired
     ProcessEngine processEngine;
+
+    @Autowired
+    IWorkflowAssignmentService workflowAssignmentService;
+
     /**
      * Handle request to download a RISK MODEL Evaluation as a PDF Document
      */
@@ -44,7 +51,12 @@ public class RiskModelPDFController {
     @GetMapping(value = "/riskModelPDF")
     public ResponseEntity getPdf(@RequestParam(value = "id", required = true) Long id) throws Exception {
         RiskModelTemplate riskModelTemplate = riskModelTemplateRepository.getOne(id);
-        WorkflowAssignment workflowAssignment = workflowAssignmentRepository.findByPurpose(riskModelTemplate.getPurpose());
+
+       //WorkflowAssignment workflowAssignment = workflowAssignmentRepository.findByPurpose(riskModelTemplate.getPurpose());
+        // Changed on Nov 18, 2021 - Workflow Assignment Validity Period
+        WorkflowAssignment workflowAssignment =
+                workflowAssignmentService.getWorkFlowAssignmentForEvaluationDateAndPurpose(riskModelTemplate.getRatingDate(),riskModelTemplate.getPurpose());
+
 
         TaskService taskService = processEngine.getTaskService();
         Task task = taskService.createTaskQuery().includeProcessVariables().processInstanceId(riskModelTemplate.getProcessInstanceId()).singleResult();
@@ -59,7 +71,10 @@ public class RiskModelPDFController {
         httpRequest.getUserPrincipal().toString();
 
         RiskModelTemplate riskModelTemplate = riskModelTemplateRepository.getOne(id);
-        WorkflowAssignment workflowAssignment = workflowAssignmentRepository.findByPurpose(riskModelTemplate.getPurpose());
+        //WorkflowAssignment workflowAssignment = workflowAssignmentRepository.findByPurpose(riskModelTemplate.getPurpose());
+        // Changed on Nov 18, 2021 - Workflow Assignment Validity Period
+        WorkflowAssignment workflowAssignment =
+                workflowAssignmentService.getWorkFlowAssignmentForEvaluationDateAndPurpose(riskModelTemplate.getRatingDate(),riskModelTemplate.getPurpose());
 
         TaskService taskService = processEngine.getTaskService();
         Task task = taskService.createTaskQuery().includeProcessVariables().processInstanceId(riskModelTemplate.getProcessInstanceId()).singleResult();

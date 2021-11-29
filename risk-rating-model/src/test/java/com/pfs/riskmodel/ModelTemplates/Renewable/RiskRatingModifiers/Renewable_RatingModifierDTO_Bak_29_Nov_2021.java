@@ -1,22 +1,15 @@
-package com.pfs.riskmodel.ModelTemplates.InfraRoadHAM.RiskRatingModifier;
+package com.pfs.riskmodel.ModelTemplates.Renewable.RiskRatingModifiers;
 
-import com.pfs.riskmodel.domain.RatingModifierComputationMethod;
 import com.pfs.riskmodel.dto.RiskRatingModifierAttributeDTO;
 import com.pfs.riskmodel.dto.RiskRatingModifierDTO;
-import lombok.AccessLevel;
-import lombok.Getter;
-import org.springframework.lang.Nullable;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by sajeev on 25-Dec-18.
  */
-public class InfraRoadHAM_RatingModifierDTO {
+public class Renewable_RatingModifierDTO_Bak_29_Nov_2021 {
 
 
     public List<RiskRatingModifierDTO> getRiskRatingModifierDTOs () {
@@ -30,26 +23,14 @@ public class InfraRoadHAM_RatingModifierDTO {
 
         riskRatingModifierDTO1.setId(null);
         riskRatingModifierDTO1.setItemNo(1);
-        riskRatingModifierDTO1.setModifierType(0);
         riskRatingModifierDTO1.setDescription("Modifiers considered for capping Final ratings at Sub-Investment grade");
-        riskRatingModifierDTO1.setScore(0D);
-        riskRatingModifierDTO1.setSubInvestmentGradeCapping(false);
-        riskRatingModifierDTO1.setNumberOfNotchesDown(0);
         riskRatingModifierDTO1.setComputingMethodCode("01");
         riskRatingModifierDTO1.setComputingMethodDescription("On Select Any One - Notch Down to Sub Investment Grade");
+        riskRatingModifierDTO1.setScore(0D);
 
-//
-//
-//        private Long id;
-//        private Integer itemNo;
-//        private Integer modifierType;
-//        private String description;
-//        private Double score;
-//        private Boolean subInvestmentGradeCapping;
-//        private Integer numberOfNotchesDown;
-//        private RatingModifierComputationMethod computingMethod;
-//        private String computingMethodCode;
-//        private String computingMethodDescription;
+        riskRatingModifierDTO1.setSubInvestmentGradeCapping(false);
+        riskRatingModifierDTO1.setNumberOfNotchesDown(0);
+        riskRatingModifierDTO1.setModifierType(0);
 
 
         List<RiskRatingModifierAttributeDTO> riskRatingModifierAttributes = new ArrayList<>();
@@ -60,9 +41,8 @@ public class InfraRoadHAM_RatingModifierDTO {
         riskRatingModifierAttributeDTO.setId(null);
         riskRatingModifierAttributeDTO.setItemNo(1);
         riskRatingModifierAttributeDTO.setDescription("Account of the entity has been into the NPA Category in the past 12 months as on rating date");
-        riskRatingModifierAttributeDTO.setApplicableForMonitoring(true);
         riskRatingModifierAttributeDTO.setYesOrNoIndicator('N');
-
+        riskRatingModifierAttributeDTO.setApplicableForMonitoring(true);
         riskRatingModifierAttributes.add(riskRatingModifierAttributeDTO);
 
         riskRatingModifierAttributeDTO = new RiskRatingModifierAttributeDTO();
@@ -125,7 +105,6 @@ public class InfraRoadHAM_RatingModifierDTO {
         riskRatingModifierDTO2.setComputingMethodCode("02");
         riskRatingModifierDTO2.setComputingMethodDescription("Notch Down By Selection- OneorTwoBYOne, MoreThanThree By Two");
         riskRatingModifierDTO2.setScore(0D);
-
 
 
         riskRatingModifierDTO2.setSubInvestmentGradeCapping(false);

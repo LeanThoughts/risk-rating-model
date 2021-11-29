@@ -1,9 +1,6 @@
 package com.pfs.riskmodel.service.modelvaluator;
 
-import com.pfs.riskmodel.domain.RiskComponent;
-import com.pfs.riskmodel.domain.RiskRatingModifier;
-import com.pfs.riskmodel.domain.RiskRatingModifierAttribute;
-import com.pfs.riskmodel.domain.RiskType;
+import com.pfs.riskmodel.domain.*;
 
 import java.util.List;
 
@@ -14,7 +11,7 @@ public class RiskRatingModifierEvaluator {
 
     Double riskRatingModifierScore;
 
-    public RiskRatingModifier evaluateRiskRatingModifier(RiskRatingModifier riskRatingModifier) {
+    public RiskRatingModifier evaluateRiskRatingModifier(RiskRatingModifier riskRatingModifier, RiskModelTemplate riskModelTemplate) {
 
 
         Boolean subInvestmentGradeCapping = false;
@@ -55,17 +52,26 @@ public class RiskRatingModifierEvaluator {
 
         riskRatingModifier.setCountOfDowngradeBy1or2Notches(numberOfNotchesDownItems);
         /*
-           - Change done as per issue reported on April 2nd 2019
-            In the Rating modifiers (SET II section) , as captured in excle file,
-            if any 3/4 statements are YES, the notch should go down by 1 and
-            if 5/6 statements are YES, the notch should go down by 2.
+           - Change done as per issue reported on Nov 29 2021
+            BUILD PHASE
+            -	In case three or four modifiers are true for an entity then the lender may downgrade the final ratings of the entity by one notch
+            -	In case five or six modifiers are true, the final rating may be downgraded by two notches
+            OPERATIONAL PHASE
+                -	In case One or Two modifiers are true for an entity then the lender may downgrade the final ratings of the entity by one notch.
+                -	In case Three or Four modifiers are true, the final rating may be downgraded by two notches.
              */
-
-        if (numberOfNotchesDownItems == 3 || numberOfNotchesDownItems == 4)
-            numberOfNotchesDown = 1;
-        if (numberOfNotchesDownItems == 5 || numberOfNotchesDownItems == 6)
-            numberOfNotchesDown = 2;
-
+        if (riskModelTemplate.getProjectRiskLevel().getCode().toString().equals("01")) // Build Phase
+        {
+            if (numberOfNotchesDownItems == 3 || numberOfNotchesDownItems == 4)
+                numberOfNotchesDown = 1;
+            if (numberOfNotchesDownItems == 5 || numberOfNotchesDownItems == 6)
+                numberOfNotchesDown = 2;
+        } else {                                                                      // Operational Phase
+            if (numberOfNotchesDownItems == 1 || numberOfNotchesDownItems == 2)
+                numberOfNotchesDown = 1;
+            if (numberOfNotchesDownItems == 3 || numberOfNotchesDownItems == 4)
+                numberOfNotchesDown = 2;
+        }
 
         riskRatingModifier.setNumberOfNotchesDown(numberOfNotchesDown);
         riskRatingModifier.setNumberOfNotchesDownGraded(numberOfNotchesDown);
