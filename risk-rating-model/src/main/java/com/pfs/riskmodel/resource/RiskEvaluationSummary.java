@@ -8,8 +8,8 @@ import java.util.List;
 /**
  * Created by sajeev on 24-Jul-19.
  */
-public class RiskEvaluationInSAP {
-    public RiskEvaluationInSAP() {
+public class RiskEvaluationSummary {
+    public RiskEvaluationSummary() {
         this.RiskEvaluation_OverallScore_Nav = new ArrayList<RiskEvaluationScore>();
         this.RiskEvaluation_ComponentScore_Nav   = new ArrayList<RiskEvaluationComponentScore>();
     }

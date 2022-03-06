@@ -8,9 +8,11 @@ import com.pfs.riskmodel.excel.RiskEvaluationReportExcelGen;
 import com.pfs.riskmodel.repository.*;
 import com.pfs.riskmodel.resource.LoanApplication;
 import com.pfs.riskmodel.resource.LoanApplicationResource;
+import com.pfs.riskmodel.resource.RiskEvaluationSummary;
 import com.pfs.riskmodel.resource.SearchResource;
 import com.pfs.riskmodel.service.IRiskModelService;
 import com.pfs.riskmodel.service.IRiskModelTemplateService;
+import com.pfs.riskmodel.service.ISAPRiskModelIntegrationService;
 import com.pfs.riskmodel.service.modelvaluator.Utils;
 import com.pfs.riskmodel.util.Check;
 import com.pfs.riskmodel.util.CheckServiceResult;
@@ -86,6 +88,9 @@ public class RiskModelTemplateController {
 
     @Autowired
     IRiskModelService riskModelService;
+
+    @Autowired
+    ISAPRiskModelIntegrationService sapRiskModelIntegrationService;
 
 
     private final LMSEnquiryClient lmsEnquiryClient;
@@ -351,6 +356,51 @@ public class RiskModelTemplateController {
         });
 
         return ResponseEntity.ok(riskModelTemplateDTOS);
+    }
+
+    @GetMapping("/riskEvaluationSummary/loanEnquiryId/{loanEnquiryId}")
+    public ResponseEntity findRiskModelSummaryForLoanEnquiryId (@PathVariable("loanEnquiryId") String loanEnquiryId,
+                                               HttpServletRequest request){
+
+
+        List<RiskModelTemplateDTO> riskModelTemplateDTOS = new ArrayList<>();
+        List<RiskModelTemplate> riskModelTemplates = new ArrayList<>();
+
+        List<RiskEvaluationSummary> riskEvaluationSummaryList = new ArrayList<>();
+
+        riskModelTemplates = riskModelTemplateRepository.findByLoanEnquiryId(loanEnquiryId);
+
+        riskModelTemplates.forEach(riskModelTemplate -> {
+
+            RiskEvaluationSummary riskEvaluationSummary = sapRiskModelIntegrationService.mapRiskModelToSAPModel(riskModelTemplate);
+            riskEvaluationSummaryList.add(riskEvaluationSummary);
+
+        });
+
+        return ResponseEntity.ok(riskEvaluationSummaryList);
+    }
+
+
+    @GetMapping("/riskEvaluationSummary/loanContractId/{loanContractId}")
+    public ResponseEntity findRiskModelSummaryForLoanContractId (@PathVariable("loanContractId") String loanContractId,
+                                                       HttpServletRequest request){
+
+
+        List<RiskModelTemplateDTO> riskModelTemplateDTOS = new ArrayList<>();
+        List<RiskModelTemplate> riskModelTemplates = new ArrayList<>();
+
+        List<RiskEvaluationSummary> riskEvaluationSummaryList = new ArrayList<>();
+
+        riskModelTemplates = riskModelTemplateRepository.findByLoanNumber(loanContractId);
+
+        riskModelTemplates.forEach(riskModelTemplate -> {
+
+            RiskEvaluationSummary riskEvaluationSummary = sapRiskModelIntegrationService.mapRiskModelToSAPModel(riskModelTemplate);
+            riskEvaluationSummaryList.add(riskEvaluationSummary);
+
+        });
+
+        return ResponseEntity.ok(riskEvaluationSummaryList);
     }
 
 

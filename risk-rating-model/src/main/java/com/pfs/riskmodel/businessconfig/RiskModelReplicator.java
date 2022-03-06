@@ -1,17 +1,12 @@
 package com.pfs.riskmodel.businessconfig;
 
-import com.pfs.riskmodel.domain.RiskModelTemplate;
 import com.pfs.riskmodel.repository.RiskModelTemplateRepository;
-import com.pfs.riskmodel.resource.RiskEvaluationInSAP;
 import com.pfs.riskmodel.service.ISAPRiskModelIntegrationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by sajeev on 31-Dec-18.

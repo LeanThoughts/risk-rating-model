@@ -1,18 +1,12 @@
 package com.pfs.riskmodel.batch;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 
-import com.pfs.riskmodel.domain.RiskModelTemplate;
 import com.pfs.riskmodel.repository.RiskModelTemplateRepository;
-import com.pfs.riskmodel.resource.RiskEvaluationInSAP;
 import com.pfs.riskmodel.service.ISAPRiskModelIntegrationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 /**

@@ -1,11 +1,8 @@
 package com.pfs.riskmodel.service;
 
 import com.pfs.riskmodel.domain.RiskModelTemplate;
-import com.pfs.riskmodel.domain.RiskProjectType;
-import com.pfs.riskmodel.domain.RiskType;
 import com.pfs.riskmodel.dto.RiskModelReportDTO;
 import com.pfs.riskmodel.resource.LoanApplication;
-import com.pfs.riskmodel.resource.RiskEvaluationInSAP;
 
 import java.text.ParseException;
 import java.util.List;

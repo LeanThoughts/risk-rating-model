@@ -5,32 +5,24 @@ import com.pfs.riskmodel.domain.RiskModelTemplate;
 import com.pfs.riskmodel.domain.RiskType;
 import com.pfs.riskmodel.repository.RiskModelTemplateRepository;
 import com.pfs.riskmodel.resource.*;
-import com.pfs.riskmodel.service.IRiskModelService;
 import com.pfs.riskmodel.service.IRiskModelTemplateService;
 import com.pfs.riskmodel.service.ISAPRiskModelIntegrationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
-import java.sql.Timestamp;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 
 @Slf4j
@@ -91,49 +83,49 @@ public class SAPRiskModelIntegrationService implements ISAPRiskModelIntegrationS
         return responseEntity.getHeaders().get("x-csrf-token").get(0);
     }
 
-    public RiskEvaluationInSAP mapRiskModelToSAPModel(RiskModelTemplate riskModel) {
+    public RiskEvaluationSummary mapRiskModelToSAPModel(RiskModelTemplate riskModel) {
 
 
-        RiskEvaluationInSAP riskEvaluationInSAP = new RiskEvaluationInSAP();
+        RiskEvaluationSummary riskEvaluationSummary = new RiskEvaluationSummary();
 
-        riskEvaluationInSAP.RiskEvalId = riskModel.getId().toString();
-        riskEvaluationInSAP.LoanContractId = riskModel.getLoanNumber();
+        riskEvaluationSummary.RiskEvalId = riskModel.getId().toString();
+        riskEvaluationSummary.LoanContractId = riskModel.getLoanNumber();
 
-        riskEvaluationInSAP.RiskPrjType = riskModel.getProjectRiskLevel().getCode();
-        riskEvaluationInSAP.RiskPrjTypeT = riskModel.getRiskProjectType().getValue();
-        riskEvaluationInSAP.ProjectName = riskModel.getProjectName();
-        riskEvaluationInSAP.RiskPrjPhase = riskModel.getProjectRiskLevel().getValue();
+        riskEvaluationSummary.RiskPrjType = riskModel.getProjectRiskLevel().getCode();
+        riskEvaluationSummary.RiskPrjTypeT = riskModel.getRiskProjectType().getValue();
+        riskEvaluationSummary.ProjectName = riskModel.getProjectName();
+        riskEvaluationSummary.RiskPrjPhase = riskModel.getProjectRiskLevel().getValue();
 
         java.sql.Timestamp timestamp = new java.sql.Timestamp(riskModel.getRatingDate().getDate());
 
         LocalDate date = LocalDate.now();
-        riskEvaluationInSAP.RatingDate = date.toString();
+        riskEvaluationSummary.RatingDate = date.toString();
 
-        riskEvaluationInSAP.CurrDepartment = riskModel.getPurposeDescription();
-        riskEvaluationInSAP.InitiatedBy = riskModel.getCreatedByUserId();
+        riskEvaluationSummary.CurrDepartment = riskModel.getPurposeDescription();
+        riskEvaluationSummary.InitiatedBy = riskModel.getCreatedByUserId();
         if (riskModel.getFirstLevelApprover() != null)
-            riskEvaluationInSAP.FirstLvlApprover = riskModel.getFirstLevelApprover();
+            riskEvaluationSummary.FirstLvlApprover = riskModel.getFirstLevelApprover();
         else
-            riskEvaluationInSAP.FirstLvlApprover = " ";
+            riskEvaluationSummary.FirstLvlApprover = " ";
 
         if (riskModel.getSecondLevelApprover() != null)
-            riskEvaluationInSAP.SecondLvlApprover = riskModel.getSecondLevelApprover();
+            riskEvaluationSummary.SecondLvlApprover = riskModel.getSecondLevelApprover();
         else
-            riskEvaluationInSAP.SecondLvlApprover = " ";
+            riskEvaluationSummary.SecondLvlApprover = " ";
 
         if (riskModel.getThirdLevelApprover() != null)
-        riskEvaluationInSAP.ThirdLvlApprover = riskModel.getThirdLevelApprover();
+        riskEvaluationSummary.ThirdLvlApprover = riskModel.getThirdLevelApprover();
         else
-            riskEvaluationInSAP.ThirdLvlApprover = " ";
+            riskEvaluationSummary.ThirdLvlApprover = " ";
 
         if (riskModel.getReviewedBy() != null)
-        riskEvaluationInSAP.LatestReviewer = riskModel.getReviewedBy();
+        riskEvaluationSummary.LatestReviewer = riskModel.getReviewedBy();
         else
-            riskEvaluationInSAP.LatestReviewer = " ";
+            riskEvaluationSummary.LatestReviewer = " ";
 
-        riskEvaluationInSAP.WfStatusDesc = riskModel.getWorkflowStatus().getDescription();
+        riskEvaluationSummary.WfStatusDesc = riskModel.getWorkflowStatus().getDescription();
 
-        riskEvaluationInSAP.FinalGrade = riskModel.getFinalProjectGrade();
+        riskEvaluationSummary.FinalGrade = riskModel.getFinalProjectGrade();
 
         RiskEvaluationScore riskEvaluationScore = new RiskEvaluationScore();
 
@@ -154,7 +146,7 @@ public class SAPRiskModelIntegrationService implements ISAPRiskModelIntegrationS
             score = Double.valueOf(df.format(riskType.getScore()));
             riskEvaluationScore.Score = score.toString();
 
-            riskEvaluationInSAP.RiskEvaluation_OverallScore_Nav.add(riskEvaluationScore);
+            riskEvaluationSummary.RiskEvaluation_OverallScore_Nav.add(riskEvaluationScore);
             ratingTypeId++;
 
             for (RiskComponent riskComponent : riskType.getRiskComponents()) {
@@ -166,7 +158,7 @@ public class SAPRiskModelIntegrationService implements ISAPRiskModelIntegrationS
                 riskEvaluationComponentScore.ComponentName = riskComponent.getDescription();
                 score = Double.valueOf(df.format(riskComponent.getScore()));
                 riskEvaluationComponentScore.Score = score.toString();
-                riskEvaluationInSAP.RiskEvaluation_ComponentScore_Nav.add(riskEvaluationComponentScore);
+                riskEvaluationSummary.RiskEvaluation_ComponentScore_Nav.add(riskEvaluationComponentScore);
             }
 
         }
@@ -188,7 +180,7 @@ public class SAPRiskModelIntegrationService implements ISAPRiskModelIntegrationS
             else
                 riskEvaluationScore.Score = " ";
 
-            riskEvaluationInSAP.RiskEvaluation_OverallScore_Nav.add(riskEvaluationScore);
+            riskEvaluationSummary.RiskEvaluation_OverallScore_Nav.add(riskEvaluationScore);
         }
 
 //      Overall Project Rating
@@ -200,7 +192,7 @@ public class SAPRiskModelIntegrationService implements ISAPRiskModelIntegrationS
             riskEvaluationScore.RiskRatingId = ratingTypeId.toString();
             riskEvaluationScore.Grade = riskModel.getOverallProjectGrade();
             riskEvaluationScore.Score = "";
-            riskEvaluationInSAP.RiskEvaluation_OverallScore_Nav.add(riskEvaluationScore);
+            riskEvaluationSummary.RiskEvaluation_OverallScore_Nav.add(riskEvaluationScore);
         }
 
         if (riskModel.getModifiedProjectGrade() != null) {
@@ -211,7 +203,7 @@ public class SAPRiskModelIntegrationService implements ISAPRiskModelIntegrationS
             riskEvaluationScore.RiskRatingId = ratingTypeId.toString();
             riskEvaluationScore.Grade = riskModel.getModifiedProjectGrade();
             riskEvaluationScore.Score = " ";
-            riskEvaluationInSAP.RiskEvaluation_OverallScore_Nav.add(riskEvaluationScore);
+            riskEvaluationSummary.RiskEvaluation_OverallScore_Nav.add(riskEvaluationScore);
         }
 
         if (riskModel.getAfterParentalNotchUpGrade() != null) {
@@ -222,7 +214,7 @@ public class SAPRiskModelIntegrationService implements ISAPRiskModelIntegrationS
             riskEvaluationScore.RiskRatingId = ratingTypeId.toString();
             riskEvaluationScore.Grade = riskModel.getAfterParentalNotchUpGrade();
             riskEvaluationScore.Score = " ";
-            riskEvaluationInSAP.RiskEvaluation_OverallScore_Nav.add(riskEvaluationScore);
+            riskEvaluationSummary.RiskEvaluation_OverallScore_Nav.add(riskEvaluationScore);
         }
 
         if (riskModel.getFinalProjectGrade() != null) {
@@ -233,12 +225,12 @@ public class SAPRiskModelIntegrationService implements ISAPRiskModelIntegrationS
             riskEvaluationScore.RiskRatingId = ratingTypeId.toString();
             riskEvaluationScore.Grade = riskModel.getFinalProjectGrade();
             riskEvaluationScore.Score = " ";
-            riskEvaluationInSAP.RiskEvaluation_OverallScore_Nav.add(riskEvaluationScore);
+            riskEvaluationSummary.RiskEvaluation_OverallScore_Nav.add(riskEvaluationScore);
 
         }
 
 
-        return riskEvaluationInSAP;
+        return riskEvaluationSummary;
 
     }
 
@@ -246,11 +238,11 @@ public class SAPRiskModelIntegrationService implements ISAPRiskModelIntegrationS
 
 
     @Override
-    public RiskEvaluationInSAP postRiskModelInSAP(RiskModelTemplate riskModel ) {
+    public RiskEvaluationSummary postRiskModelInSAP(RiskModelTemplate riskModel ) {
 
 
         // Map Risk Model to SAP Risk Model Summary Object
-        RiskEvaluationInSAP riskEvaluationInSAP = mapRiskModelToSAPModel(riskModel );
+        RiskEvaluationSummary riskEvaluationSummary = mapRiskModelToSAPModel(riskModel );
 
 
         System.out.println("SAP User Name: " +userName);
@@ -270,28 +262,28 @@ public class SAPRiskModelIntegrationService implements ISAPRiskModelIntegrationS
         };
 
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<RiskEvaluationInSAP> riskEvaluation = null;
-        HttpEntity<RiskEvaluationInSAP> requestToPost = new HttpEntity<RiskEvaluationInSAP>(riskEvaluationInSAP, headers);
+        ResponseEntity<RiskEvaluationSummary> riskEvaluation = null;
+        HttpEntity<RiskEvaluationSummary> requestToPost = new HttpEntity<RiskEvaluationSummary>(riskEvaluationSummary, headers);
 
 
         try {
-            log.info("POSTING RISK MODEL TO SAP  FOR LOAN : " + riskEvaluationInSAP.LoanContractId);
-            log.info("POSTING RISK MODEL TO SAP  FOR PROJECT : " + riskEvaluationInSAP.ProjectName);
-            riskEvaluation = restTemplate.exchange(postURL, HttpMethod.POST, requestToPost, RiskEvaluationInSAP.class);
+            log.info("POSTING RISK MODEL TO SAP  FOR LOAN : " + riskEvaluationSummary.LoanContractId);
+            log.info("POSTING RISK MODEL TO SAP  FOR PROJECT : " + riskEvaluationSummary.ProjectName);
+            riskEvaluation = restTemplate.exchange(postURL, HttpMethod.POST, requestToPost, RiskEvaluationSummary.class);
         } catch (Exception ex) {
-            log.info("EXCEPTION POSTING RISK MODEL TO SAP  FOR LOAN / PROJECT: " + riskEvaluationInSAP.LoanContractId + " / " + riskEvaluationInSAP.ProjectName);
+            log.info("EXCEPTION POSTING RISK MODEL TO SAP  FOR LOAN / PROJECT: " + riskEvaluationSummary.LoanContractId + " / " + riskEvaluationSummary.ProjectName);
             System.out.println(ex.getMessage());
             return null;
         }
 
         HttpStatus statusCode = riskEvaluation.getStatusCode();
-        RiskEvaluationInSAP riskEvaluationInSAPReponse = riskEvaluation.getBody();
+        RiskEvaluationSummary riskEvaluationSummaryReponse = riskEvaluation.getBody();
 
 
         riskModelTemplateRepository.save(riskModel);
 
 
-        return riskEvaluationInSAPReponse;
+        return riskEvaluationSummaryReponse;
 
     }
 
@@ -301,14 +293,14 @@ public class SAPRiskModelIntegrationService implements ISAPRiskModelIntegrationS
     }
 
     @Override
-    public RiskEvaluationInSAP replicateRiskModelInSAP(RiskEvaluationInSAP riskEvaluationInSAP) {
-        this.postSAPRiskModelInSAP(riskEvaluationInSAP);
-        return riskEvaluationInSAP;
+    public RiskEvaluationSummary replicateRiskModelInSAP(RiskEvaluationSummary riskEvaluationSummary) {
+        this.postSAPRiskModelInSAP(riskEvaluationSummary);
+        return riskEvaluationSummary;
 
     }
 
 
-    private RiskEvaluationInSAP postSAPRiskModelInSAP(RiskEvaluationInSAP riskEvaluationInSAP) {
+    private RiskEvaluationSummary postSAPRiskModelInSAP(RiskEvaluationSummary riskEvaluationSummary) {
 
 
 
@@ -330,27 +322,27 @@ public class SAPRiskModelIntegrationService implements ISAPRiskModelIntegrationS
         };
 
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<RiskEvaluationInSAP> riskEvaluation = null;
-        HttpEntity<RiskEvaluationInSAP> requestToPost = new HttpEntity<RiskEvaluationInSAP>(riskEvaluationInSAP, headers);
+        ResponseEntity<RiskEvaluationSummary> riskEvaluation = null;
+        HttpEntity<RiskEvaluationSummary> requestToPost = new HttpEntity<RiskEvaluationSummary>(riskEvaluationSummary, headers);
 
 
         try {
-            log.info("POSTING RISK MODEL TO SAP  FOR LOAN : " + riskEvaluationInSAP.LoanContractId);
-            log.info("POSTING RISK MODEL TO SAP  FOR PROJECT : " + riskEvaluationInSAP.ProjectName);
-            riskEvaluation = restTemplate.exchange(postURL, HttpMethod.POST, requestToPost, RiskEvaluationInSAP.class);
+            log.info("POSTING RISK MODEL TO SAP  FOR LOAN : " + riskEvaluationSummary.LoanContractId);
+            log.info("POSTING RISK MODEL TO SAP  FOR PROJECT : " + riskEvaluationSummary.ProjectName);
+            riskEvaluation = restTemplate.exchange(postURL, HttpMethod.POST, requestToPost, RiskEvaluationSummary.class);
         } catch (Exception ex) {
 
-            log.info("EXCEPTION POSTING RISK MODEL TO SAP  FOR LOAN / PROJECT: " + riskEvaluationInSAP.LoanContractId + " / " + riskEvaluationInSAP.ProjectName);
+            log.info("EXCEPTION POSTING RISK MODEL TO SAP  FOR LOAN / PROJECT: " + riskEvaluationSummary.LoanContractId + " / " + riskEvaluationSummary.ProjectName);
             System.out.println(ex.getMessage());
 
             return null;
         }
 
         HttpStatus statusCode = riskEvaluation.getStatusCode();
-        RiskEvaluationInSAP riskEvaluationInSAPReponse = riskEvaluation.getBody();
+        RiskEvaluationSummary riskEvaluationSummaryReponse = riskEvaluation.getBody();
 
 
-        return riskEvaluationInSAPReponse;
+        return riskEvaluationSummaryReponse;
 
     }
 

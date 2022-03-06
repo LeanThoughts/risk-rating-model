@@ -262,10 +262,10 @@ public class RiskModelService implements IRiskModelService {
         System.out.println("-------------------------------------------------------------------------------------");
 
         // Replicate Risk Model in SAP
-        RiskEvaluationInSAP riskEvaluationInSAP = isapRiskModelIntegrationService.mapRiskModelToSAPModel(riskModelTemplate);
+        RiskEvaluationSummary riskEvaluationSummary = isapRiskModelIntegrationService.mapRiskModelToSAPModel(riskModelTemplate);
         CompletableFuture.runAsync(() -> {
             // method call or code to be asynch.
-            isapRiskModelIntegrationService.replicateRiskModelInSAP(riskEvaluationInSAP);
+            isapRiskModelIntegrationService.replicateRiskModelInSAP(riskEvaluationSummary);
 
 
         });
@@ -280,10 +280,10 @@ public class RiskModelService implements IRiskModelService {
     public void replicateLoanToBackend(RiskModelTemplate riskModelTemplate) {
 
         // Replicate Risk Model in SAP
-        RiskEvaluationInSAP riskEvaluationInSAP = isapRiskModelIntegrationService.mapRiskModelToSAPModel(riskModelTemplate);
+        RiskEvaluationSummary riskEvaluationSummary = isapRiskModelIntegrationService.mapRiskModelToSAPModel(riskModelTemplate);
         CompletableFuture.runAsync(() -> {
             // method call or code to be asynch.
-            isapRiskModelIntegrationService.replicateRiskModelInSAP(riskEvaluationInSAP);
+            isapRiskModelIntegrationService.replicateRiskModelInSAP(riskEvaluationSummary);
 
 
         });
