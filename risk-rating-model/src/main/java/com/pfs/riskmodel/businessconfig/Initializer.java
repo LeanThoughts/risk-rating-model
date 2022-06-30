@@ -383,6 +383,7 @@ public class Initializer implements CommandLineRunner{
             System.out.println(" Revised Workflow Assignment Not Found for Risk Purpose " + r2.getDescription());
             System.out.println("-------------------------- Starting to add Workflow Assignments----------------------");
 
+            validToDate = new GregorianCalendar(9999, Calendar.MAY, 26).getTime();
 
 
             wa5 = new WorkflowAssignment(null, r2, validFromDate,validToDate, "Shray Shikhar", "shikhar@ptcfinancial.com",
