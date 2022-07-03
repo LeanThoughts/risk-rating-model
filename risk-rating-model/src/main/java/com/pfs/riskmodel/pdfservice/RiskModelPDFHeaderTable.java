@@ -460,7 +460,7 @@ public class RiskModelPDFHeaderTable {
         // Third Column - Role
         workflowCell3 = new PdfPCell();
         workflowCell3.setBackgroundColor(BaseColor.WHITE);
-        workflowCell3.setPhrase(new Phrase("Department Head",valueFont));
+        workflowCell3.setPhrase(new Phrase("Functional Head",valueFont));
 
         // Fourth Column - Receipt Date
         workflowCell4 = new PdfPCell();
@@ -584,7 +584,7 @@ public class RiskModelPDFHeaderTable {
         // Third Column - Role
         workflowCell3 = new PdfPCell();
         workflowCell3.setBackgroundColor(BaseColor.WHITE);
-        workflowCell3.setPhrase(new Phrase("Department Head",valueFont));
+        workflowCell3.setPhrase(new Phrase("Functional Head",valueFont));
 
 
         // Fourth Column - Receipt Date

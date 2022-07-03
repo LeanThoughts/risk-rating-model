@@ -33,6 +33,7 @@ public class RiskEvaluationReportExcelGen {
 
 //    private List<RiskModelReportDTO> riskModelReportDTOSOutput;
 
+
 //    private Boolean activeLoanAccountsOnly;
 //    private Boolean latestRatingsOnly;
 
