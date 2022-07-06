@@ -377,6 +377,7 @@ public class RiskModelTemplateController {
 
         });
 
+        //return ResponseEntity.ok("Output");
         return ResponseEntity.ok(riskEvaluationSummaryList);
     }
 
@@ -400,7 +401,8 @@ public class RiskModelTemplateController {
 
         });
 
-        return ResponseEntity.ok(riskEvaluationSummaryList);
+         //return ResponseEntity.ok("Output from /riskEvaluationSummary/loanContractId/{loanContractId}");
+         return ResponseEntity.ok(riskEvaluationSummaryList);
     }
 
 
