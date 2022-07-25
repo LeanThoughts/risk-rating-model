@@ -38,17 +38,18 @@ public  class All_Templates_ControllerTest extends AbstractTest {
     @Test
     public  void createAllTemplates() throws Exception {
 //
-        renewables_OPERATIONAL_Template();
-        renewables_BUILD_Template();
-        holdingCompanyTemplate();
-        infraRoadHAM_BUILD_Template();
-
-        infraRoadHAM_OPERATIONAL_Template(); // Done
-
-        infraRoadToll_BUILD_Template();
-        infraRoadToll_OPERATIONAL_Template();
-        infraTrans_BUILD_Template();
-        infraTransToll_OPERATIONAL_Template();
+//        renewables_OPERATIONAL_Template();
+//        renewables_BUILD_Template();
+//        holdingCompanyTemplate();
+        holdingCompanyOperationalTemplate();
+//        infraRoadHAM_BUILD_Template();
+//
+//        infraRoadHAM_OPERATIONAL_Template(); // Done
+//
+//        infraRoadToll_BUILD_Template();
+//        infraRoadToll_OPERATIONAL_Template();
+//        infraTrans_BUILD_Template();
+//        infraTransToll_OPERATIONAL_Template();
 
     }
 
@@ -60,6 +61,24 @@ public  class All_Templates_ControllerTest extends AbstractTest {
         HoldingCompanyData holdingCompanyData = new HoldingCompanyData();
         RiskModelTemplateDTO riskModelTemplateDTO = new RiskModelTemplateDTO();
         riskModelTemplateDTO = holdingCompanyData.buildRiskModelTemplate();
+        String inputJson = super.mapToJson(riskModelTemplateDTO);
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(uri)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(inputJson)).andReturn();
+
+        int status = mvcResult.getResponse().getStatus();
+        assertEquals(200, status);
+        String content = mvcResult.getResponse().getContentAsString();
+        System.out.println(content);
+        System.out.println(" ------Holding Company Template Create ");
+
+    }
+
+    private void holdingCompanyOperationalTemplate() throws  Exception {
+        String uri = "/api/riskModelTemplate";
+        HoldingCompanyData holdingCompanyData = new HoldingCompanyData();
+        RiskModelTemplateDTO riskModelTemplateDTO = new RiskModelTemplateDTO();
+        riskModelTemplateDTO = holdingCompanyData.buildRiskModelTemplateOperational();
         String inputJson = super.mapToJson(riskModelTemplateDTO);
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(uri)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)

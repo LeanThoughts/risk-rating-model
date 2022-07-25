@@ -108,4 +108,93 @@ public class HoldingCompanyData {
         return  riskModelTemplateDTO;
 
     }
+
+    public  RiskModelTemplateDTO buildRiskModelTemplateOperational ( ) {
+
+
+        riskModelTemplateDTO = new RiskModelTemplateDTO();
+
+
+        riskModelTemplateDTO.setId(null);
+        riskModelTemplateDTO.setStatus("X");
+        riskModelTemplateDTO.setVersion("v1");
+
+
+        riskModelTemplateDTO.setPurposeCode("01");
+        riskModelTemplateDTO.setPurposeDescription("Project Assessment");
+        riskModelTemplateDTO.setProcessInstanceId(" ");
+        riskModelTemplateDTO.setWorkflowStatusCode("01");
+        riskModelTemplateDTO.setWorkflowStatusDescription("Created");
+
+
+        //  9 - HoldingCompany - Operational
+        riskModelTemplateDTO.setModelCategoryCode(10);
+        riskModelTemplateDTO.setModelType(0); //Template
+
+        riskModelTemplateDTO.setProjectRiskLevelCode("02");
+        riskModelTemplateDTO.setProjectRiskLevelDescription("Holding Company Risk Rating - Operational");
+
+        riskModelTemplateDTO.setRiskProjectTypeCode("05");
+        riskModelTemplateDTO.setRiskProjectTypeDescription("Holding Company");
+        riskModelTemplateDTO.setDescription("Holding Company Risk Rating");
+        riskModelTemplateDTO.setComputingMethodCode("01");
+        riskModelTemplateDTO.setComputingMethodDescription("Weighted");
+        riskModelTemplateDTO.setScore(0D);
+
+        riskModelTemplateDTO.setLoanNumber(" ");
+        riskModelTemplateDTO.setLoanAmountInCrores(0D);
+        riskModelTemplateDTO.setProjectName("Template Model for Holding Co.");
+        riskModelTemplateDTO.setRatingDate(Date.from(Instant.now()));
+
+        riskModelTemplateDTO.setOverallProjectGrade(" ");
+        riskModelTemplateDTO.setModifiedProjectGrade(" ");
+        riskModelTemplateDTO.setAfterParentalNotchUpGrade(" ");
+        riskModelTemplateDTO.setFinalProjectGrade(" ");
+
+        riskModelTemplateDTO.setApplyParentalNotchup(false);
+        riskModelTemplateDTO.setApplyParentalNotchup(false);
+
+
+
+        //Final Holding Company Rating
+
+        //  Parental Notch Up
+        AllParentalNotchupTemplate allParentalNotchupTemplate = new AllParentalNotchupTemplate();
+        RiskParentalNotchUpDTO riskParentalNotchUpDTO = allParentalNotchupTemplate.getParentalNotchUp();
+
+        List<RiskParentalNotchUpDTO> riskParentalNotchUpDTOs = new ArrayList<>();
+        riskParentalNotchUpDTOs.add(riskParentalNotchUpDTO);
+
+
+        // Rating Modifier
+        //Modified Holding Company Rating
+        RiskRatingModifierDTO riskRatingModifierDTO = new RiskRatingModifierDTO();
+        List<RiskRatingModifierDTO> riskRatingModifierDTOs = new ArrayList<>();
+        HC_RatingModifierDTO hc_ratingModifierDTO = new HC_RatingModifierDTO();
+        riskRatingModifierDTOs = hc_ratingModifierDTO.getRiskRatingModifierDTOs();
+
+
+        // Risk Type
+        // Holding Company Risk Rating
+        RiskTypeDTO riskTypeDTO = new RiskTypeDTO();
+        riskTypeDTO =  HoldingCompanyRiskTypes.buildRiskType();
+        List<RiskTypeDTO> riskTypeDTOs = new ArrayList<>();
+        riskTypeDTOs.add(riskTypeDTO);
+
+
+        riskModelTemplateDTO.setRiskTypes(riskTypeDTOs);
+        riskModelTemplateDTO.setRiskParentalNotchUps(riskParentalNotchUpDTOs);
+        riskModelTemplateDTO.setRiskRatingModifiers(riskRatingModifierDTOs);
+
+
+
+
+
+        HoldingCompanyRiskModelSummary holdingCompanyRiskModelSummary = new HoldingCompanyRiskModelSummary();
+        List<RiskModelSummaryDTO> riskModelSummaryDTOS = holdingCompanyRiskModelSummary.getRiskModelSummary();
+        riskModelTemplateDTO.setRiskModelSummaries(riskModelSummaryDTOS);
+
+        return  riskModelTemplateDTO;
+
+    }
 }

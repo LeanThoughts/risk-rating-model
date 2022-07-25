@@ -102,6 +102,9 @@ public class SAPRiskModelIntegrationService implements ISAPRiskModelIntegrationS
         riskEvaluationSummary.RatingDate = date.toString();
 
         riskEvaluationSummary.CurrDepartment = riskModel.getPurposeDescription();
+
+
+
         riskEvaluationSummary.InitiatedBy = riskModel.getCreatedByUserId();
         if (riskModel.getFirstLevelApprover() != null)
             riskEvaluationSummary.FirstLvlApprover = riskModel.getFirstLevelApprover();

@@ -106,7 +106,7 @@ public class RiskModelTemplateController {
     @CrossOrigin
     @PostMapping("/riskModel")
     public ResponseEntity createRiskModel(@RequestBody RiskModelTemplateDTO riskModelTemplateDTO,
-                                          @RequestParam(value = "action",required = true) Integer action,
+                                          @RequestParam(value = "action", required = true) Integer action,
                                           HttpServletRequest request) {
 
         RiskModelTemplate riskModelTemplate = mapDTOToDomain(riskModelTemplateDTO);
@@ -128,10 +128,7 @@ public class RiskModelTemplateController {
 //        LoanApplicationResource loanApplicationResource = loanApplicationResourceResponseEntity.getBody();
 
 
-
-
-
-        Map<String, Object> result = riskModelService.createRiskModel(riskModelTemplate,action, request);
+        Map<String, Object> result = riskModelService.createRiskModel(riskModelTemplate, action, request);
         CheckServiceResult.checkResult(result);
 
 
@@ -144,12 +141,12 @@ public class RiskModelTemplateController {
     @CrossOrigin
     @PutMapping("/riskModel")
     public ResponseEntity updateRiskModel(@RequestBody RiskModelTemplateDTO riskModelTemplateDTO,
-                                          @RequestParam(value = "action",required = true) Integer action,
+                                          @RequestParam(value = "action", required = true) Integer action,
                                           HttpServletRequest request) {
 
         RiskModelTemplate riskModelTemplate = mapDTOToDomain(riskModelTemplateDTO);
 
-        Map<String, Object> result = riskModelService.createRiskModel(riskModelTemplate,action, request);
+        Map<String, Object> result = riskModelService.createRiskModel(riskModelTemplate, action, request);
         CheckServiceResult.checkResult(result);
 
         riskModelTemplate = (RiskModelTemplate) result.get("RiskModel");
@@ -160,13 +157,13 @@ public class RiskModelTemplateController {
 
     @CrossOrigin
     @PutMapping("/riskModel/process")
-    public ResponseEntity updateRiskModel(@RequestParam(value = "id",required = true) Long id,
-                                          @RequestParam(value = "action",required = true) Integer action,
+    public ResponseEntity updateRiskModel(@RequestParam(value = "id", required = true) Long id,
+                                          @RequestParam(value = "action", required = true) Integer action,
                                           HttpServletRequest request) {
 
-        RiskModelTemplate riskModelTemplate= (RiskModelTemplate) riskModelTemplateRepository.findById(id).get();
+        RiskModelTemplate riskModelTemplate = (RiskModelTemplate) riskModelTemplateRepository.findById(id).get();
 
-        Map<String, Object> result = riskModelService.createRiskModel(riskModelTemplate,action, request);
+        Map<String, Object> result = riskModelService.createRiskModel(riskModelTemplate, action, request);
         CheckServiceResult.checkResult(result);
 
         riskModelTemplate = (RiskModelTemplate) result.get("RiskModel");
@@ -176,18 +173,12 @@ public class RiskModelTemplateController {
     }
 
 
-
-
-
-
-
-
     //-----------------------------------------------------------------------------------------------------------------
     //                              RISK MODEL - TEMPLATES
     //-----------------------------------------------------------------------------------------------------------------
 
     @GetMapping("/riskModelTemplate/all")
-    public ResponseEntity findAll (){
+    public ResponseEntity findAll() {
 
 
         List<RiskModelTemplateDTO> riskModelTemplateDTOS = new ArrayList<>();
@@ -205,8 +196,8 @@ public class RiskModelTemplateController {
 
 
     @GetMapping("/riskModel/loanNumber/{loanNumber}")
-    public ResponseEntity findByLoanNumber (@PathVariable("loanNumber") String loanNumber,
-                                            HttpServletRequest request){
+    public ResponseEntity findByLoanNumber(@PathVariable("loanNumber") String loanNumber,
+                                           HttpServletRequest request) {
 
 
         List<RiskModelTemplateDTO> riskModelTemplateDTOS = new ArrayList<>();
@@ -238,11 +229,11 @@ public class RiskModelTemplateController {
             latestRatingsOnly = false;
         }
 
-        if (loanNumber != null && loanNumber.length() == 0 )
+        if (loanNumber != null && loanNumber.length() == 0)
             loanNumber = null;
-        if (riskProjectTypeCode != null && riskProjectTypeCode.length() == 0 )
+        if (riskProjectTypeCode != null && riskProjectTypeCode.length() == 0)
             riskProjectTypeCode = null;
-        if (projectName != null && projectName.length() == 0 )
+        if (projectName != null && projectName.length() == 0)
             projectName = null;
 
         SearchResource resource = new SearchResource();
@@ -252,11 +243,11 @@ public class RiskModelTemplateController {
             resource.setLoanNumberFrom(Integer.parseInt(loanNumber));
 
 
-        ResponseEntity<List<LoanApplicationResource>>   resources = lmsEnquiryClient.searchEnquiries(resource, getAuthorizationBearer(request.getUserPrincipal()));
+        ResponseEntity<List<LoanApplicationResource>> resources = lmsEnquiryClient.searchEnquiries(resource, getAuthorizationBearer(request.getUserPrincipal()));
         List<LoanApplicationResource> loanApplicationResourceList = resources.getBody();
         List<LoanApplication> loanApplicationList = new ArrayList<>();
 
-        for (LoanApplicationResource loanApplicationResource: loanApplicationResourceList){
+        for (LoanApplicationResource loanApplicationResource : loanApplicationResourceList) {
             LoanApplication loanApplication = loanApplicationResource.getLoanApplication();
             loanApplicationList.add(loanApplication);
         }
@@ -284,7 +275,7 @@ public class RiskModelTemplateController {
             @RequestParam(required = false) String riskProjectTypeCode,
             @RequestParam(required = false) String projectName,
             @RequestParam(required = false) Boolean activeLoanAccountsOnly,
-            @RequestParam(required = false) Boolean latestRatingsOnly,  HttpServletRequest request) throws IOException, ParseException {
+            @RequestParam(required = false) Boolean latestRatingsOnly, HttpServletRequest request) throws IOException, ParseException {
 
         response.setContentType("application/octet-stream");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
@@ -301,11 +292,11 @@ public class RiskModelTemplateController {
             latestRatingsOnly = false;
         }
 
-        if (loanNumber != null && loanNumber.length() == 0 )
+        if (loanNumber != null && loanNumber.length() == 0)
             loanNumber = null;
-        if (riskProjectTypeCode != null && riskProjectTypeCode.length() == 0 )
+        if (riskProjectTypeCode != null && riskProjectTypeCode.length() == 0)
             riskProjectTypeCode = null;
-        if (projectName != null && projectName.length() == 0 )
+        if (projectName != null && projectName.length() == 0)
             projectName = null;
 
 
@@ -316,11 +307,11 @@ public class RiskModelTemplateController {
             resource.setLoanNumberFrom(Integer.parseInt(loanNumber));
 
 
-        ResponseEntity<List<LoanApplicationResource>>   resources = lmsEnquiryClient.searchEnquiries(resource, getAuthorizationBearer(request.getUserPrincipal()));
+        ResponseEntity<List<LoanApplicationResource>> resources = lmsEnquiryClient.searchEnquiries(resource, getAuthorizationBearer(request.getUserPrincipal()));
         List<LoanApplicationResource> loanApplicationResourceList = resources.getBody();
         List<LoanApplication> loanApplicationList = new ArrayList<>();
 
-        for (LoanApplicationResource loanApplicationResource: loanApplicationResourceList){
+        for (LoanApplicationResource loanApplicationResource : loanApplicationResourceList) {
             LoanApplication loanApplication = loanApplicationResource.getLoanApplication();
             loanApplicationList.add(loanApplication);
         }
@@ -338,11 +329,11 @@ public class RiskModelTemplateController {
 
         RiskEvaluationReportExcelGen riskEvaluationReportExcelGen = new RiskEvaluationReportExcelGen(riskModelReportDTOS);
         riskEvaluationReportExcelGen.export(response);
-     }
+    }
 
     @GetMapping("/riskModel/loanEnquiryId/{loanEnquiryId}")
-    public ResponseEntity findByLoanEnquiryId (@PathVariable("loanEnquiryId") String loanEnquiryId,
-                                            HttpServletRequest request){
+    public ResponseEntity findByLoanEnquiryId(@PathVariable("loanEnquiryId") String loanEnquiryId,
+                                              HttpServletRequest request) {
 
 
         List<RiskModelTemplateDTO> riskModelTemplateDTOS = new ArrayList<>();
@@ -359,8 +350,8 @@ public class RiskModelTemplateController {
     }
 
     @GetMapping("/riskEvaluationSummary/loanEnquiryId/{loanEnquiryId}")
-    public ResponseEntity findRiskModelSummaryForLoanEnquiryId (@PathVariable("loanEnquiryId") String loanEnquiryId,
-                                               HttpServletRequest request){
+    public ResponseEntity findRiskModelSummaryForLoanEnquiryId(@PathVariable("loanEnquiryId") String loanEnquiryId,
+                                                               HttpServletRequest request) {
 
 
         List<RiskModelTemplateDTO> riskModelTemplateDTOS = new ArrayList<>();
@@ -383,16 +374,28 @@ public class RiskModelTemplateController {
 
 
     @GetMapping("/riskEvaluationSummary/loanContractId/{loanContractId}")
-    public ResponseEntity findRiskModelSummaryForLoanContractId (@PathVariable("loanContractId") String loanContractId,
-                                                       HttpServletRequest request){
+    public ResponseEntity findRiskModelSummaryForLoanContractId(@PathVariable("loanContractId") String loanContractId,
+                                                                HttpServletRequest request) {
+        String loanNumberWithoutLeadingZeroes = "";
+        String loanNumberWithLeadingZeroes = "";
 
+        if (loanContractId.length() == 13)
+            loanNumberWithoutLeadingZeroes = loanContractId.replaceFirst("^0+(?!$)", "");
+        else
+            loanNumberWithoutLeadingZeroes = loanContractId;
+
+        if (loanContractId.length() == 8)
+            loanNumberWithLeadingZeroes = "00000" + loanContractId;
+        else
+            loanNumberWithLeadingZeroes = loanContractId;
 
         List<RiskModelTemplateDTO> riskModelTemplateDTOS = new ArrayList<>();
         List<RiskModelTemplate> riskModelTemplates = new ArrayList<>();
 
         List<RiskEvaluationSummary> riskEvaluationSummaryList = new ArrayList<>();
 
-        riskModelTemplates = riskModelTemplateRepository.findByLoanNumber(loanContractId);
+        riskModelTemplates = riskModelTemplateRepository.findByLoanNumber(loanNumberWithoutLeadingZeroes);
+        riskModelTemplates.addAll(riskModelTemplateRepository.findByLoanNumber(loanNumberWithLeadingZeroes));
 
         riskModelTemplates.forEach(riskModelTemplate -> {
 
@@ -401,18 +404,17 @@ public class RiskModelTemplateController {
 
         });
 
-         //return ResponseEntity.ok("Output from /riskEvaluationSummary/loanContractId/{loanContractId}");
-         return ResponseEntity.ok(riskEvaluationSummaryList);
+        //return ResponseEntity.ok("Output from /riskEvaluationSummary/loanContractId/{loanContractId}");
+        return ResponseEntity.ok(riskEvaluationSummaryList);
     }
 
 
-
     @GetMapping("/riskModelTemplate/id/{id}")
-    public ResponseEntity findOne (
-                             @PathVariable("id") Long id,
-                             HttpServletRequest request) {
+    public ResponseEntity findOne(
+            @PathVariable("id") Long id,
+            HttpServletRequest request) {
 
-        System.out.println("LOCALDATE --------- : " +LocalDate.now());
+        System.out.println("LOCALDATE --------- : " + LocalDate.now());
 
 
         RiskModelTemplate riskModelTemplate = new RiskModelTemplate();
@@ -422,19 +424,19 @@ public class RiskModelTemplateController {
         Check.notNull(riskModelTemplate.getId(), "Exception.notFound",
                 "RiskModelTemplate", id.toString());
 
-        riskModelTemplateDTO =  mapDomainToDTO(riskModelTemplate);
+        riskModelTemplateDTO = mapDomainToDTO(riskModelTemplate);
         return ResponseEntity.ok(riskModelTemplateDTO);
     }
 
     @GetMapping("/riskModelTemplate")
-    public ResponseEntity findByProjectTypeAndRiskLevel (@RequestParam(value = "projectType",required = true) String projectType,
-                                                         @RequestParam(value = "projectRiskLevel",required = true) String projectRiskLevel,
-                                                         HttpServletRequest request) {
+    public ResponseEntity findByProjectTypeAndRiskLevel(@RequestParam(value = "projectType", required = true) String projectType,
+                                                        @RequestParam(value = "projectRiskLevel", required = true) String projectRiskLevel,
+                                                        HttpServletRequest request) {
 
         RiskModelTemplate riskModelTemplate = new RiskModelTemplate();
         RiskModelTemplateDTO riskModelTemplateDTO = new RiskModelTemplateDTO();
 
-        Map<String, Object> result = riskModelTemplateService.findByProjectTypeAndRiskLevel(projectType,projectRiskLevel);
+        Map<String, Object> result = riskModelTemplateService.findByProjectTypeAndRiskLevel(projectType, projectRiskLevel);
         CheckServiceResult.checkResult(result);
 
 
@@ -445,17 +447,16 @@ public class RiskModelTemplateController {
         if (riskModelTemplate == null) {
             Check.notNull(riskModelTemplate.getId(), "Exception.notFound",
                     "RiskModelTemplate", projectType + ":" + projectRiskLevel);
-        }else {
+        } else {
             Check.notNull(projectType, "Exception.notFound",
                     "RiskModelTemplate", projectType + ":" + projectRiskLevel);
         }
 
-        riskModelTemplateDTO =  mapDomainToDTO(riskModelTemplate);
+        riskModelTemplateDTO = mapDomainToDTO(riskModelTemplate);
 
-        riskModelTemplateDTO =  mapRiskTemplateDomainToDTO(riskModelTemplateDTO);
+        riskModelTemplateDTO = mapRiskTemplateDomainToDTO(riskModelTemplateDTO);
         return ResponseEntity.ok(riskModelTemplateDTO);
     }
-
 
 
     @CrossOrigin
@@ -465,15 +466,15 @@ public class RiskModelTemplateController {
 
         Boolean isAccountConductRiskApplicable = false;
 
-        for (RiskTypeDTO  riskTypeDTO : riskModelTemplateDTO.getRiskTypes() ) {
-            for (RiskComponentDTO riskComponentDTO: riskTypeDTO.getRiskComponents()) {
+        for (RiskTypeDTO riskTypeDTO : riskModelTemplateDTO.getRiskTypes()) {
+            for (RiskComponentDTO riskComponentDTO : riskTypeDTO.getRiskComponents()) {
                 if (riskComponentDTO.getDescription().contains("Account Conduct") == true) {
                     isAccountConductRiskApplicable = true;
                     break;
                 }
             }
             if (isAccountConductRiskApplicable == true)
-            riskTypeDTO.setIsAccountConductRiskComponentPresent(true);
+                riskTypeDTO.setIsAccountConductRiskComponentPresent(true);
         }
 
         RiskModelTemplate riskModelTemplate = mapDTOToDomain(riskModelTemplateDTO);
@@ -493,7 +494,7 @@ public class RiskModelTemplateController {
     public ResponseEntity update(@RequestBody RiskModelTemplateDTO riskModelTemplateDTO,
                                  HttpServletRequest request) {
 
-        RiskModelTemplate riskModelTemplate  = mapDTOToDomain(riskModelTemplateDTO);
+        RiskModelTemplate riskModelTemplate = mapDTOToDomain(riskModelTemplateDTO);
 
         Map<String, Object> result = riskModelTemplateService.updateRiskModelTemplate(riskModelTemplate);
         CheckServiceResult.checkResult(result);
@@ -510,7 +511,6 @@ public class RiskModelTemplateController {
     }
 
 
-
     public String getAuthorizationBearer(Principal user) {
         OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) ((OAuth2Authentication) user).getDetails();
         return "Bearer " + details.getTokenValue();
@@ -521,10 +521,9 @@ public class RiskModelTemplateController {
     //-----------------------------------------------------------------------------------------------------------------
 
 
-
     /*
        MAP Domain to DTO   */
-     private RiskModelTemplateDTO mapDomainToDTO (RiskModelTemplate riskModelTemplate) {
+    private RiskModelTemplateDTO mapDomainToDTO(RiskModelTemplate riskModelTemplate) {
 
 
         RiskModelTemplateDTO riskModelTemplateDTO = new RiskModelTemplateDTO();
@@ -544,7 +543,7 @@ public class RiskModelTemplateController {
         riskModelTemplateDTO.setModelCategoryCode(riskModelTemplate.getModelCategory().getCode());
         riskModelTemplateDTO.setModelCategoryDescription(riskModelTemplate.getModelCategory().getValue());
 
-        String computingMethodCode =  riskModelTemplate.getComputingMethod().getCode();
+        String computingMethodCode = riskModelTemplate.getComputingMethod().getCode();
         riskModelTemplateDTO.setComputingMethodCode(computingMethodCode);
         riskModelTemplateDTO.setComputingMethodDescription(riskModelTemplate.getComputingMethod().getValue());
 
@@ -558,32 +557,32 @@ public class RiskModelTemplateController {
         riskModelTemplateDTO.setProjectRiskLevelDescription(riskModelTemplate.getProjectRiskLevel().getValue());
 
 
-         for (RiskTypeDTO riskTypeDTO: riskModelTemplateDTO.getRiskTypes() ) {
-             for (RiskComponentDTO riskComponentDTO : riskTypeDTO.getRiskComponents()) {
+        for (RiskTypeDTO riskTypeDTO : riskModelTemplateDTO.getRiskTypes()) {
+            for (RiskComponentDTO riskComponentDTO : riskTypeDTO.getRiskComponents()) {
 
-                 RiskComponent riskComponent = riskComponentRepository.getOne(riskComponentDTO.getId());
+                RiskComponent riskComponent = riskComponentRepository.getOne(riskComponentDTO.getId());
 
-                  riskComponentDTO.setComputingMethodCode(  riskComponent.getComputingMethod().getCode());
-                  riskComponentDTO.setComputingMethodDescription(riskComponent.getComputingMethod().getValue());
-                  riskComponentDTO.setScoreTypeCode(riskComponent.getScoreType().getCode());
-                  riskComponentDTO.setScoreTypeDescription(riskComponent.getScoreType().getDescription());
+                riskComponentDTO.setComputingMethodCode(riskComponent.getComputingMethod().getCode());
+                riskComponentDTO.setComputingMethodDescription(riskComponent.getComputingMethod().getValue());
+                riskComponentDTO.setScoreTypeCode(riskComponent.getScoreType().getCode());
+                riskComponentDTO.setScoreTypeDescription(riskComponent.getScoreType().getDescription());
 
-                  riskComponentDTO.setScore(Utils.round(riskComponentDTO.getScore()));
+                riskComponentDTO.setScore(Utils.round(riskComponentDTO.getScore()));
 
-                  for (RiskFactorDTO riskFactorDTO: riskComponentDTO.getRiskFactors()) {
+                for (RiskFactorDTO riskFactorDTO : riskComponentDTO.getRiskFactors()) {
 
-                      riskFactorDTO.setComputingMethodCode(riskFactorRepository.getOne(riskFactorDTO.getId()).getComputingMethod().getCode());
-                      riskFactorDTO.setComputingMethodDescription(riskFactorRepository.getOne(riskFactorDTO.getId()).getComputingMethod().getValue());
+                    riskFactorDTO.setComputingMethodCode(riskFactorRepository.getOne(riskFactorDTO.getId()).getComputingMethod().getCode());
+                    riskFactorDTO.setComputingMethodDescription(riskFactorRepository.getOne(riskFactorDTO.getId()).getComputingMethod().getValue());
 
-                      riskFactorDTO.setScoreTypeCode(riskFactorRepository.getOne(riskFactorDTO.getId()).getScoreType().getCode());
-                      riskFactorDTO.setScoreTypeDescription(riskFactorRepository.getOne(riskFactorDTO.getId()).getScoreType().getDescription());
+                    riskFactorDTO.setScoreTypeCode(riskFactorRepository.getOne(riskFactorDTO.getId()).getScoreType().getCode());
+                    riskFactorDTO.setScoreTypeDescription(riskFactorRepository.getOne(riskFactorDTO.getId()).getScoreType().getDescription());
 
-                      for (RiskSubFactorDTO riskSubFactorDTO: riskFactorDTO.getRiskSubFactors()) {
-                          riskSubFactorDTO.setScoreTypeCode( riskSubFactorRepository.getOne(riskSubFactorDTO.getId()).getScoreTypeCode());
-                          riskSubFactorDTO.setScoreTypeDescription( riskSubFactorRepository.getOne(riskSubFactorDTO.getId()).getScoreTypeDescription());
-                      }
-                  }
-             }
+                    for (RiskSubFactorDTO riskSubFactorDTO : riskFactorDTO.getRiskSubFactors()) {
+                        riskSubFactorDTO.setScoreTypeCode(riskSubFactorRepository.getOne(riskSubFactorDTO.getId()).getScoreTypeCode());
+                        riskSubFactorDTO.setScoreTypeDescription(riskSubFactorRepository.getOne(riskSubFactorDTO.getId()).getScoreTypeDescription());
+                    }
+                }
+            }
 
         }
 
@@ -596,7 +595,7 @@ public class RiskModelTemplateController {
         Map DTO to Domain
      */
 
-    private  RiskModelTemplate mapDTOToDomain(RiskModelTemplateDTO riskModelTemplateDTO) {
+    private RiskModelTemplate mapDTOToDomain(RiskModelTemplateDTO riskModelTemplateDTO) {
 
         RiskModelTemplate riskModelTemplate = new RiskModelTemplate();
 
@@ -607,10 +606,9 @@ public class RiskModelTemplateController {
         riskModelTemplate.setWorkflowStatus(workflowStatusRepository.findByCode(riskModelTemplateDTO.getWorkflowStatusCode()));
 
 
+        for (RiskType riskType : riskModelTemplate.getRiskTypes()) {
 
-        for (RiskType riskType: riskModelTemplate.getRiskTypes()) {
-
-            for (RiskComponent riskComponent: riskType.getRiskComponents()) {
+            for (RiskComponent riskComponent : riskType.getRiskComponents()) {
 
                 riskComponent.setComputingMethod(computingMethodRepository.findByCode(riskComponent.getComputingMethodCode()));
                 riskComponent.setComputingMethodCode(computingMethodRepository.findByCode(riskComponent.getComputingMethodCode()).getCode());
@@ -618,7 +616,7 @@ public class RiskModelTemplateController {
                 riskComponent.setScoreType(scoreTypeRepository.findByCode(riskComponent.getScoreTypeCode()));
                 riskComponent.setScoreTypeCode(scoreTypeRepository.findByCode(riskComponent.getScoreTypeCode()).getCode());
 
-                for (RiskFactor riskFactor: riskComponent.getRiskFactors()) {
+                for (RiskFactor riskFactor : riskComponent.getRiskFactors()) {
 
                     riskFactor.setComputingMethod(computingMethodRepository.findByCode(riskFactor.getComputingMethodCode()));
                     riskFactor.setComputingMethodCode(computingMethodRepository.findByCode(riskFactor.getComputingMethodCode()).getCode());
@@ -626,7 +624,7 @@ public class RiskModelTemplateController {
                     riskFactor.setScoreType(scoreTypeRepository.findByCode(riskFactor.getScoreTypeCode()));
                     riskFactor.setScoreTypeCode(scoreTypeRepository.findByCode(riskFactor.getScoreTypeCode()).getCode());
 
-                    for (RiskSubFactor riskSubFactor: riskFactor.getRiskSubFactors()) {
+                    for (RiskSubFactor riskSubFactor : riskFactor.getRiskSubFactors()) {
 
                         if (riskSubFactor.getWeightage() == null) {
                             System.out.println(" NULL Risk Sub Factor Weightage:" + riskSubFactor.getDescription());
@@ -636,19 +634,18 @@ public class RiskModelTemplateController {
                         riskSubFactor.setScoreType(scoreTypeRepository.findByCode(riskSubFactor.getScoreTypeCode()));
                         try {
                             riskSubFactor.setScoreTypeCode(scoreTypeRepository.findByCode(riskSubFactor.getScoreTypeCode()).getCode());
-                        }
-                        catch ( Exception ex) {
+                        } catch (Exception ex) {
                             System.out.println(" ");
                         }
 
-                        if (riskSubFactor.getRiskSubFactorAttributes() == null){
+                        if (riskSubFactor.getRiskSubFactorAttributes() == null) {
 
                             System.out.println(" NULL Risk Sub Factor Attributes:" + riskSubFactor.getDescription());
                         }
 
-                        for (RiskSubFactorAttribute riskSubFactorAttribute: riskSubFactor.getRiskSubFactorAttributes() ){
+                        for (RiskSubFactorAttribute riskSubFactorAttribute : riskSubFactor.getRiskSubFactorAttributes()) {
 
-                            if (riskSubFactorAttribute.getWeightage() == null){
+                            if (riskSubFactorAttribute.getWeightage() == null) {
                                 System.out.println(" NULL Risk Sub Factor Attribute Weightage:" + riskSubFactorAttribute.getDescription());
                             }
                         }
@@ -657,7 +654,7 @@ public class RiskModelTemplateController {
 
 
                 // Rating Modifiers
-                if (riskModelTemplate.getRiskRatingModifiers() != null ) {
+                if (riskModelTemplate.getRiskRatingModifiers() != null) {
                     for (RiskRatingModifier riskRatingModifier : riskModelTemplate.getRiskRatingModifiers()) {
                         riskRatingModifier.setComputingMethod(ratingModifierComputingMethodRepository.findByCode(riskRatingModifier.getComputingMethodCode()));
                     }
@@ -688,21 +685,19 @@ public class RiskModelTemplateController {
     }
 
 
+    private RiskModelTemplate sortRiskModelTemplate(RiskModelTemplate riskModelTemplate) {
 
 
-    private RiskModelTemplate sortRiskModelTemplate (RiskModelTemplate riskModelTemplate) {
+        for (RiskType riskType : riskModelTemplate.getRiskTypes()) {
 
-
-        for (RiskType riskType: riskModelTemplate.getRiskTypes()) {
-
-            for (RiskComponent riskComponent: riskType.getRiskComponents()) {
-                for (RiskFactor riskFactor: riskComponent.getRiskFactors()) {
-                    for (RiskSubFactor riskSubFactor: riskFactor.getRiskSubFactors()) {
+            for (RiskComponent riskComponent : riskType.getRiskComponents()) {
+                for (RiskFactor riskFactor : riskComponent.getRiskFactors()) {
+                    for (RiskSubFactor riskSubFactor : riskFactor.getRiskSubFactors()) {
 
                         // Sort RiskSubFactorAttributes
                         List<RiskSubFactorAttribute> riskSubFactorAttributes = riskSubFactor.getRiskSubFactorAttributes();
                         Collections.sort(riskSubFactorAttributes,
-                                                (a, b) -> a.getItemNo().compareTo(b.getItemNo()));
+                                (a, b) -> a.getItemNo().compareTo(b.getItemNo()));
                         riskSubFactor.setRiskSubFactorAttributes(riskSubFactorAttributes);
                     }
 
@@ -738,17 +733,15 @@ public class RiskModelTemplateController {
     }
 
 
-
-
     /*
    MAP Domain to DTO   */
-    private RiskModelTemplateDTO mapRiskTemplateDomainToDTO (RiskModelTemplateDTO riskModelTemplateDTO) {
+    private RiskModelTemplateDTO mapRiskTemplateDomainToDTO(RiskModelTemplateDTO riskModelTemplateDTO) {
 
 
         riskModelTemplateDTO.setId(null);
 
         Integer iRiskTypeItemNo = 1;
-        for (RiskTypeDTO riskTypeDTO: riskModelTemplateDTO.getRiskTypes() ) {
+        for (RiskTypeDTO riskTypeDTO : riskModelTemplateDTO.getRiskTypes()) {
 
             riskTypeDTO.setItemNo(iRiskTypeItemNo);
             iRiskTypeItemNo += 1;
@@ -761,53 +754,53 @@ public class RiskModelTemplateController {
                 iRiskComponentItemNo += 1;
 
                 Integer iRiskFactorItemNo = 1;
-                for (RiskFactorDTO riskFactorDTO: riskComponentDTO.getRiskFactors()) {
+                for (RiskFactorDTO riskFactorDTO : riskComponentDTO.getRiskFactors()) {
                     riskFactorDTO.setId(null);
                     riskFactorDTO.setItemNo(iRiskFactorItemNo);
-                    iRiskFactorItemNo +=1;
+                    iRiskFactorItemNo += 1;
 
                     Integer iRiskSubFactorItemNo = 1;
-                    for (RiskSubFactorDTO riskSubFactorDTO: riskFactorDTO.getRiskSubFactors()) {
+                    for (RiskSubFactorDTO riskSubFactorDTO : riskFactorDTO.getRiskSubFactors()) {
                         riskSubFactorDTO.setItemNo(iRiskSubFactorItemNo);
                         riskSubFactorDTO.setId(null);
                         iRiskSubFactorItemNo += 1;
 
                         Integer iRiskSubFactorAttrItemNo = 1;
-                        for (RiskSubFactorAttributeDTO riskSubFactorAttributeDTO: riskSubFactorDTO.getRiskSubFactorAttributes()) {
+                        for (RiskSubFactorAttributeDTO riskSubFactorAttributeDTO : riskSubFactorDTO.getRiskSubFactorAttributes()) {
 
                             riskSubFactorAttributeDTO.setItemNo(iRiskSubFactorAttrItemNo);
                             riskSubFactorAttributeDTO.setId(null);
                             iRiskSubFactorAttrItemNo += 1;
                         }
-                     }
+                    }
                 }
             }
 
         }
 
-        for (RiskParentalNotchUpDTO riskParentalNotchUpDTO: riskModelTemplateDTO.getRiskParentalNotchUps()) {
+        for (RiskParentalNotchUpDTO riskParentalNotchUpDTO : riskModelTemplateDTO.getRiskParentalNotchUps()) {
             riskParentalNotchUpDTO.setId(null);
 
             Integer iRiskParentalNotcuUpConditionItemNo = 1;
             for (RiskParentalNotchUpConditionDTO riskParentalNotchUpConditionDTO
-                                    : riskParentalNotchUpDTO.getRiskParentalConditions()) {
+                    : riskParentalNotchUpDTO.getRiskParentalConditions()) {
 
                 riskParentalNotchUpConditionDTO.setItemNo(iRiskParentalNotcuUpConditionItemNo);
                 riskParentalNotchUpConditionDTO.setId(null);
-                iRiskParentalNotcuUpConditionItemNo  += 1;
+                iRiskParentalNotcuUpConditionItemNo += 1;
             }
 
 
             Integer iRiskParentalNotcuUpSubFactorItemNo = 1;
-            for (RiskSubFactorDTO riskSubFactorDTO: riskParentalNotchUpDTO.getRiskSubFactors()) {
+            for (RiskSubFactorDTO riskSubFactorDTO : riskParentalNotchUpDTO.getRiskSubFactors()) {
                 riskSubFactorDTO.setId(null);
                 riskSubFactorDTO.setItemNo(iRiskParentalNotcuUpSubFactorItemNo);
                 iRiskParentalNotcuUpSubFactorItemNo += 1;
 
                 Integer iRiskParentalNotcuUpSubFactorAttrItemNo = 1;
-                for(RiskSubFactorAttributeDTO riskSubFactorAttributeDTO: riskSubFactorDTO.getRiskSubFactorAttributes()) {
+                for (RiskSubFactorAttributeDTO riskSubFactorAttributeDTO : riskSubFactorDTO.getRiskSubFactorAttributes()) {
 
-                   riskSubFactorAttributeDTO.setItemNo(iRiskParentalNotcuUpSubFactorAttrItemNo);
+                    riskSubFactorAttributeDTO.setItemNo(iRiskParentalNotcuUpSubFactorAttrItemNo);
                     riskSubFactorAttributeDTO.setId(null);
                     iRiskParentalNotcuUpSubFactorAttrItemNo += 1;
                 }
@@ -816,14 +809,14 @@ public class RiskModelTemplateController {
 
 
         Integer iRiskRatingModifierItemNo = 1;
-        for (RiskRatingModifierDTO riskRatingModifierDTO: riskModelTemplateDTO.getRiskRatingModifiers()) {
+        for (RiskRatingModifierDTO riskRatingModifierDTO : riskModelTemplateDTO.getRiskRatingModifiers()) {
 
             riskRatingModifierDTO.setItemNo(iRiskRatingModifierItemNo);
             riskRatingModifierDTO.setId(null);
             iRiskRatingModifierItemNo += 1;
 
             Integer iRiskRatingModifierAttrItemNo = 1;
-            for (RiskRatingModifierAttributeDTO riskRatingModifierAttributeDTO: riskRatingModifierDTO.getRiskRatingModifierAttributes()) {
+            for (RiskRatingModifierAttributeDTO riskRatingModifierAttributeDTO : riskRatingModifierDTO.getRiskRatingModifierAttributes()) {
                 riskRatingModifierAttributeDTO.setId(null);
                 riskRatingModifierAttributeDTO.setItemNo(iRiskRatingModifierAttrItemNo);
                 iRiskRatingModifierAttrItemNo += 1;
@@ -836,12 +829,10 @@ public class RiskModelTemplateController {
     }
 
 
-
-
     private List<RiskModelReportDTO> formatRiskModelReportDTO(List<RiskModelReportDTO> riskModelReportDTOS) {
         List<RiskModelReportDTO> riskModelReportDTOList = new ArrayList<>();
 
-        for (RiskModelReportDTO riskModelReportDTO: riskModelReportDTOS) {
+        for (RiskModelReportDTO riskModelReportDTO : riskModelReportDTOS) {
             riskModelReportDTO.setLoanNumber(riskModelReportDTO.getLoanNumber().replaceFirst("^0+(?!$)", ""));
             riskModelReportDTOList.add(riskModelReportDTO);
         }

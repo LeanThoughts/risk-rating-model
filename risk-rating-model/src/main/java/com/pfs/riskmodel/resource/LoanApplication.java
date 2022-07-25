@@ -99,6 +99,8 @@ public class LoanApplication {
      */
     private String assistanceType;
 
+    private String term;
+
     private Double projectCapacity;
 
     /**
@@ -293,6 +295,7 @@ public class LoanApplication {
                            @JsonProperty("loanApplicant") UUID loanApplicant,
                            @JsonProperty("loanClass") String loanClass,
                            @JsonProperty("projectType") String projectType,
+                           @JsonProperty("term") String term,
                            @JsonProperty("financingType") String financingType,
                            @JsonProperty("assistanceType") String assistanceType,
                            @JsonProperty("projectCapacity") Double projectCapacity,
@@ -369,6 +372,7 @@ public class LoanApplication {
         this.loanApplicant = loanApplicant;
         this.loanClass = loanClass;
         this.projectType = projectType;
+        this.term = term;
         this.financingType = financingType;
         this.assistanceType = assistanceType;
         this.projectCapacity = projectCapacity;
@@ -553,6 +557,14 @@ public class LoanApplication {
 
     public String getFinancingType() {
         return financingType;
+    }
+
+    public String getTerm() {
+        return term;
+    }
+
+    public void setTerm(String term) {
+        this.term = term;
     }
 
     public void setFinancingType(String financingType) {
