@@ -403,89 +403,98 @@ public class RiskModelTemplateService implements IRiskModelTemplateService {
 
     private RiskModelReportDTO mapRiskModelTemplateToRiskModelDTO(RiskModelTemplate riskModelTemplate) throws ParseException {
 
-        RiskModelReportDTO riskModelReportDTO = new RiskModelReportDTO();
+            RiskModelReportDTO riskModelReportDTO = new RiskModelReportDTO();
 
-        //Id
-        riskModelReportDTO.setRiskModelId(riskModelTemplate.getId());
-        //    Loan number
-        riskModelReportDTO.setLoanNumber(riskModelTemplate.getLoanNumber());//.replaceFirst("^0+(?!$)", ""));
-        //    Project Name
-        riskModelReportDTO.setProjectName(riskModelTemplate.getProjectName());
-        //    Project Type
-        riskModelReportDTO.setProjectType(riskModelTemplate.getRiskProjectType().getValue());
-        //    Project Phase
-        riskModelReportDTO.setProjectPhase(riskModelTemplate.getProjectRiskLevel().getValue());
+            //Id
+            riskModelReportDTO.setRiskModelId(riskModelTemplate.getId());
+            //    Loan number
+            riskModelReportDTO.setLoanNumber(riskModelTemplate.getLoanNumber());//.replaceFirst("^0+(?!$)", ""));
+            //    Project Name
+            riskModelReportDTO.setProjectName(riskModelTemplate.getProjectName());
+            //    Project Type
+            riskModelReportDTO.setProjectType(riskModelTemplate.getRiskProjectType().getValue());
+            //    Project Phase
+            riskModelReportDTO.setProjectPhase(riskModelTemplate.getProjectRiskLevel().getValue());
 
-        //    InitiatingDepartment
-        riskModelReportDTO.setInitiatingDepartment(riskModelTemplate.getPurpose().getDescription());
+            //    InitiatingDepartment
+            riskModelReportDTO.setInitiatingDepartment(riskModelTemplate.getPurpose().getDescription());
 
-        //    Loan contractamount(Rs Crores)
-        LoanApplication loanApplication = loanApplicationList.stream()
-                .filter(loanApplication1 -> riskModelTemplate.getLoanNumber().equals(loanApplication1.getLoanContractId()))
-                .findAny()
-                .orElse(null);
-        if (loanApplication  != null)
-        riskModelReportDTO.setLoanContractAmount(loanApplication.getLoanContractAmount());
+            LoanApplication loanApplication = null;
+            if (riskModelTemplate.getLoanNumber() == null){
+                riskModelTemplate.setLoanNumber("DUMMY_LOAN_CONTRACT"); // Set a dummy loan number
+            }
+            try {
+                loanApplication = loanApplicationList.stream()
+                        .filter(loanApplication1 -> riskModelTemplate.getLoanNumber().equals(loanApplication1.getLoanContractId()))
+                        .findAny()
+                        .orElse(null);
+            }catch ( Exception ex) {
+                System.out.println("Exception comparing loan numbers : " + loanApplication);
+            }
+            //    Loan contractamount(Rs Crores)
+            if (loanApplication != null)
+                riskModelReportDTO.setLoanContractAmount(loanApplication.getLoanContractAmount());
 
-        //    Total DisbursedAmt(Rs Crores)
-        if (loanApplication != null)
-        riskModelReportDTO.setTotalLoanDisbursedAmount(loanApplication.getLoanDisbursedAmount());
+            //    Total DisbursedAmt(Rs Crores)
+            if (loanApplication != null)
+                riskModelReportDTO.setTotalLoanDisbursedAmount(loanApplication.getLoanDisbursedAmount());
 
-        //    Initiator
-        riskModelReportDTO.setInitiator(riskModelTemplate.getCreatedBy());
+            //    Initiator
+            riskModelReportDTO.setInitiator(riskModelTemplate.getCreatedBy());
 
-        SimpleDateFormat dateFormatter = new SimpleDateFormat(
-                "dd/MM/yyyy");
-        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
-
-
-        //Create Date
-        if (riskModelTemplate.getRatingDate() != null) {
-            String date = dateFormatter.parse(dateFormatter.format(riskModelTemplate.getRatingDate())).toString();
-            String time = timeFormat.format(riskModelTemplate.getRatingDate()).toString();
-
-            // Creation date
-            riskModelReportDTO.setCreateDate(date.substring(0, 10) + " " + date.substring(24, 28));
-            riskModelReportDTO.setCreatedTime(time);
-        }
-
-        //    Process date (After finalapproval)
-        if (riskModelTemplate.getThirdApprovalProcessDate() != null) {
-            String date = dateFormatter.parse(dateFormatter.format(riskModelTemplate.getThirdApprovalProcessDate())).toString();
-            String time = timeFormat.format(riskModelTemplate.getThirdApprovalProcessDate()); //.toString();
-
-            // Creation date
-            riskModelReportDTO.setProcessDate(date.substring(0, 10) + " " + date.substring(24, 28));
-            riskModelReportDTO.setProcessTime(time);
-        }
-
-        // Processed By
-        riskModelReportDTO.setProcessedBy(riskModelTemplate.getThirdLevelApprover());
-
-        //    FinalRating
-        riskModelReportDTO.setFinalRating(riskModelTemplate.getFinalProjectGrade());
+            SimpleDateFormat dateFormatter = new SimpleDateFormat(
+                    "dd/MM/yyyy");
+            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 
 
-        String finalProjectGrade = riskModelTemplate.getFinalProjectGrade().trim();
+            //Create Date
+            if (riskModelTemplate.getRatingDate() != null) {
+                String date = dateFormatter.parse(dateFormatter.format(riskModelTemplate.getRatingDate())).toString();
+                String time = timeFormat.format(riskModelTemplate.getRatingDate()).toString();
 
-        // Risk Category
-        if (finalProjectGrade.length() > 0) {
-            log.info("Final Project Grade :" + riskModelTemplate.getFinalProjectGrade());
-
-                Integer riskRating = Integer.parseInt(riskModelTemplate.getFinalProjectGrade().substring(6).replaceAll("\\s", ""));
-                if (riskRating >=0 && riskRating <= 3) {
-                    riskModelReportDTO.setRiskCategory("Low Risk");
-                }
-                if (riskRating >=4 && riskRating <= 6) {
-                    riskModelReportDTO.setRiskCategory("Moderate Risk");
-                }
-            if (riskRating >=7  ) {
-                riskModelReportDTO.setRiskCategory("High Risk");
+                // Creation date
+                riskModelReportDTO.setCreateDate(date.substring(0, 10) + " " + date.substring(24, 28));
+                riskModelReportDTO.setCreatedTime(time);
             }
 
-        }
+            //    Process date (After finalapproval)
+            if (riskModelTemplate.getThirdApprovalProcessDate() != null) {
+                String date = dateFormatter.parse(dateFormatter.format(riskModelTemplate.getThirdApprovalProcessDate())).toString();
+                String time = timeFormat.format(riskModelTemplate.getThirdApprovalProcessDate()); //.toString();
 
-        return riskModelReportDTO;
+                // Creation date
+                riskModelReportDTO.setProcessDate(date.substring(0, 10) + " " + date.substring(24, 28));
+                riskModelReportDTO.setProcessTime(time);
+            }
+
+            // Processed By
+            riskModelReportDTO.setProcessedBy(riskModelTemplate.getThirdLevelApprover());
+
+            //    FinalRating
+            riskModelReportDTO.setFinalRating(riskModelTemplate.getFinalProjectGrade());
+
+
+            String finalProjectGrade = riskModelTemplate.getFinalProjectGrade().trim();
+
+            // Risk Category
+            if (finalProjectGrade.length() > 0) {
+                log.info("Final Project Grade :" + riskModelTemplate.getFinalProjectGrade());
+
+                Integer riskRating = Integer.parseInt(riskModelTemplate.getFinalProjectGrade().substring(6).replaceAll("\\s", ""));
+                if (riskRating >= 0 && riskRating <= 3) {
+                    riskModelReportDTO.setRiskCategory("Low Risk");
+                }
+                if (riskRating >= 4 && riskRating <= 6) {
+                    riskModelReportDTO.setRiskCategory("Moderate Risk");
+                }
+                if (riskRating >= 7) {
+                    riskModelReportDTO.setRiskCategory("High Risk");
+                }
+
+            }
+
+            return riskModelReportDTO;
+
 
 
     }

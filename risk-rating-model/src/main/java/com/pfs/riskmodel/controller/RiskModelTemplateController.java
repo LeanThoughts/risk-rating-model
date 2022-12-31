@@ -833,7 +833,9 @@ public class RiskModelTemplateController {
         List<RiskModelReportDTO> riskModelReportDTOList = new ArrayList<>();
 
         for (RiskModelReportDTO riskModelReportDTO : riskModelReportDTOS) {
-            riskModelReportDTO.setLoanNumber(riskModelReportDTO.getLoanNumber().replaceFirst("^0+(?!$)", ""));
+            if (riskModelReportDTO.getLoanNumber() != null) {
+                riskModelReportDTO.setLoanNumber(riskModelReportDTO.getLoanNumber().replaceFirst("^0+(?!$)", ""));
+            }
             riskModelReportDTOList.add(riskModelReportDTO);
         }
 
