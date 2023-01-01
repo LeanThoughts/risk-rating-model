@@ -19,13 +19,13 @@ public interface IRiskModelTemplateService {
 
     public RiskModelTemplate getByRiskModelId(Long id);
 
-    public List<RiskModelReportDTO> findByLoanNumberAndRiskProjectTypeAndProjectName(String loanNumber,
+    public List<RiskModelReportDTO> findByLoanNumberAndRiskProjectTypeAndProjectName(String loanNumberFrom, String loanNumberTo,
                                                                                      String riskProjectTypeCode,
                                                                                      String projectName,
                                                                                       List<LoanApplication> loanApplications ) throws ParseException;
 
     public List<RiskModelReportDTO> findByLoanNumberAndRiskProjectTypeAndProjectNameFiltered(List<LoanApplication> loanApplications,
-                                                                                             String loanNumber,
+                                                                                             String loanNumberFrom, String loanNumberTo,
                                                                                              String riskProjectTypeCode,
                                                                                              String projectName,
                                                                                              Boolean activeLoanAccountsOnly,

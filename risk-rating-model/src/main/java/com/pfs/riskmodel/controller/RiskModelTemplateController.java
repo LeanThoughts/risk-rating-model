@@ -215,7 +215,8 @@ public class RiskModelTemplateController {
 
 
     @GetMapping("riskModel/report")
-    public ResponseEntity findByLoanNumberRiskProjectTypeProjectName(@RequestParam(required = false) String loanNumber,
+    public ResponseEntity findByLoanNumberRiskProjectTypeProjectName(@RequestParam(required = false) String loanNumberFrom,
+                                                                     @RequestParam(required = false) String loanNumberTo,
                                                                      @RequestParam(required = false) String riskProjectTypeCode,
                                                                      @RequestParam(required = false) String projectName,
                                                                      @RequestParam(required = false) Boolean activeLoansOnly,
@@ -229,8 +230,11 @@ public class RiskModelTemplateController {
             latestRatingsOnly = false;
         }
 
-        if (loanNumber != null && loanNumber.length() == 0)
-            loanNumber = null;
+        if (loanNumberFrom != null && loanNumberFrom.length() == 0)
+            loanNumberFrom = null;
+        if (loanNumberTo != null && loanNumberTo.length() == 0)
+            loanNumberTo = null;
+
         if (riskProjectTypeCode != null && riskProjectTypeCode.length() == 0)
             riskProjectTypeCode = null;
         if (projectName != null && projectName.length() == 0)
@@ -239,8 +243,11 @@ public class RiskModelTemplateController {
         SearchResource resource = new SearchResource();
         if (projectName != null)
             resource.setPartyName(projectName);
-        if (loanNumber != null)
-            resource.setLoanNumberFrom(Integer.parseInt(loanNumber));
+        if (loanNumberFrom != null)
+            resource.setLoanNumberFrom(Integer.parseInt(loanNumberFrom));
+        if (loanNumberTo != null)
+            resource.setLoanNumberTo(Integer.parseInt(loanNumberTo));
+
 
 
         ResponseEntity<List<LoanApplicationResource>> resources = lmsEnquiryClient.searchEnquiries(resource, getAuthorizationBearer(request.getUserPrincipal()));
@@ -257,7 +264,7 @@ public class RiskModelTemplateController {
 
         List<RiskModelReportDTO> riskModelReportDTOS = riskModelTemplateService.findByLoanNumberAndRiskProjectTypeAndProjectNameFiltered(
                 loanApplicationList,
-                loanNumber,
+                loanNumberFrom,loanNumberTo,
                 riskProjectTypeCode,
                 projectName,
                 activeLoansOnly,
@@ -271,7 +278,8 @@ public class RiskModelTemplateController {
     @GetMapping("riskModel/report/excel")
     public void generateExcelForFindByLoanNumberRiskProjectTypeProjectName(
             HttpServletResponse response,
-            @RequestParam(required = false) String loanNumber,
+            @RequestParam(required = false) String loanNumberFrom,
+            @RequestParam(required = false) String loanNumberTo,
             @RequestParam(required = false) String riskProjectTypeCode,
             @RequestParam(required = false) String projectName,
             @RequestParam(required = false) Boolean activeLoanAccountsOnly,
@@ -292,8 +300,11 @@ public class RiskModelTemplateController {
             latestRatingsOnly = false;
         }
 
-        if (loanNumber != null && loanNumber.length() == 0)
-            loanNumber = null;
+        if (loanNumberFrom != null && loanNumberFrom.length() == 0)
+            loanNumberFrom = null;
+        if (loanNumberTo != null && loanNumberTo.length() == 0)
+            loanNumberTo = null;
+
         if (riskProjectTypeCode != null && riskProjectTypeCode.length() == 0)
             riskProjectTypeCode = null;
         if (projectName != null && projectName.length() == 0)
@@ -303,8 +314,11 @@ public class RiskModelTemplateController {
         SearchResource resource = new SearchResource();
         if (projectName != null)
             resource.setPartyName(projectName);
-        if (loanNumber != null)
-            resource.setLoanNumberFrom(Integer.parseInt(loanNumber));
+        if (loanNumberFrom != null)
+            resource.setLoanNumberFrom(Integer.parseInt(loanNumberFrom));
+        if (loanNumberTo != null)
+            resource.setLoanNumberFrom(Integer.parseInt(loanNumberTo));
+
 
 
         ResponseEntity<List<LoanApplicationResource>> resources = lmsEnquiryClient.searchEnquiries(resource, getAuthorizationBearer(request.getUserPrincipal()));
@@ -318,7 +332,7 @@ public class RiskModelTemplateController {
 
         List<RiskModelReportDTO> riskModelReportDTOS = riskModelTemplateService.findByLoanNumberAndRiskProjectTypeAndProjectNameFiltered(
                 loanApplicationList,
-                loanNumber,
+                loanNumberFrom, loanNumberTo,
                 riskProjectTypeCode,
                 projectName,
                 activeLoanAccountsOnly,

@@ -69,7 +69,8 @@ export class RiskReportComponent implements OnInit {
 
     constructor(private _service: RiskReportService,_formBuilder: FormBuilder, private _router: Router,private _matSnackBar: MatSnackBar) {
         this.riskReportSearchForm = _formBuilder.group({
-            loanNumber: [],
+            loanNumberFrom: [],
+            loanNumberTo: [],
             projectName: [],
             projectType: [],
             activeLoanAccountsOnly:[],
@@ -119,7 +120,8 @@ export class RiskReportComponent implements OnInit {
         const searchForm = this.riskReportSearchForm.value;
 
 
-        let searchParameters: Array<string> = [ searchForm.loanNumber,
+        let searchParameters: Array<string> = [ searchForm.loanNumberFrom,
+                                                searchForm.loanNumberTo,
                                                 searchForm.projectName,
                                                 searchForm.projectType,
                                                 this.activeLoanAccountsOnly,
@@ -157,7 +159,7 @@ export class RiskReportComponent implements OnInit {
 
 
 
-        let searchParameters: Array<string> = [ searchForm.loanNumber,
+        let searchParameters: Array<string> = [ searchForm.loanNumberFrom,searchForm.loanNumberTo,
             searchForm.projectName,
             searchForm.projectType,
             this.activeLoanAccountsOnly,

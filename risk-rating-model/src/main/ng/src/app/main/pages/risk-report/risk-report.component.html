@@ -33,7 +33,10 @@
             <form [formGroup]="riskReportSearchForm">
                 <div fxLayout="row">
                     <mat-form-field fxFlex="25">
-                        <input matInput placeholder="Loan Number" formControlName="loanNumber">
+                        <input matInput placeholder="Loan Number From" formControlName="loanNumberFrom">
+                    </mat-form-field>
+                    <mat-form-field fxFlex="25">
+                        <input matInput placeholder="Loan Number To" formControlName="loanNumberTo">
                     </mat-form-field>
                     <mat-form-field fxFlex="25">
                         <input matInput placeholder="Project Name" formControlName="projectName">

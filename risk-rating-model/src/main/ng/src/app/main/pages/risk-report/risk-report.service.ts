@@ -81,18 +81,22 @@ export class RiskReportService {
              if (value != undefined){
                  switch (i) {
                      case 0: {
-                         queryParams = queryParams + "loanNumber=" + value + "&";
+                         queryParams = queryParams + "loanNumberFrom=" + value + "&";
                          break;
                      }
                      case 1: {
-                         queryParams = queryParams + "projectName=" + value + "&";
+                         queryParams = queryParams + "loanNumberTo=" + value + "&";
                          break;
                      }
                      case 2: {
+                         queryParams = queryParams + "projectName=" + value + "&";
+                         break;
+                     }
+                     case 3: {
                          queryParams = queryParams + "riskProjectTypeCode=" + value + "&";
                          break;
                      }
-                      case 3: {
+                      case 4: {
                           if (value)
                              queryParams = queryParams + "activeLoansOnly=true"  + "&";
                           if (!value)
@@ -100,7 +104,7 @@ export class RiskReportService {
 
                           break;
                        }
-                     case 4: {
+                     case 5: {
                          if (value)
                              queryParams = queryParams + "latestRatingsOnly=true"  + "&";
                          if (!value)
