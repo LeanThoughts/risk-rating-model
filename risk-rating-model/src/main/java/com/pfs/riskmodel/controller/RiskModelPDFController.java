@@ -52,7 +52,6 @@ public class RiskModelPDFController {
     public ResponseEntity getPdf(@RequestParam(value = "id", required = true) Long id) throws Exception {
         RiskModelTemplate riskModelTemplate = riskModelTemplateRepository.getOne(id);
 
-       //WorkflowAssignment workflowAssignment = workflowAssignmentRepository.findByPurpose(riskModelTemplate.getPurpose());
         // Changed on Nov 18, 2021 - Workflow Assignment Validity Period
         WorkflowAssignment workflowAssignment =
                 workflowAssignmentService.getWorkFlowAssignmentForEvaluationDateAndPurpose(riskModelTemplate.getRatingDate(),riskModelTemplate.getPurpose());
@@ -65,14 +64,33 @@ public class RiskModelPDFController {
         return streamToResponseEntity(stream, riskModelTemplate);
     }
 
+    @GetMapping(value = "/riskModelPDF/external")
+    public ResponseEntity getPdfExternal(@RequestParam(value = "id", required = true) Long id) throws Exception {
+        RiskModelTemplate riskModelTemplate = riskModelTemplateRepository.getOne(id);
+
+        WorkflowAssignment workflowAssignment =
+                workflowAssignmentService.getWorkFlowAssignmentForEvaluationDateAndPurpose(riskModelTemplate.getRatingDate(),riskModelTemplate.getPurpose());
+
+
+        TaskService taskService = processEngine.getTaskService();
+        Task task = taskService.createTaskQuery().includeProcessVariables().processInstanceId(riskModelTemplate.getProcessInstanceId()).singleResult();
+
+        ByteArrayOutputStream stream = riskModelPDFBuilder.buildPdfDocument(riskModelTemplate,workflowAssignment, task);
+
+        HttpHeaders responseHeader =  getResponseHeader(riskModelTemplate);
+
+        //return ResponseEntity.ok().contentLength(stream.toByteArray().length).contentType(MediaType.APPLICATION_PDF).body(stream.toByteArray());
+        //return ResponseEntity.ok(stream.toByteArray());
+        //return ResponseEntity.ok().body(stream.toByteArray());
+        return streamToResponseEntity(stream, riskModelTemplate);
+    }
+
 
     @GetMapping(value = "/riskModelPDFDebugMode")
     public ResponseEntity getRiskModelAsPDFDebugMode(@RequestParam(value = "id", required = true) Long id, HttpServletRequest httpRequest) throws Exception {
         httpRequest.getUserPrincipal().toString();
 
         RiskModelTemplate riskModelTemplate = riskModelTemplateRepository.getOne(id);
-        //WorkflowAssignment workflowAssignment = workflowAssignmentRepository.findByPurpose(riskModelTemplate.getPurpose());
-        // Changed on Nov 18, 2021 - Workflow Assignment Validity Period
         WorkflowAssignment workflowAssignment =
                 workflowAssignmentService.getWorkFlowAssignmentForEvaluationDateAndPurpose(riskModelTemplate.getRatingDate(),riskModelTemplate.getPurpose());
 
@@ -97,5 +115,21 @@ public class RiskModelPDFController {
 
 
         return new ResponseEntity(stream.toByteArray(), responseHeader, HttpStatus.OK);
+    }
+
+
+    public HttpHeaders getResponseHeader(RiskModelTemplate riskModelTemplate){
+        HttpHeaders responseHeader = new HttpHeaders();
+        responseHeader.setContentType(MediaType.APPLICATION_PDF);
+        responseHeader.add("Expires", "0");
+        responseHeader.add("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
+        responseHeader.add("Pragma", "no-cache");
+
+        String fileName  = riskModelTemplate.getProjectName() + "_" + riskModelTemplate.getProjectRiskLevel().getValue();
+
+        responseHeader.add("Content-disposition", "inline; filename=" + fileName + ".pdf");
+
+
+        return  responseHeader;
     }
 }
