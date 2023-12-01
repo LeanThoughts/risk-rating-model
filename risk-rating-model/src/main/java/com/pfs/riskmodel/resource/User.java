@@ -18,4 +18,6 @@ public class User {
     private String sapBPNumber;
     private String riskDepartment;
     private boolean departmentHead;
+
+    private boolean riskPortalDisplayOnlyAccess;
 }

@@ -18,6 +18,9 @@ export class RiskModelTemplateComponent implements OnInit, OnChanges {
     @Input()
     disableSendForApprovalButton: boolean;
 
+    @Input()
+    display: boolean;
+
     department: string;
 
     ratingSources: any;
@@ -35,7 +38,7 @@ export class RiskModelTemplateComponent implements OnInit, OnChanges {
     savingTemplate: boolean;
 
     constructor(private _appService: AppService, private _riskModelService: RiskModelUIService, private _matSnackBar: MatSnackBar) {
-        //console.log('_appService', _appService.userDetails);
+        console.log('_appService.userDetails', _appService.userDetails);
 
         // Fetch purposes.
         _riskModelService.getPurposes().subscribe(response => {

@@ -9,13 +9,20 @@
             loanApplicaton.loanAmount | number:'0.2-2'}} Crores
         </div>
         <div fxLayout="row" fxLayoutAlign="end center"  fxFlex="50" class="pr-16">
-            <button mat-raised-button class="mr-8" (click)="newEvaluation()" [disabled]="_appService.userDetails.departmentHead">
+            <button mat-raised-button class="mr-8" (click)="newEvaluation()" [disabled]="_appService.userDetails.departmentHead"
+                *ngIf="!_appService.userDetails.riskPortalDisplayOnlyAccess">
                  <mat-icon matSuffix class="mr-8">note_add</mat-icon>New Evaluation
             </button>
-            <button mat-raised-button class="mr-8" (click)="editEvaluation()" [disabled]="!_service.selectedEvaluation">
+            <button mat-raised-button class="mr-8" (click)="editEvaluation()" [disabled]="!_service.selectedEvaluation" 
+                *ngIf="!_appService.userDetails.riskPortalDisplayOnlyAccess">
                  <mat-icon matSuffix class="mr-8">edit</mat-icon>Edit Evaluation
             </button>
-            <button mat-raised-button class="mr-8" (click)="displayAsPDF()" [disabled]="!_service.selectedEvaluation">
+            <button mat-raised-button class="mr-8" (click)="displayEvaluation()" [disabled]="!_service.selectedEvaluation" 
+                *ngIf="_appService.userDetails.riskPortalDisplayOnlyAccess">
+                <mat-icon matSuffix class="mr-8">list</mat-icon>Display Evaluation
+           </button>
+           <button mat-raised-button class="mr-8" (click)="displayAsPDF()" [disabled]="!_service.selectedEvaluation"
+                *ngIf="!_appService.userDetails.riskPortalDisplayOnlyAccess">
                   <mat-icon matSuffix class="mr-8">picture_as_pdf</mat-icon>Display as PDF
             </button>
         </div>

@@ -105,4 +105,20 @@ export class EvaluationComponent {
 
         this._router.navigate(['riskModelTemplate/edit/' + this._service.selectedEvaluation.value.id]);
     }
+
+    /**
+     * displayEvaluation()
+     */
+    displayEvaluation(): void {
+        // alert("Selected Evaluation ID:" + this._service.selectedEvaluation.value.id +
+        //        "Risk Reject Flag :" + this._service.selectedEvaluation.value.rejectedByRiskDepartment);
+        //
+        if (this._service.selectedEvaluation.value.rejectedByRiskDepartment == true ) {
+            this._matSnackBar.open('' +
+                'This risk evaluation was rejected by the Risk Department and cannot be edited any more. Please create a new evaluation, if necessary.',
+                'Ok', { duration: 7000 });
+            return;
+        }
+        this._router.navigate(['riskModelTemplate/display/' + this._service.selectedEvaluation.value.id]);
+    }
 }

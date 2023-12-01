@@ -15,17 +15,17 @@
                     _riskModelTemplate.projectRiskLevelDescription }} <span class="sep">]</span></span>
             </div>
             <div fxLayout="row" fxLayoutAlign="end center" fxFlex="45">
-                <button mat-raised-button class="mr-8" (click)="sendTemplateForApproval()" [disabled]="disableApprovalButton()">
+                <button mat-raised-button class="mr-8" (click)="sendTemplateForApproval()" [disabled]="disableApprovalButton()" *ngIf="!display">
                     <mat-icon matSuffix class="mr-8">send</mat-icon>Send for Approval
                 </button>
-                <button mat-raised-button class="mr-8" (click)="evaluateTemplate()" [disabled]="!validateTemplate()">
+                <button mat-raised-button class="mr-8" (click)="evaluateTemplate()" [disabled]="!validateTemplate()" *ngIf="!display">
                     <mat-icon matSuffix class="mr-8 material-icons">done_all</mat-icon>Evaluate
                 </button>
                 <button mat-raised-button class="mr-8" (click)="displayAsPDF()" [disabled]="disablePDFButton">
                     <mat-icon matSuffix class="mr-8 material-icons">picture_as_pdf</mat-icon>Display as PDF
                 </button>
 
-                <button mat-raised-button class="mr-8" (click)="displayAsPDFDebugMode()" [disabled]="displayPDFDebugModeButton">
+                <button mat-raised-button class="mr-8" (click)="displayAsPDFDebugMode()" [disabled]="displayPDFDebugModeButton" *ngIf="!display">
                     <mat-icon matSuffix class="mr-8 material-icons">picture_as_pdf</mat-icon>Expert
                 </button>
 
@@ -37,7 +37,9 @@
     <!-- Content -->
     <div class="content" style="padding:0 0 0px 16px;">
         <div class="center">
-            <app-risk-model-template [riskModelTemplate]="_riskModelTemplate" [disableSendForApprovalButton]="disableSendForApprovalButton"></app-risk-model-template>
+            <app-risk-model-template [riskModelTemplate]="_riskModelTemplate" [disableSendForApprovalButton]="disableSendForApprovalButton"
+                    [display]="display">
+            </app-risk-model-template>
         </div>
     </div>
     <!-- /Content -->

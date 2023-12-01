@@ -27,6 +27,8 @@ export class RiskModelUIComponent implements OnInit {
     purpose: string;
     riskModelId: string;
 
+    display = false;
+
     @ViewChild(RiskModelTemplateComponent) riskModelTemplateComponent: RiskModelTemplateComponent;
 
     constructor(_riskModelService: RiskModelUIService, _loanEnquiryService: LoanEnquiryService, _route: ActivatedRoute, private _appService: AppService) {
@@ -36,6 +38,8 @@ export class RiskModelUIComponent implements OnInit {
             this.mode = params['mode'];
 
             if (this.mode === 'new') {
+                this.display = false;
+                
                 // Fetch other route parameters
                 this.projectType = params['projectType'];
                 this.riskLevel = params['riskLevel'];
@@ -68,7 +72,29 @@ export class RiskModelUIComponent implements OnInit {
                     //console.log('this._riskModelTemplate', this._riskModelTemplate);
                 });
             }
+            if (this.mode === 'display') {
+                this.display = true;
+
+                // Fetch riskModelId parameter from route parameters.
+                //console.log('fetching existing risk model');
+                this.riskModelId = params['riskModelId'];
+
+                // Fetch existing risk model and initialize this._riskModelTemplate
+                _riskModelService.getRiskModelTemplateById(this.riskModelId).subscribe(response => {
+                    this._riskModelTemplate = response;
+                    // Enable the PDF button.
+                    this.disablePDFButton = (this._riskModelTemplate.id === undefined || this._riskModelTemplate === null) ? true : false;
+                    //console.log('this._riskModelTemplate', this._riskModelTemplate);
+
+                    if (this._appService.userDetails.riskDepartment == "02") {
+                        this.displayPDFDebugModeButton = false;
+                    }
+                    
+                });
+            }
             else {
+                this.display = false;
+
                 // Fetch riskModelId parameter from route parameters.
                 //console.log('fetching existing risk model');
                 this.riskModelId = params['riskModelId'];
