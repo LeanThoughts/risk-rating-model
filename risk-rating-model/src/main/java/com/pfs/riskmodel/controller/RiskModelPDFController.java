@@ -82,6 +82,8 @@ public class RiskModelPDFController {
         //return ResponseEntity.ok().contentLength(stream.toByteArray().length).contentType(MediaType.APPLICATION_PDF).body(stream.toByteArray());
         //return ResponseEntity.ok(stream.toByteArray());
         //return ResponseEntity.ok().body(stream.toByteArray());
+        //return new ResponseEntity(stream, responseHeader,HttpStatus.OK);
+
         return streamToResponseEntity(stream, riskModelTemplate);
     }
 

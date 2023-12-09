@@ -74,12 +74,14 @@ public class RiskModelTemplateService implements IRiskModelTemplateService {
         if (loanNumberFrom == null && riskProjectTypeCode == null && projectName == null) {
             riskModelTemplates = riskModelTemplateRepository.findAll();
         }
-
-        if (loanNumberFrom.length() == 8)
-            loanNumberFrom = "00000" + loanNumberFrom;
-
-        if (loanNumberTo.length() == 8)
-            loanNumberTo = "00000" + loanNumberTo;
+        if (loanNumberFrom != null) {
+            if (loanNumberFrom.length() == 8)
+                loanNumberFrom = "00000" + loanNumberFrom;
+        }
+        if (loanNumberTo != null) {
+            if (loanNumberTo.length() == 8)
+                loanNumberTo = "00000" + loanNumberTo;
+        }
 
         if (loanNumberTo == null) {
             loanNumberTo = loanNumberFrom;
