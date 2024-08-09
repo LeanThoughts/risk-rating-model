@@ -32,8 +32,9 @@ export class RiskModelUIComponent implements OnInit {
     @ViewChild(RiskModelTemplateComponent) riskModelTemplateComponent: RiskModelTemplateComponent;
 
     constructor(_riskModelService: RiskModelUIService, _loanEnquiryService: LoanEnquiryService, _route: ActivatedRoute, private _appService: AppService) {
-
+        
         _route.params.subscribe(params => {
+            console.log('params are', params);
             // Fetch mode parameter from route parameters.
             this.mode = params['mode'];
 
@@ -72,7 +73,7 @@ export class RiskModelUIComponent implements OnInit {
                     //console.log('this._riskModelTemplate', this._riskModelTemplate);
                 });
             }
-            if (this.mode === 'display') {
+            else if (this.mode === 'display') {
                 this.display = true;
 
                 // Fetch riskModelId parameter from route parameters.
