@@ -48,7 +48,7 @@
 
                     <mat-form-field fxFlex="20">
                         <input matInput placeholder="First Level Approver"
-                            [(ngModel)]="riskModelTemplate.firstLevelApprover" readonly>
+                               [(ngModel)]="riskModelTemplate.firstLevelApprover" readonly>
                     </mat-form-field>
 
 
@@ -58,12 +58,12 @@
                 <div fxLayout="row" class="bottomSpace">
                     <mat-form-field fxFlex="20">
                         <input matInput placeholder="Project Type"
-                            [(ngModel)]="riskModelTemplate.riskProjectTypeDescription" readonly>
+                               [(ngModel)]="riskModelTemplate.riskProjectTypeDescription" readonly>
                     </mat-form-field>
 
                     <mat-form-field fxFlex="20">
                         <input matInput placeholder="Loan Amount in Crores"
-                            [(ngModel)]="riskModelTemplate.loanAmountInCrores" readonly>
+                               [(ngModel)]="riskModelTemplate.loanAmountInCrores" readonly>
                     </mat-form-field>
 
                     <mat-form-field fxFlex="20">
@@ -82,7 +82,7 @@
 
                     <mat-form-field fxFlex="20">
                         <input matInput placeholder="Second Level Approver"
-                            [(ngModel)]="riskModelTemplate.secondLevelApprover" readonly>
+                               [(ngModel)]="riskModelTemplate.secondLevelApprover" readonly>
                     </mat-form-field>
 
 
@@ -92,7 +92,7 @@
                 <div fxLayout="row" class="bottomSpace">
                     <mat-form-field fxFlex="20">
                         <input matInput placeholder="Phase" [(ngModel)]="riskModelTemplate.projectRiskLevelDescription"
-                            readonly>
+                               readonly>
                     </mat-form-field>
                     <!-- Added by sajeev -->
                     <mat-form-field fxFlex="20">
@@ -113,7 +113,7 @@
 
                     <mat-form-field fxFlex="20">
                         <input matInput placeholder="Third Level Approver"
-                            [(ngModel)]="riskModelTemplate.thirdLevelApprover" readonly>
+                               [(ngModel)]="riskModelTemplate.thirdLevelApprover" readonly>
                     </mat-form-field>
 
 
@@ -142,7 +142,7 @@
                 </table>
                 <!-- Risk & Risk Components Ratings Starts Here -->
                 <table class="pt-8 pb-16" cellpadding="0" cellspacing="0" width="100%" FxFlex="100"
-                    *ngFor="let riskType of riskModelTemplate.riskTypes">
+                       *ngFor="let riskType of riskModelTemplate.riskTypes">
                     <tr class="accent-100 row-header">
                         <th class="column-header mainHeader pl-16" style="text-align: left;" colspan="2" width="100%">{{ riskType.description }}</th>
                     </tr>
@@ -176,8 +176,8 @@
 
                         <div fxLayout="row" fxLayoutAlign="end center" fxFlex="100">
                             <mat-checkbox *ngIf="riskType.isAccountConductRiskComponentPresent"
-                                [(ngModel)]="riskType.isAccountConductRiskApplicable"
-                                (change)="applyAccountConductToTemplate($event, riskType)" [disabled]="display">
+                                          [(ngModel)]="riskType.isAccountConductRiskApplicable"
+                                          (change)="applyAccountConductToTemplate($event, riskType)" [disabled]="display">
                                 Account Conduct Risk Applicable
                             </mat-checkbox>
                         </div>
@@ -185,7 +185,7 @@
                         <!-- Risk Components Starts Here -->
                         <mat-tab-group>
                             <mat-tab *ngFor="let riskComponent of riskType.riskComponents"
-                                [disabled]="riskComponent.description == 'Account Conduct Risk' && !riskComponent.isApplicable">
+                                     [disabled]="riskComponent.description == 'Account Conduct Risk' && !riskComponent.isApplicable">
 
                                 <ng-template mat-tab-label>
                                     <mat-icon class="pr-32" *ngIf="checkRiskFactorSelection(riskComponent)">check_circle
@@ -222,7 +222,7 @@
                                                             <th class="column-header pl-16" style="text-align: left;" width="80%">Parameter
                                                                 Selection</th>
                                                             <th class="column-header pl-16" style="text-align: left;" width="10%"><span
-                                                                    *ngIf="_appService.userDetails.riskDepartment === '02'">Score</span>
+                                                                *ngIf="_appService.userDetails.riskDepartment === '02'">Score</span>
                                                             </th>
                                                         </tr>
                                                         <tr
@@ -230,9 +230,9 @@
                                                             [ngClass]="{'selectedRow': riskSubFactorAttribute.isSelected}">
                                                             <td class="column-data tableRow" *ngIf="!display">
                                                                 <mat-radio-button class="example-radio-butt>on"
-                                                                    [value]="riskSubFactorAttribute.itemNo"
-                                                                    [checked]="riskSubFactorAttribute.isSelected"
-                                                                    (change)="riskSubFactorSelectionChanged($event, riskSubFactor.riskSubFactorAttributes)">
+                                                                                  [value]="riskSubFactorAttribute.itemNo"
+                                                                                  [checked]="riskSubFactorAttribute.isSelected"
+                                                                                  (change)="riskSubFactorSelectionChanged($event, riskSubFactor.riskSubFactorAttributes)">
                                                                 </mat-radio-button>
                                                             </td>
                                                             <td class="column-data tableRow" [ngClass]="{'selectedColumn': riskSubFactorAttribute.isSelected}">{{
@@ -261,10 +261,10 @@
 
                     <!-- Rating Modifiers Starts here -->
                     <mat-tab *ngIf="riskModelTemplate['riskRatingModifiers'] != undefined"
-                        [disabled]="!riskModelTemplate.applyRatingModifiers">
+                             [disabled]="!riskModelTemplate.applyRatingModifiers">
                         <ng-template mat-tab-label>
                             <mat-icon class="pr-32"
-                                *ngIf="riskRatingModifierAttributeSelected === true && riskModelTemplate.applyRatingModifiers === true">
+                                      *ngIf="riskRatingModifierAttributeSelected === true && riskModelTemplate.applyRatingModifiers === true">
                                 check_circle</mat-icon>
                             <div>Rating Modifiers</div>
                         </ng-template>
@@ -286,7 +286,7 @@
                                     *ngFor="let riskRatingModifierAttribute of riskRatingModifier.riskRatingModifierAttributes">
                                     <tr class="row-header"
                                         *ngIf="(_appService.userDetails.riskDepartment == '01' || _appService.userDetails.riskDepartment == '02') || (_appService.userDetails.riskDepartment == '03' && riskRatingModifierAttribute.applicableForMonitoring == true)"
-                                            [ngClass]="{'selectedRow': riskRatingModifierAttribute.yesOrNoIndicator === 'Y'}">
+                                        [ngClass]="{'selectedRow': riskRatingModifierAttribute.yesOrNoIndicator === 'Y'}">
                                         <!-- <td class="column-data tableRow">{{ riskRatingModifierAttribute.itemNo }}</td> -->
                                         <td class="column-data tableRow" [ngClass]="{'selectedColumn': riskRatingModifierAttribute.yesOrNoIndicator === 'Y'}">
                                             {{ riskRatingModifierAttribute.description }}
@@ -307,17 +307,17 @@
 
                     <!-- Parental NotchUps Starts here -->
                     <mat-tab *ngIf="riskModelTemplate['riskParentalNotchUps'] != undefined"
-                        [disabled]="!riskModelTemplate.applyParentalNotchup">
+                             [disabled]="!riskModelTemplate.applyParentalNotchup">
 
                         <ng-template mat-tab-label>
                             <mat-icon class="pr-32"
-                                *ngIf="checkParentalNotchUpSelection(riskModelTemplate['riskParentalNotchUps'][0].riskSubFactors)">
+                                      *ngIf="checkParentalNotchUpSelection(riskModelTemplate['riskParentalNotchUps'][0].riskSubFactors)">
                                 check_circle</mat-icon>
                             <div>Parental Notchup</div>
                         </ng-template>
 
                         <mat-card class="fieldItems fieldContainer"
-                            style="padding:16px !important; margin-top:5px !important;">
+                                  style="padding:16px !important; margin-top:5px !important;">
                             <!--mat-card-header>
                                 <mat-card-title>Parental Notchup Criteria</mat-card-title>
                             </mat-card-header-->
@@ -329,9 +329,9 @@
                                         placeholder="{{ riskModelTemplate['riskParentalNotchUps'][0].riskParentalConditions[0].description }}"
                                         [(ngModel)]="riskModelTemplate['riskParentalNotchUps'][0].riskParentalConditions[0].value"
                                         (selectionChange)="fetchObligatorRatingGrades()" required [disabled]="display">
-                                            <mat-option *ngFor="let ratingSource of ratingSources" [value]="ratingSource.code">
-                                                {{ ratingSource.value }}
-                                            </mat-option>
+                                        <mat-option *ngFor="let ratingSource of ratingSources" [value]="ratingSource.code">
+                                            {{ ratingSource.value }}
+                                        </mat-option>
                                     </mat-select>
 
                                 </mat-form-field>
@@ -342,6 +342,7 @@
                                         placeholder="{{ riskModelTemplate['riskParentalNotchUps'][0].riskParentalConditions[1].description }}"
                                         [(ngModel)]="riskModelTemplate['riskParentalNotchUps'][0].riskParentalConditions[1].natureOfRatingOfParentFirm"
                                         (selectionChange)="fetchObligatorRatingGrades()" required [disabled]="display">
+                                        <mat-option value=" "></mat-option>
                                         <mat-option value="0">Short Term</mat-option>
                                         <mat-option value="1">Long Term</mat-option>
                                     </mat-select>
@@ -357,7 +358,7 @@
                                         [(ngModel)]="riskModelTemplate['riskParentalNotchUps'][0].riskParentalConditions[2].value"
                                         (selectionChange)="fetchCreditRatingGrade()" required [disabled]="display">
                                         <mat-option *ngFor="let creditRating of creditRatings"
-                                            [value]="creditRating.creditRating">{{
+                                                    [value]="creditRating.creditRating">{{
                                             creditRating.creditRating }}</mat-option>
                                     </mat-select>
 
@@ -366,9 +367,9 @@
                                 <!-- Borrower rating grade of the parent firm -->
                                 <mat-form-field fxFlex="50">
                                     <input matInput
-                                        placeholder="{{ riskModelTemplate['riskParentalNotchUps'][0].riskParentalConditions[3].description }}"
-                                        [(ngModel)]="riskModelTemplate['riskParentalNotchUps'][0].riskParentalConditions[3].value"
-                                        readonly>
+                                           placeholder="{{ riskModelTemplate['riskParentalNotchUps'][0].riskParentalConditions[3].description }}"
+                                           [(ngModel)]="riskModelTemplate['riskParentalNotchUps'][0].riskParentalConditions[3].value"
+                                           readonly>
                                     <mat-icon matSuffix class="mr-8">edit</mat-icon>
                                 </mat-form-field>
                             </div>
@@ -376,9 +377,10 @@
                             <div fxLayout="row" class="condition">
                                 <mat-form-field fxFlex="50">
                                     <mat-select fxFlex="100"
-                                        placeholder="{{ riskModelTemplate['riskParentalNotchUps'][0].riskParentalConditions[4].description }}"
-                                        [(ngModel)]="riskModelTemplate['riskParentalNotchUps'][0].riskParentalConditions[4].yesNoIndicatorValue"
-                                        required [disabled]="display">
+                                                placeholder="{{ riskModelTemplate['riskParentalNotchUps'][0].riskParentalConditions[4].description }}"
+                                                [(ngModel)]="riskModelTemplate['riskParentalNotchUps'][0].riskParentalConditions[4].yesNoIndicatorValue"
+                                                required [disabled]="display">
+                                        <mat-option value=" ">  </mat-option>
                                         <mat-option value="Y">Yes</mat-option>
                                         <mat-option value="N">No</mat-option>
                                     </mat-select>
@@ -387,9 +389,10 @@
 
                                 <mat-form-field fxFlex="50">
                                     <mat-select fxFlex="100"
-                                        placeholder="{{ riskModelTemplate['riskParentalNotchUps'][0].riskParentalConditions[5].description }}"
-                                        [(ngModel)]="riskModelTemplate['riskParentalNotchUps'][0].riskParentalConditions[5].yesNoIndicatorValue"
-                                        required [disabled]="display">
+                                                placeholder="{{ riskModelTemplate['riskParentalNotchUps'][0].riskParentalConditions[5].description }}"
+                                                [(ngModel)]="riskModelTemplate['riskParentalNotchUps'][0].riskParentalConditions[5].yesNoIndicatorValue"
+                                                required [disabled]="display">
+                                        <mat-option value=" ">  </mat-option>
                                         <mat-option value="Y">Yes</mat-option>
                                         <mat-option value="N">No</mat-option>
                                     </mat-select>
@@ -445,12 +448,12 @@
                                             *ngIf="_appService.userDetails.riskDepartment === '02'">Score</th>
                                     </tr>
                                     <tr *ngFor="let riskSubFactorAttribute of riskSubFactor.riskSubFactorAttributes"
-                                            [ngClass]="{'selectedRow': riskSubFactorAttribute.isSelected}">
+                                        [ngClass]="{'selectedRow': riskSubFactorAttribute.isSelected}">
                                         <td class="column-data tableRow" *ngIf="!display">
                                             <mat-radio-button class="example-radio-button"
-                                                [value]="riskSubFactorAttribute.itemNo"
-                                                [checked]="riskSubFactorAttribute.isSelected"
-                                                (change)="parentalNotchUpRiskSubFactorSelectionChanged($event, riskSubFactor.riskSubFactorAttributes)">
+                                                              [value]="riskSubFactorAttribute.itemNo"
+                                                              [checked]="riskSubFactorAttribute.isSelected"
+                                                              (change)="parentalNotchUpRiskSubFactorSelectionChanged($event, riskSubFactor.riskSubFactorAttributes)">
                                             </mat-radio-button>
                                         </td>
                                         <td class="column-data tableRow "[ngClass]="{'selectedColumn': riskSubFactorAttribute.isSelected}">
