@@ -548,6 +548,8 @@ public class RiskModelTemplateController {
         DozerBeanMapper mapper = new DozerBeanMapper();
         riskModelTemplateDTO = mapper.map(riskModelTemplate, RiskModelTemplateDTO.class);
 
+        riskModelTemplateDTO.setLoanContractAmount(riskModelTemplate.getLoanContractAmount());
+
         riskModelTemplateDTO.setPurposeCode(riskModelTemplate.getPurpose().getCode());
         riskModelTemplateDTO.setPurposeDescription(riskModelTemplate.getPurpose().getDescription());
 
@@ -752,7 +754,7 @@ public class RiskModelTemplateController {
     private RiskModelTemplateDTO mapRiskTemplateDomainToDTO(RiskModelTemplateDTO riskModelTemplateDTO) {
 
 
-        riskModelTemplateDTO.setId(null);
+         riskModelTemplateDTO.setId(null);
 
         Integer iRiskTypeItemNo = 1;
         for (RiskTypeDTO riskTypeDTO : riskModelTemplateDTO.getRiskTypes()) {
