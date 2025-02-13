@@ -2,15 +2,23 @@ package com.pfs.riskmodel.pdfservice;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.pfs.riskmodel.client.LMSEnquiryClient;
 import com.pfs.riskmodel.domain.RiskComponent;
 import com.pfs.riskmodel.domain.RiskModelTemplate;
 import com.pfs.riskmodel.domain.RiskType;
 import com.pfs.riskmodel.domain.WorkflowAssignment;
+import com.pfs.riskmodel.resource.EmailId;
+import com.pfs.riskmodel.resource.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.task.Task;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.ByteArrayOutputStream;
 
 /**
@@ -22,11 +30,24 @@ import java.io.ByteArrayOutputStream;
 @RequiredArgsConstructor
 public class RiskModelPDFBuilder {
 
+    @Autowired
+    HttpServletRequest request;
+
+    @Autowired
+    LMSEnquiryClient lmsEnquiryClient;
+
+    private String getAuthorizationBearer() {
+        OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) ((OAuth2Authentication) request.getUserPrincipal()).getDetails();
+        return "Bearer " + details.getTokenValue();
+    }
 
     public ByteArrayOutputStream buildPdfDocument(RiskModelTemplate riskModelTemplate,
                                                   WorkflowAssignment workflowAssignment,
                                                   Task task
                                                  ) throws Exception {
+
+        ResponseEntity<User> reUser = lmsEnquiryClient.getUserByEmail(new EmailId(riskModelTemplate.getCreatedByUserId()), getAuthorizationBearer());
+        User createdByUser = reUser.getBody();
 
         Document doc = new Document(PageSize.A4,36, 36, 70, 80);
 
@@ -53,7 +74,7 @@ public class RiskModelPDFBuilder {
 
         // Header Table with Loan Details
         RiskModelPDFHeaderTable riskModelPDFHeaderTable = new RiskModelPDFHeaderTable();
-        doc = riskModelPDFHeaderTable.buildHeader(doc, riskModelTemplate, workflowAssignment, task);
+        doc = riskModelPDFHeaderTable.buildHeader(doc, riskModelTemplate, workflowAssignment, task, createdByUser);
 
         // Rating Overview Table
         RiskModelPDFHeaderRatingOverviewTable riskModelPDFHeaderRatingOverviewTable = new RiskModelPDFHeaderRatingOverviewTable();

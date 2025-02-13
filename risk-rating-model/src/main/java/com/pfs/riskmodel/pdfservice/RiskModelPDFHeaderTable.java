@@ -4,16 +4,20 @@ import com.google.common.io.ByteStreams;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
+import com.pfs.riskmodel.client.LMSEnquiryClient;
 import com.pfs.riskmodel.domain.RiskModelTemplate;
 import com.pfs.riskmodel.domain.WorkflowAssignment;
 import com.pfs.riskmodel.repository.WorkflowAssignmentRepository;
+import com.pfs.riskmodel.resource.User;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 
+import javax.xml.ws.http.HTTPException;
 import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Map;
 
@@ -21,7 +25,6 @@ import java.util.Map;
  * Created by sajeev on 03-Jan-19.
  */
 public class RiskModelPDFHeaderTable {
-
 
     private static Image getTickImage() throws Exception {
 
@@ -71,7 +74,8 @@ public class RiskModelPDFHeaderTable {
 
     public Document buildHeader(   Document doc, RiskModelTemplate riskModelTemplate,
                                    WorkflowAssignment workflowAssignment,
-                                   Task task) throws Exception {
+                                   Task task,
+                                   User initiator) throws Exception {
 
 
         // Header Font
@@ -203,7 +207,8 @@ public class RiskModelPDFHeaderTable {
         // Second Column - Initiating Department
         PdfPCell workflowCell2 = new PdfPCell();
         workflowCell2.setBackgroundColor(BaseColor.WHITE);
-        workflowCell2.setPhrase(new Phrase(riskModelTemplate.getPurpose().getDescription(),valueFont));
+        // workflowCell2.setPhrase(new Phrase(riskModelTemplate.getPurpose().getDescription(),valueFont));
+        workflowCell2.setPhrase(new Phrase(initiator.getRiskDepartment(),valueFont));
 
         // Third Column - Initator Label
         PdfPCell workflowCell3 = new PdfPCell();
@@ -299,8 +304,10 @@ public class RiskModelPDFHeaderTable {
         // Second Column -Loan Application Capital
         workflowCell2 = new PdfPCell();
         workflowCell2.setBackgroundColor(BaseColor.WHITE);
-        if (riskModelTemplate.getLoanAmountInCrores() != null)
-            workflowCell2.setPhrase(new Phrase(riskModelTemplate.getLoanAmountInCrores().toString() +" CR",valueFont));
+        if (riskModelTemplate.getLoanAmountInCrores() != null) {
+            DecimalFormat df = new DecimalFormat("0.00");
+            workflowCell2.setPhrase(new Phrase(df.format(riskModelTemplate.getLoanAmountInCrores()), valueFont));
+        }
         else
             workflowCell2.setPhrase(new Phrase("",valueFont));
 
