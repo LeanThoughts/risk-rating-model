@@ -103,6 +103,7 @@ public class RiskModelTemplateDTO {
      private String loanNumber;
      private String projectName;
      private Double loanAmountInCrores;
+     private Double loanContractAmount;
      private Date ratingDate;
 
 

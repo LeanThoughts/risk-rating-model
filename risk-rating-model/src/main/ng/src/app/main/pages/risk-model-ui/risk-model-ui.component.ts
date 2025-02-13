@@ -340,7 +340,7 @@ export class RiskModelUIComponent implements OnInit {
         
         //Allow evaluation for admin always.
 
-        if (this._appService.userDetails.email == "admin@gmail.com" ) {
+        if (this._appService.userDetails.email == "admin@ptcfinancial.com" ) {
             isTemplateValid = true;
         }
 

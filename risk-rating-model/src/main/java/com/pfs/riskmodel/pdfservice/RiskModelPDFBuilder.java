@@ -121,9 +121,10 @@ public class RiskModelPDFBuilder {
         doc = riskModelPDFRiskRatingModifiersTable.buildRatingModifiers(doc, riskModelTemplate);
 
         // Parental Notchup
-        RiskModelPDFRiskParentalNotchupTable riskModelPDFRiskParentalNotchupTable = new RiskModelPDFRiskParentalNotchupTable();
-        doc = riskModelPDFRiskParentalNotchupTable.buildParentalNotchup(doc,riskModelTemplate);
-
+        if ( riskModelTemplate.getApplyParentalNotchup() == true ) {
+            RiskModelPDFRiskParentalNotchupTable riskModelPDFRiskParentalNotchupTable = new RiskModelPDFRiskParentalNotchupTable();
+            doc = riskModelPDFRiskParentalNotchupTable.buildParentalNotchup(doc, riskModelTemplate);
+        }
         doc.close();
 
         return stream;
