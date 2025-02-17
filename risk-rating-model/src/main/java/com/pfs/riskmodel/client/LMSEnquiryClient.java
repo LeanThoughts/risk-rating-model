@@ -19,8 +19,8 @@ public interface LMSEnquiryClient {
 
     // Get Loan Application by Loan Enquiry Id
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @RequestMapping(value = "/api/loanApplicationEnquiryId", method = RequestMethod.PUT)
-    ResponseEntity<LoanApplicationResource> getEnquiryById(@RequestBody String id,
+    @RequestMapping(value = "/api/loanApplications/enquiry/enquiryId", method = RequestMethod.GET)
+    ResponseEntity<LoanApplicationResource> getLoanApplicationByEnquiryId(@RequestParam("id") String id,
                                                                   @RequestHeader("Authorization") String authorization);
 
     // Get Loan Application by Loan Contract Number
@@ -48,6 +48,9 @@ public interface LMSEnquiryClient {
 
     @RequestMapping(value = "/api/user/email", method = RequestMethod.PUT)
     ResponseEntity<User> getUserByEmail(@RequestBody EmailId emailId, @RequestHeader("Authorization") String authorization);
+
+    @RequestMapping(value = "/api/user/resource/email", method = RequestMethod.PUT)
+    ResponseEntity<User> getUserResourceByEmail(@RequestBody EmailId emailId, @RequestHeader("Authorization") String authorization);
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value = "/api/loanEnquiry/assignProcessors", method = RequestMethod.PUT)

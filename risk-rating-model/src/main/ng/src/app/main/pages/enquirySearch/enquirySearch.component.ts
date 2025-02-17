@@ -60,9 +60,10 @@ export class EnquirySearchComponent implements OnChanges {
                 }
                 else if (this._appService.userDetails.riskDepartment === '01') {
                     // If the user is from the project assesssment department (01), return applications where application projectDepartmentInitiator is himself.
-                    if (loanApplicationResourceModel.loanApplication.projectDepartmentInitiator === this._appService.userDetails.email) {
-                        enquiryApplications.push(new EnquiryApplicationModel(loanApplicationResourceModel));
-                    }
+                    // if (loanApplicationResourceModel.loanApplication.projectDepartmentInitiator === this._appService.userDetails.email) {
+                    //     enquiryApplications.push(new EnquiryApplicationModel(loanApplicationResourceModel));
+                    // }
+                    enquiryApplications.push(new EnquiryApplicationModel(loanApplicationResourceModel));
                 }
                 else if (this._appService.userDetails.riskDepartment === '03') {
                     // If the user is from the monitoring assesssment department (03), return applications where application monitoringDepartmentInitiator is himself.

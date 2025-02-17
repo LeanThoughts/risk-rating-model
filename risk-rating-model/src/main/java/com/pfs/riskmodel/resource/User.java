@@ -17,6 +17,7 @@ public class User {
     private String userName;
     private String sapBPNumber;
     private String riskDepartment;
+    private String riskDepartmentName;
     private boolean departmentHead;
 
     private boolean riskPortalDisplayOnlyAccess;

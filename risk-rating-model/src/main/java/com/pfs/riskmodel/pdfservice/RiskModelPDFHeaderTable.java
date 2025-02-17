@@ -8,6 +8,7 @@ import com.pfs.riskmodel.client.LMSEnquiryClient;
 import com.pfs.riskmodel.domain.RiskModelTemplate;
 import com.pfs.riskmodel.domain.WorkflowAssignment;
 import com.pfs.riskmodel.repository.WorkflowAssignmentRepository;
+import com.pfs.riskmodel.resource.LoanApplicationResource;
 import com.pfs.riskmodel.resource.User;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,10 +73,11 @@ public class RiskModelPDFHeaderTable {
     }
 
 
-    public Document buildHeader(   Document doc, RiskModelTemplate riskModelTemplate,
-                                   WorkflowAssignment workflowAssignment,
-                                   Task task,
-                                   User initiator) throws Exception {
+    public Document buildHeader(Document doc, RiskModelTemplate riskModelTemplate,
+                                WorkflowAssignment workflowAssignment,
+                                Task task,
+                                User initiator,
+                                LoanApplicationResource loanApplicationResource) throws Exception {
 
 
         // Header Font
@@ -95,23 +97,51 @@ public class RiskModelPDFHeaderTable {
         projectDetailsTable.setWidthPercentage(100.0f);
 
 
-        // First Column - Project Name Text
+        // Enquiry Number Text
         PdfPCell projectDetailsCell1 = new PdfPCell();
+        projectDetailsCell1.setBackgroundColor(BaseColor.BLACK);
+        projectDetailsCell1.setPhrase(new Phrase("Enquiry Number", headerfont));
+
+        // Enquiry Number
+        PdfPCell projectDetailsCell2 = new PdfPCell();
+        projectDetailsCell2.setBackgroundColor(BaseColor.WHITE);
+        projectDetailsCell2.setPhrase(new Phrase(riskModelTemplate.getLoanEnquiryId(), valueFont));
+
+        // Functional Status Text
+        PdfPCell projectDetailsCell3 = new PdfPCell();
+        projectDetailsCell3.setBackgroundColor(BaseColor.BLACK);
+        projectDetailsCell3.setPhrase(new Phrase("Status", headerfont));
+
+        // Functional Status Description
+        PdfPCell projectDetailsCell4 = new PdfPCell();
+        projectDetailsCell4.setBackgroundColor(BaseColor.WHITE);
+        projectDetailsCell4.setPhrase(new Phrase(loanApplicationResource.getLoanApplication()
+                .getFunctionalStatusDescription(), valueFont));
+
+        projectDetailsTable.addCell(projectDetailsCell1);
+        projectDetailsTable.addCell(projectDetailsCell2);
+        projectDetailsTable.addCell(projectDetailsCell3);
+        projectDetailsTable.addCell(projectDetailsCell4);
+        projectDetailsTable.completeRow();
+
+
+        // First Column - Project Name Text
+        projectDetailsCell1 = new PdfPCell();
         projectDetailsCell1.setBackgroundColor(BaseColor.BLACK);
         projectDetailsCell1.setPhrase(new Phrase("Project Name",headerfont));
 
         // Second Column - Project Name
-        PdfPCell projectDetailsCell2 = new PdfPCell();
+        projectDetailsCell2 = new PdfPCell();
         projectDetailsCell2.setBackgroundColor(BaseColor.WHITE);
         projectDetailsCell2.setPhrase(new Phrase(riskModelTemplate.getProjectName(),valueFont));
 
         // Third Column - Loan Number Text
-        PdfPCell projectDetailsCell3 = new PdfPCell();
+        projectDetailsCell3 = new PdfPCell();
         projectDetailsCell3.setBackgroundColor(BaseColor.BLACK);
         projectDetailsCell3.setPhrase(new Phrase("Loan Number",headerfont));
 
         // Fourth Column - Loan Number
-        PdfPCell projectDetailsCell4 = new PdfPCell();
+        projectDetailsCell4 = new PdfPCell();
         projectDetailsCell4.setBackgroundColor(BaseColor.WHITE);
         projectDetailsCell4.setPhrase(new Phrase(riskModelTemplate.getLoanNumber()  ,valueFont));
 
@@ -208,7 +238,7 @@ public class RiskModelPDFHeaderTable {
         PdfPCell workflowCell2 = new PdfPCell();
         workflowCell2.setBackgroundColor(BaseColor.WHITE);
         // workflowCell2.setPhrase(new Phrase(riskModelTemplate.getPurpose().getDescription(),valueFont));
-        workflowCell2.setPhrase(new Phrase(initiator.getRiskDepartment(),valueFont));
+        workflowCell2.setPhrase(new Phrase(initiator.getRiskDepartmentName(),valueFont));
 
         // Third Column - Initator Label
         PdfPCell workflowCell3 = new PdfPCell();

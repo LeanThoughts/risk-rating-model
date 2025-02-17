@@ -6,7 +6,7 @@
 	<div class="paddingTopLeft16" style="padding-bottom:16px; border-bottom:1px solid #e0e0e0;">
         <div fxLayout="row" fxLayoutAlign="start" fxFlex="50" class="pl-16 pt-8 headerMain">
             Evaluations for {{ loanApplicaton.projectName }} / {{ loanApplicaton.loanContractId }} / {{
-            loanApplicaton.loanAmount | number:'0.2-2'}} Crores
+            loanApplicaton.loanAmount | number:'0.2-2'}}
         </div>
         <div fxLayout="row" fxLayoutAlign="end center"  fxFlex="50" class="pr-16">
             <button mat-raised-button class="mr-8" (click)="newEvaluation()" [disabled]="_appService.userDetails.departmentHead"

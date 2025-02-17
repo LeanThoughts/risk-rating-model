@@ -229,6 +229,7 @@ public class LoanApplication {
     //*90	Planned Completed
     //*99	Actually Completed
     private Integer functionalStatus;
+    private String  functionalStatusDescription;
 
     /**
      * 01-Approved
@@ -994,4 +995,6 @@ public class LoanApplication {
     public void setContactFaxNumber(String contactFaxNumber) {
         this.contactFaxNumber = contactFaxNumber;
     }
+
+    public String getFunctionalStatusDescription() { return functionalStatusDescription; }
 }
