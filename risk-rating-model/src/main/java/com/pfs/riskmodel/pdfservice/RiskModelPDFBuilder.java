@@ -51,9 +51,12 @@ public class RiskModelPDFBuilder {
                 lmsEnquiryClient.getUserResourceByEmail(new EmailId(riskModelTemplate.getCreatedByUserId()), getAuthorizationBearer());
         User createdByUser = reUser.getBody();
 
+        System.out.println("Fetching loan enquiry details for ## " + riskModelTemplate.getLoanEnquiryId());
+
         ResponseEntity<LoanApplicationResource> loanApplicationEntity =
                 lmsEnquiryClient.getLoanApplicationByEnquiryId(riskModelTemplate.getLoanEnquiryId(), getAuthorizationBearer());
-        LoanApplicationResource loanApplicationResource = loanApplicationEntity.getBody();
+        LoanApplicationResource loanApplicationResource = null;
+        loanApplicationResource = loanApplicationEntity.getBody();
 
         Document doc = new Document(PageSize.A4,36, 36, 70, 80);
 
