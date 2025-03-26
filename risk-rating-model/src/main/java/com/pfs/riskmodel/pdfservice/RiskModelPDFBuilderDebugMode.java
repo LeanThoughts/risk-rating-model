@@ -75,7 +75,8 @@ public class RiskModelPDFBuilderDebugMode  {
         ResponseEntity<LoanApplicationResource> loanApplicationEntity =
             lmsEnquiryClient.getLoanApplicationByEnquiryId(riskModelTemplate.getLoanEnquiryId(), getAuthorizationBearer());
         LoanApplicationResource loanApplicationResource = null;
-        loanApplicationResource = loanApplicationEntity.getBody();    
+        loanApplicationResource = loanApplicationEntity.getBody();
+        loanApplicationResource.toString();
         RiskModelPDFHeaderTable riskModelPDFHeaderTable = new RiskModelPDFHeaderTable();
         doc = riskModelPDFHeaderTable.buildHeader(doc, riskModelTemplate, workflowAssignment, task, null, loanApplicationResource);
 
