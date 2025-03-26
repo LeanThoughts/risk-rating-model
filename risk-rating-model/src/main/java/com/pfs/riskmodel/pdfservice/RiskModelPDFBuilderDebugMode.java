@@ -2,16 +2,25 @@ package com.pfs.riskmodel.pdfservice;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.pfs.riskmodel.client.LMSEnquiryClient;
 import com.pfs.riskmodel.domain.RiskComponent;
 import com.pfs.riskmodel.domain.RiskModelTemplate;
 import com.pfs.riskmodel.domain.RiskType;
 import com.pfs.riskmodel.domain.WorkflowAssignment;
+import com.pfs.riskmodel.resource.LoanApplicationResource;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.task.Task;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by sajeev on 01-Jan-19.
@@ -21,6 +30,17 @@ import java.io.ByteArrayOutputStream;
 @Service
 @RequiredArgsConstructor
 public class RiskModelPDFBuilderDebugMode  {
+
+    @Autowired
+    HttpServletRequest request;
+    
+    @Autowired
+    LMSEnquiryClient lmsEnquiryClient;
+
+    private String getAuthorizationBearer() {
+        OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) ((OAuth2Authentication) request.getUserPrincipal()).getDetails();
+        return "Bearer " + details.getTokenValue();
+    }
 
 
     public ByteArrayOutputStream buildPdfDocument(RiskModelTemplate riskModelTemplate,
@@ -36,7 +56,7 @@ public class RiskModelPDFBuilderDebugMode  {
         PdfWriter writer = PdfWriter.getInstance(doc,stream);
 
 
-        PDFFooter event = new PDFFooter( riskModelTemplate.getProjectName(),
+        PDFFooter event = new PDFFooter(riskModelTemplate.getProjectName(),
                 riskModelTemplate.getLoanAmountInCrores().toString(),
                 riskModelTemplate.getRatingDate(),
                 riskModelTemplate.getRiskProjectType().getValue(),
@@ -52,8 +72,12 @@ public class RiskModelPDFBuilderDebugMode  {
         doc.addTitle(riskModelTemplate.getProjectName() + " " + riskModelTemplate.getProjectRiskLevel().getValue());
 
         // Header Table with Loan Details
+        ResponseEntity<LoanApplicationResource> loanApplicationEntity =
+            lmsEnquiryClient.getLoanApplicationByEnquiryId(riskModelTemplate.getLoanEnquiryId(), getAuthorizationBearer());
+        LoanApplicationResource loanApplicationResource = null;
+        loanApplicationResource = loanApplicationEntity.getBody();    
         RiskModelPDFHeaderTable riskModelPDFHeaderTable = new RiskModelPDFHeaderTable();
-        doc = riskModelPDFHeaderTable.buildHeader(doc, riskModelTemplate, workflowAssignment, task, null, null);
+        doc = riskModelPDFHeaderTable.buildHeader(doc, riskModelTemplate, workflowAssignment, task, null, loanApplicationResource);
 
         // Rating Overview Table
         RiskModelPDFHeaderRatingOverviewTable riskModelPDFHeaderRatingOverviewTable = new RiskModelPDFHeaderRatingOverviewTable();
