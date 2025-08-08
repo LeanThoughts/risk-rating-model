@@ -169,6 +169,7 @@ public class Initializer implements CommandLineRunner{
             RiskPurpose r1 = new RiskPurpose(null, "01", "Project Assessment");
             RiskPurpose r2 = new RiskPurpose(null, "02", "Risk Assessment");
             RiskPurpose r3 = new RiskPurpose(null, "03", "Monitoring");
+            RiskPurpose r4 = new RiskPurpose(null, "04", "SARC");
 
 
             purposeRepository.saveAll(Arrays.asList(r1,r2,r3 ));
@@ -210,35 +211,45 @@ public class Initializer implements CommandLineRunner{
         //if(workflowAssignmentRepository.count() == 0) {
 
 
-           if (riskPurposeRepository.count() == 0) {
+
                System.out.println( "-------------------------- Starting to add Risk Purpose----------------------");
 
                RiskPurpose r1 = riskPurposeRepository.findByCode("01");
-               if (r1 == null)
+               if (r1 == null) {
                    r1 = new RiskPurpose(null, "01", "Project");
+                   System.out.println("Risk Purpose :" + r1.toString());
+                   r1 = riskPurposeRepository.saveAndFlush(r1);
+                   System.out.println("-------------------------- Saved Risk Purpose :" + r1.toString());
+               }
 
                RiskPurpose r2 = riskPurposeRepository.findByCode("02");
                if (r2 == null) {
                    r2 = new RiskPurpose(null, "02", "Risk");
+                   System.out.println("Risk Purpose :" + r2.toString());
+                   r2 = riskPurposeRepository.saveAndFlush(r2);
+                   System.out.println("-------------------------- Saved Risk Purpose :" + r2.toString());
                }
                RiskPurpose r3 = riskPurposeRepository.findByCode("03");
                if (r3 == null) {
                    r3 = new RiskPurpose(null, "03", "Monitoring");
+                   System.out.println("Risk Purpose :" + r3.toString());
+                   r3 = riskPurposeRepository.saveAndFlush(r3);
+                   System.out.println("-------------------------- Saved Risk Purpose :" + r3.toString());
+               }
+               RiskPurpose r4 = riskPurposeRepository.findByCode("04");
+               if (r4 == null) {
+                   r4 = new RiskPurpose(null, "04", "SARC");
+                   System.out.println("Risk Purpose :" + r4.toString());
+                   r4 = riskPurposeRepository.saveAndFlush(r4);
+                   System.out.println("-------------------------- Saved Risk Purpose :" + r4.toString());
                }
 
-               System.out.println("Risk Purpose :" + r1.toString());
-               r1 = riskPurposeRepository.saveAndFlush(r1);
-               System.out.println("-------------------------- Saved Risk Purpose :" + r1.toString());
-
-               System.out.println("Risk Purpose :" + r2.toString());
-               r2 = riskPurposeRepository.saveAndFlush(r2);
-               System.out.println("-------------------------- Saved Risk Purpose :" + r2.toString());
 
 
-               System.out.println("Risk Purpose :" + r3.toString());
-               r3 = riskPurposeRepository.saveAndFlush(r3);
-               System.out.println("-------------------------- Saved Risk Purpose :" + r3.toString());
-           }
+
+
+
+
 
 //        WorkflowAssignment wa1 = new WorkflowAssignment();
 //        WorkflowAssignment wa2 = new WorkflowAssignment();;
