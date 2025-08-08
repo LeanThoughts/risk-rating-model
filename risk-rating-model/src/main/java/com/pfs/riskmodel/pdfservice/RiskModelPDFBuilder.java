@@ -83,6 +83,7 @@ public class RiskModelPDFBuilder {
 
         // Header Table with Loan Details
         RiskModelPDFHeaderTable riskModelPDFHeaderTable = new RiskModelPDFHeaderTable();
+        System.out.println("Loan Application Resource: " + loanApplicationResource.toString());
         doc = riskModelPDFHeaderTable.buildHeader(doc, riskModelTemplate, workflowAssignment, task, createdByUser,
                 loanApplicationResource);
 

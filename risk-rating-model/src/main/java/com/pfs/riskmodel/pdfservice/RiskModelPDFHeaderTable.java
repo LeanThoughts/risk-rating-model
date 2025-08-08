@@ -73,7 +73,8 @@ public class RiskModelPDFHeaderTable {
     }
 
 
-    public Document buildHeader(Document doc, RiskModelTemplate riskModelTemplate,
+    public Document buildHeader(Document doc, 
+                                RiskModelTemplate riskModelTemplate,
                                 WorkflowAssignment workflowAssignment,
                                 Task task,
                                 User initiator,
