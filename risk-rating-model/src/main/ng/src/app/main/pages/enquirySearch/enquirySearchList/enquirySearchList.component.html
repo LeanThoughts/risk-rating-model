@@ -57,7 +57,7 @@
 
         <!-- Project Officer Column -->
         <ng-container matColumnDef="projectDepartmentInitiator">
-            <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="15">Project Officer</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="15">Appraisal Officer</mat-header-cell>
             <mat-cell *matCellDef="let enquiry" fxFlex="15">
                 <span class="text-truncate">{{ enquiry.projectDepartmentInitiator }}</span>
             </mat-cell>
@@ -79,6 +79,13 @@
             </mat-cell>
         </ng-container>
 
+        <!-- SARC Officer Column -->
+        <ng-container matColumnDef="sarcDepartmentInitiator">
+            <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="15">SARC Officer</mat-header-cell>
+            <mat-cell *matCellDef="let enquiry" fxFlex="15">
+                <span class="text-truncate">{{ enquiry.sarcDepartmentInitiator }}</span>
+            </mat-cell>
+        </ng-container>
 
         <!-- projectName Column -->
         <ng-container matColumnDef="projectName">

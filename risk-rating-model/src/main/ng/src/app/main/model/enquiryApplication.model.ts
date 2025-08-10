@@ -19,6 +19,7 @@ export class EnquiryApplicationModel {
     projectDepartmentInitiator: string;
     monitoringDepartmentInitiator: string;
     riskDepartmentInitiator: string;
+    sarcDepartmentInitiator: string;
 
     projectDebtAmount : string;
     loanRevisedSanctionAmount : string;
@@ -51,6 +52,7 @@ export class EnquiryApplicationModel {
         this.projectDepartmentInitiator = _enquiryApplication.loanApplication.projectDepartmentInitiator || '';
         this.monitoringDepartmentInitiator = _enquiryApplication.loanApplication.monitoringDepartmentInitiator || '';
         this.riskDepartmentInitiator = _enquiryApplication.loanApplication.riskDepartmentInitiator || '';
+        this.sarcDepartmentInitiator = _enquiryApplication.loanApplication.sarcDepartmentInitiator || '';
 
         this.projectDebtAmount = _enquiryApplication.loanApplication.projectDebtAmount || '';
         this.loanRevisedSanctionAmount = _enquiryApplication.loanApplication.loanRevisedSanctionAmount || '';

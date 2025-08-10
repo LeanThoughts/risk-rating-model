@@ -667,6 +667,13 @@ export class LoanEnquiryService {
     }
 
     /**
+     * getSarcDepartmentUsers()
+     */
+    public getSarcDepartmentUsers(): Observable<any> {
+        return this._http.get('risk/api/users/department/04');
+    }
+
+    /**
      * updateProcessors()
      * @param loanApplication 
      * @param processors 
@@ -685,6 +692,7 @@ export class LoanEnquiryService {
             projectDepartmentInitiator: processors.projectDepartmentInitiator,
             monitoringDepartmentInitiator: processors.monitoringDepartmentInitiator,
             riskDepartmentInitiator: processors.riskDepartmentInitiator,
+            sarcDepartmentInitiator: processors.sarcDepartmentInitiator
          }
 
         // console.log("processorResource Project :" + processorResource.enquiryNo.id);

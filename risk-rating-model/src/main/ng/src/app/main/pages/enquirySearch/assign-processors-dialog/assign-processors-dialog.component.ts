@@ -23,10 +23,12 @@ export class AssignProcessorsDialogComponent {
     projectUsers: Array<any> = [];
     monitoringUsers: Array<any> = [];
     riskUsers: Array<any> = [];
+    sarcUsers: Array<any> = [];
 
     projectDepartmentInitiatorReadonly: boolean = false;
     monitoringDepartmentInitiatorReadonly: boolean = false;
     riskDepartmentInitiatorReadonly: boolean = false;
+    sarcDepartmentInitiatorReadonly: boolean = false;
 
 
     projectDepartmentInitiatorDisabled: boolean = true;
@@ -39,6 +41,7 @@ export class AssignProcessorsDialogComponent {
     projectDepartmentInitiatorSelected: string;
     monitoringDepartmentInitiatorSelected: string;
     riskDepartmentOfficerSelected: string;
+    sarcDepartmentOfficerSelected: string;
 
 
     constructor(public _dialogRef: MatDialogRef<AssignProcessorsDialogComponent>, @Inject(MAT_DIALOG_DATA) private _data: any,
@@ -50,8 +53,8 @@ export class AssignProcessorsDialogComponent {
         this.assignProcessorsForm = _formBuilder.group({
             projectDepartmentInitiator: [''],
             monitoringDepartmentInitiator: [''],
-            riskDepartmentInitiator: ['']
-
+            riskDepartmentInitiator: [''],
+            sarcDepartmentInitiator: ['']
         });
 
         // Get Project department users.
@@ -78,9 +81,18 @@ export class AssignProcessorsDialogComponent {
                 this.handleError(error);
             });
 
+        // Get SARC department users.
+        _service.getSarcDepartmentUsers().subscribe(response => {
+            this.sarcUsers = response;
+        },
+        error => {
+            this.handleError(error);
+        });
+        
         this.projectDepartmentInitiatorSelected = _service.selectedLoanApplicaton.projectDepartmentInitiator;
         this.monitoringDepartmentInitiatorSelected = _service.selectedLoanApplicaton.monitoringDepartmentInitiator;
         this.riskDepartmentOfficerSelected = _service.selectedLoanApplicaton.riskDepartmentInitiator;
+        this.sarcDepartmentOfficerSelected = _service.selectedLoanApplicaton.sarcDepartmentInitiator;
 
         //console.log( "User's Department : " + _appService.userDetails.riskDepartment )
 
@@ -111,6 +123,7 @@ export class AssignProcessorsDialogComponent {
             this.monitoringDepartmentInitiatorDisabled = false;
 
         }
+
 
         //TODO Check Logic 
         // if (_service.selectedLoanApplicaton.functionalStatus == 6 || _service.selectedLoanApplicaton.functionalStatus === 7 || 

@@ -57,7 +57,8 @@ export class NewEvaluationDialogComponent {
 
         // Fetch purposes.
         _service.getPurposes().subscribe((response: Array<any>) => {
-            this.purposes = response.filter(item => item.code === _appService.userDetails.riskDepartment);
+            // this.purposes = response.filter(item => item.code === _appService.userDetails.riskDepartment);
+            this.purposes = response;
             this.newEvaluationForm.get('purpose').setValue(_appService.userDetails.riskDepartment);
         });
 

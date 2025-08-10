@@ -51,6 +51,18 @@
                 </mat-select>
             </mat-form-field>
         </div>
+        <div fxLayout="row">
+            <mat-form-field fxFlex>
+                <mat-select [(ngModel)]="sarcDepartmentOfficerSelected"
+                            placeholder="SARC Department Processor"
+                            formControlName="sarcDepartmentInitiator"
+                            [required]="sarcDepartmentInitiatorReadonly">
+                    <mat-option *ngFor="let user of sarcUsers" [value]="user.userName">
+                        {{ user.firstName }} {{ user.lastName }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
 
         <div>
             <button mat-raised-button type="submit" class="mr-8 mb-8 mat-raised-button">

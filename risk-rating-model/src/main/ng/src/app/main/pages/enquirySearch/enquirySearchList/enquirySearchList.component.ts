@@ -41,7 +41,7 @@ export class EnquirySearchListComponent implements OnInit {
 
     displayedColumns = [
         'functionalStatusDescription', 'enquiryNumber', 'loanContractId',
-        'projectDepartmentInitiator', 'monitoringDepartmentInitiator', 'riskDepartmentInitiator',
+        'projectDepartmentInitiator', 'monitoringDepartmentInitiator', 'riskDepartmentInitiator', 'sarcDepartmentInitiator',
         'projectName', 'projectLocationState',  'projectCapacity',
         'loanContractAmount', 'loanAmount'
     ];

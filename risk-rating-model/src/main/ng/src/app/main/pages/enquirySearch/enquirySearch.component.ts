@@ -52,13 +52,14 @@ export class EnquirySearchComponent implements OnChanges {
     searchEnquiries(): void {
         this.displaySpinner = true;
         this._service.searchLoanEnquiries(this.enquirySearchForm.value).subscribe((result) => {
+            console.log('result is', result);
             const enquiryApplications = new Array<EnquiryApplicationModel>();
             result.body.map(loanApplicationResourceModel => {
                 if (this._appService.userDetails.role === "ZLM023" || this._appService.userDetails.riskDepartment === '02' || this._appService.userDetails.departmentHead === true) {
                     // Return all applications if the user is an admin or if he is from the risk assesssment department (02) or if he is a department head.
                     enquiryApplications.push(new EnquiryApplicationModel(loanApplicationResourceModel));
                 }
-                else if (this._appService.userDetails.riskDepartment === '01') {
+                else if (this._appService.userDetails.riskDepartment === '01' || this._appService.userDetails.riskDepartment === '04') {
                     // If the user is from the project assesssment department (01), return applications where application projectDepartmentInitiator is himself.
                     // if (loanApplicationResourceModel.loanApplication.projectDepartmentInitiator === this._appService.userDetails.email) {
                     //     enquiryApplications.push(new EnquiryApplicationModel(loanApplicationResourceModel));

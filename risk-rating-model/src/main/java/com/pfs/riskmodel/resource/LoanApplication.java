@@ -271,6 +271,7 @@ public class LoanApplication {
     private String monitoringDepartmentInitiator;
 
     private String riskDepartmentInitiator;
+    private String sarcDepartmentInitiator;
 
     private Integer postedInSAP;
 
@@ -347,6 +348,7 @@ public class LoanApplication {
                            @JsonProperty("projectDepartmentInitiator") String projectDepartmentInitiator ,
                            @JsonProperty("monitoringDepartmentInitiator") String monitoringDepartmentInitiator,
                            @JsonProperty("riskDepartmentInitiator") String riskDepartmentInitiator,
+                           @JsonProperty("sarcDepartmentInitiator") String sarcDepartmentInitiator,
                            @JsonProperty("postedInSAP") Integer postedInSAP,
 
                            @JsonProperty("contactBranchAddress") String contactBranchAddress,
@@ -424,6 +426,7 @@ public class LoanApplication {
         this.projectDepartmentInitiator  = projectDepartmentInitiator;
         this.monitoringDepartmentInitiator = monitoringDepartmentInitiator;
         this.riskDepartmentInitiator = riskDepartmentInitiator;
+        this.sarcDepartmentInitiator = sarcDepartmentInitiator;
         this.postedInSAP = postedInSAP;
 
 
@@ -916,6 +919,12 @@ public class LoanApplication {
 
     public void setRiskDepartmentInitiator(String riskDepartmentInitiator) {
         this.riskDepartmentInitiator = riskDepartmentInitiator;
+    }
+
+    public String getSarcDepartmentInitiator() { return sarcDepartmentInitiator; }
+
+    public void setSarcDepartmentInitiator(String sarcDepartmentInitiator) {
+        this.sarcDepartmentInitiator = sarcDepartmentInitiator;
     }
 
     public void setLoanRevisedSanctionAmount(Double loanRevisedSanctionAmount) {
