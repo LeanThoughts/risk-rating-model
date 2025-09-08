@@ -7,6 +7,8 @@ import com.pfs.riskmodel.pdfservice.RiskModelPDFBuilder;
 import com.pfs.riskmodel.pdfservice.RiskModelPDFBuilderDebugMode;
 import com.pfs.riskmodel.repository.RiskModelTemplateRepository;
 import com.pfs.riskmodel.repository.WorkflowAssignmentRepository;
+import com.pfs.riskmodel.resource.User;
+import com.pfs.riskmodel.service.IWelcomeService;
 import com.pfs.riskmodel.service.IWorkflowAssignmentService;
 import com.pfs.riskmodel.service.Impl.WorkflowAssignmentService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +22,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.ByteArrayOutputStream;
+import java.security.Principal;
 import java.util.Date;
+
 
 /**
  * Created by sajeev on 15-Dec-18.
@@ -37,6 +41,8 @@ public class RiskModelPDFController {
     private final RiskModelPDFBuilderDebugMode riskModelPDFBuilderDebugMode;
 
     private final WorkflowAssignmentRepository workflowAssignmentRepository;
+    private final IWelcomeService welcomeService;
+
 
     @Autowired
     ProcessEngine processEngine;
@@ -90,7 +96,9 @@ public class RiskModelPDFController {
 
     @GetMapping(value = "/riskModelPDFDebugMode")
     public ResponseEntity getRiskModelAsPDFDebugMode(@RequestParam(value = "id", required = true) Long id, HttpServletRequest httpRequest) throws Exception {
-        httpRequest.getUserPrincipal().toString();
+        //User user = new User(httpRequest.getUserPrincipal().getName());
+
+        User user = welcomeService.getUser();
 
         RiskModelTemplate riskModelTemplate = riskModelTemplateRepository.getOne(id);
         WorkflowAssignment workflowAssignment =
@@ -99,7 +107,7 @@ public class RiskModelPDFController {
         TaskService taskService = processEngine.getTaskService();
         Task task = taskService.createTaskQuery().includeProcessVariables().processInstanceId(riskModelTemplate.getProcessInstanceId()).singleResult();
 
-        ByteArrayOutputStream stream = riskModelPDFBuilderDebugMode.buildPdfDocument(riskModelTemplate , workflowAssignment,task);
+        ByteArrayOutputStream stream = riskModelPDFBuilderDebugMode.buildPdfDocument(riskModelTemplate , workflowAssignment,task, user);
         return streamToResponseEntity(stream,riskModelTemplate);
     }
 

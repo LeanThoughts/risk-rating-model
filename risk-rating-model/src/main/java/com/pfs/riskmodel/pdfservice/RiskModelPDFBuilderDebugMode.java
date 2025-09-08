@@ -9,6 +9,7 @@ import com.pfs.riskmodel.domain.RiskType;
 import com.pfs.riskmodel.domain.WorkflowAssignment;
 import com.pfs.riskmodel.resource.LoanApplicationResource;
 
+import com.pfs.riskmodel.resource.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.task.Task;
@@ -19,6 +20,7 @@ import org.springframework.security.oauth2.provider.authentication.OAuth2Authent
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
+import java.security.Principal;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -45,7 +47,8 @@ public class RiskModelPDFBuilderDebugMode  {
 
     public ByteArrayOutputStream buildPdfDocument(RiskModelTemplate riskModelTemplate,
                                                   WorkflowAssignment workflowAssignment,
-                                                  Task task
+                                                  Task task,
+                                                  User user
     ) throws Exception {
 
         Document doc = new Document(PageSize.A4,36, 36, 70, 80);
@@ -78,7 +81,7 @@ public class RiskModelPDFBuilderDebugMode  {
         loanApplicationResource = loanApplicationEntity.getBody();
         loanApplicationResource.toString();
         RiskModelPDFHeaderTable riskModelPDFHeaderTable = new RiskModelPDFHeaderTable();
-        doc = riskModelPDFHeaderTable.buildHeader(doc, riskModelTemplate, workflowAssignment, task, null, loanApplicationResource);
+        doc = riskModelPDFHeaderTable.buildHeader(doc, riskModelTemplate, workflowAssignment, task, user, loanApplicationResource);
 
         // Rating Overview Table
         RiskModelPDFHeaderRatingOverviewTable riskModelPDFHeaderRatingOverviewTable = new RiskModelPDFHeaderRatingOverviewTable();
