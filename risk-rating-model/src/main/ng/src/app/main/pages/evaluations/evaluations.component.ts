@@ -65,6 +65,7 @@ export class EvaluationComponent {
                     },
                     width: '500px'
                 });
+                return;
             }
 
             if (this.loanApplicaton.monitoringDepartmentInitiator === null ||
