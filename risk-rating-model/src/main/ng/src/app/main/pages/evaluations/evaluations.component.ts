@@ -55,8 +55,20 @@ export class EvaluationComponent {
         // this._router.navigate(['/riskModelTemplate']);
         if (this.loanApplicaton.functionalStatus == 6 || this.loanApplicaton.functionalStatus == 7 )
         {
-            if (this.loanApplicaton.monitoringDepartmentInitiator === null || this.loanApplicaton.monitoringDepartmentInitiator === '')
-            {
+            if (this.loanApplicaton.sarcDepartmentInitiator         != null ||
+                this.loanApplicaton.monitoringDepartmentInitiator   != null ||
+                this.loanApplicaton.projectDepartmentInitiator      != null){
+                const dialogRef = this._dialog.open(NewEvaluationDialogComponent, {
+                    panelClass: 'new-evaluation-dialog',
+                    data: {
+                        'loanApplication': this.loanApplicaton
+                    },
+                    width: '500px'
+                });
+            }
+
+            if (this.loanApplicaton.monitoringDepartmentInitiator === null ||
+                this.loanApplicaton.monitoringDepartmentInitiator === '' ) {
                 this._matSnackBar.open('Loan is already disbursed and a monitoring officer is not assigned. Please assign a monitoring officer before you create a risk model evaluation.', 'Ok', { duration: 7000 });
             }
             else {
