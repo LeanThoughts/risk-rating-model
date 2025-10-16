@@ -299,7 +299,7 @@ public class RiskModelPDFHeaderTable {
         workflowCell2 = new PdfPCell();
         workflowCell2.setBackgroundColor(BaseColor.WHITE);
         if (riskModelTemplate.getLoanContractAmount() != null)
-            workflowCell2.setPhrase(new Phrase(riskModelTemplate.getLoanContractAmount().toString()+" CR",valueFont));
+            workflowCell2.setPhrase(new Phrase(String.valueOf(riskModelTemplate.getLoanContractAmount().longValue()),valueFont));
         else
             workflowCell2.setPhrase(new Phrase("",valueFont));
 
@@ -314,7 +314,7 @@ public class RiskModelPDFHeaderTable {
         workflowCell4.setHorizontalAlignment(Element.ALIGN_LEFT);
         workflowCell4.setVerticalAlignment(Element.ALIGN_LEFT);
         if (riskModelTemplate.getLoanContractAmount()!=null)
-            workflowCell4.setPhrase(new Phrase(riskModelTemplate.getLoanContractAmount().toString()+" CR", valueFont));
+            workflowCell4.setPhrase(new Phrase(String.valueOf(riskModelTemplate.getLoanContractAmount().longValue()), valueFont));
         else
             workflowCell4.setPhrase(new Phrase("", valueFont));
 
@@ -353,7 +353,7 @@ public class RiskModelPDFHeaderTable {
         workflowCell4.setHorizontalAlignment(Element.ALIGN_LEFT);
         workflowCell4.setVerticalAlignment(Element.ALIGN_LEFT);
         if (riskModelTemplate.getLoanDisbursedAmount() != null)
-            workflowCell4.setPhrase(new Phrase(riskModelTemplate.getLoanDisbursedAmount().toString()+" CR", valueFont));
+            workflowCell4.setPhrase(new Phrase(String.valueOf(riskModelTemplate.getLoanDisbursedAmount().longValue()), valueFont));
         else
             workflowCell4.setPhrase(new Phrase("", valueFont));
 
