@@ -291,10 +291,10 @@ public class RiskModelPDFHeaderTable {
         workflowCell2 = new PdfPCell();
         workflowCell2.setBackgroundColor(BaseColor.WHITE);
         if (riskModelTemplate.getLoanContractAmount() != null) {
-            if (loanApplicationResource.getLoanApplication().getFunctionalStatus().equals("1") || //Enquiry
-                    loanApplicationResource.getLoanApplication().getFunctionalStatus().equals("2") || // ICC In-Principle
-                    loanApplicationResource.getLoanApplication().getFunctionalStatus().equals("11") || //Application Fee
-                    loanApplicationResource.getLoanApplication().getFunctionalStatus().equals("4")  // Board Approval
+            if (loanApplicationResource.getLoanApplication().getFunctionalStatus() == 1 || //Enquiry
+                    loanApplicationResource.getLoanApplication().getFunctionalStatus() == 2 || // ICC In-Principle
+                    loanApplicationResource.getLoanApplication().getFunctionalStatus() == 11 || //Application Fee
+                    loanApplicationResource.getLoanApplication().getFunctionalStatus() == 4  // Board Approval
             ) {
                 workflowCell2.setPhrase(new Phrase("", valueFont));
             } else {
@@ -315,10 +315,11 @@ public class RiskModelPDFHeaderTable {
         workflowCell4.setHorizontalAlignment(Element.ALIGN_LEFT);
         workflowCell4.setVerticalAlignment(Element.ALIGN_LEFT);
         if (riskModelTemplate.getLoanContractAmount() != null){
-            if (loanApplicationResource.getLoanApplication().getFunctionalStatus().equals("1") || //Enquiry
-                loanApplicationResource.getLoanApplication().getFunctionalStatus().equals("2") || // ICC In-Principle
-                    loanApplicationResource.getLoanApplication().getFunctionalStatus().equals("11") || //Applicaition Fee
-                    loanApplicationResource.getLoanApplication().getFunctionalStatus().equals("4")  // Board Approval
+            if (
+                loanApplicationResource.getLoanApplication().getFunctionalStatus() == 1  || //Enquiry
+                loanApplicationResource.getLoanApplication().getFunctionalStatus() == 2 || // ICC In-Principle
+                loanApplicationResource.getLoanApplication().getFunctionalStatus() == 11 || //Applicaition Fee
+                loanApplicationResource.getLoanApplication().getFunctionalStatus() == 4  // Board Approval
             ){
                 workflowCell4.setPhrase(new Phrase("", valueFont));
             } else
