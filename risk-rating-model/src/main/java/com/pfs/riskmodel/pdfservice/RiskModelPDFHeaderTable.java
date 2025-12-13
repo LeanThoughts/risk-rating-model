@@ -82,7 +82,7 @@ public class RiskModelPDFHeaderTable {
 
 
         // Header Font
-        Font headerfont = new Font(Font.FontFamily.HELVETICA );
+        Font headerfont = new Font(Font.FontFamily.HELVETICA);
         headerfont.setColor(BaseColor.WHITE);
         headerfont.setSize(8);
 
@@ -129,51 +129,49 @@ public class RiskModelPDFHeaderTable {
         // First Column - Project Name Text
         projectDetailsCell1 = new PdfPCell();
         projectDetailsCell1.setBackgroundColor(BaseColor.BLACK);
-        projectDetailsCell1.setPhrase(new Phrase("Project Name",headerfont));
+        projectDetailsCell1.setPhrase(new Phrase("Project Name", headerfont));
 
         // Second Column - Project Name
         projectDetailsCell2 = new PdfPCell();
         projectDetailsCell2.setBackgroundColor(BaseColor.WHITE);
-        projectDetailsCell2.setPhrase(new Phrase(riskModelTemplate.getProjectName(),valueFont));
+        projectDetailsCell2.setPhrase(new Phrase(riskModelTemplate.getProjectName(), valueFont));
 
         // Third Column - Loan Number Text
         projectDetailsCell3 = new PdfPCell();
         projectDetailsCell3.setBackgroundColor(BaseColor.BLACK);
-        projectDetailsCell3.setPhrase(new Phrase("Loan Number",headerfont));
+        projectDetailsCell3.setPhrase(new Phrase("Loan Number", headerfont));
 
         // Fourth Column - Loan Number
         projectDetailsCell4 = new PdfPCell();
         projectDetailsCell4.setBackgroundColor(BaseColor.WHITE);
-        projectDetailsCell4.setPhrase(new Phrase(riskModelTemplate.getLoanNumber()  ,valueFont));
+        projectDetailsCell4.setPhrase(new Phrase(riskModelTemplate.getLoanNumber(), valueFont));
 
         projectDetailsTable.addCell(projectDetailsCell1);
         projectDetailsTable.addCell(projectDetailsCell2);
         projectDetailsTable.addCell(projectDetailsCell3);
         projectDetailsTable.addCell(projectDetailsCell4);
         projectDetailsTable.completeRow();
-
-
 
 
         // First Column - Project Type Text
         projectDetailsCell1 = new PdfPCell();
         projectDetailsCell1.setBackgroundColor(BaseColor.BLACK);
-        projectDetailsCell1.setPhrase(new Phrase("Project Type",headerfont));
+        projectDetailsCell1.setPhrase(new Phrase("Project Type", headerfont));
 
         // Second Column - Project Type
         projectDetailsCell2 = new PdfPCell();
         projectDetailsCell2.setBackgroundColor(BaseColor.WHITE);
-        projectDetailsCell2.setPhrase(new Phrase(riskModelTemplate.getRiskProjectType().getValue(),valueFont));
+        projectDetailsCell2.setPhrase(new Phrase(riskModelTemplate.getRiskProjectType().getValue(), valueFont));
 
         // Third Column - Loan Number Text
         projectDetailsCell3 = new PdfPCell();
         projectDetailsCell3.setBackgroundColor(BaseColor.BLACK);
-        projectDetailsCell3.setPhrase(new Phrase("Risk Model Evaluation Id",headerfont));
+        projectDetailsCell3.setPhrase(new Phrase("Risk Model Evaluation Id", headerfont));
 
         // Fourth Column - Loan Number
         projectDetailsCell4 = new PdfPCell();
         projectDetailsCell4.setBackgroundColor(BaseColor.WHITE);
-        projectDetailsCell4.setPhrase(new Phrase(riskModelTemplate.getId().toString()    ,valueFont));
+        projectDetailsCell4.setPhrase(new Phrase(riskModelTemplate.getId().toString(), valueFont));
 
         projectDetailsTable.addCell(projectDetailsCell1);
         projectDetailsTable.addCell(projectDetailsCell2);
@@ -182,13 +180,10 @@ public class RiskModelPDFHeaderTable {
         projectDetailsTable.completeRow();
 
 
-
-
-
         // First Column - Risk Level Label
         projectDetailsCell1 = new PdfPCell();
         projectDetailsCell1.setBackgroundColor(BaseColor.BLACK);
-        projectDetailsCell1.setPhrase(new Phrase("Project Phase",headerfont));
+        projectDetailsCell1.setPhrase(new Phrase("Project Phase", headerfont));
 
         // Second Column - Risk Level Name
         projectDetailsCell2 = new PdfPCell();
@@ -196,13 +191,13 @@ public class RiskModelPDFHeaderTable {
 
         String projectPhase = riskModelTemplate.getProjectRiskLevel().getValue(); // + " (" +riskModelTemplate.getPurpose().getDescription() + ")";
 
-        projectDetailsCell2.setPhrase(new Phrase(projectPhase,valueFont));
+        projectDetailsCell2.setPhrase(new Phrase(projectPhase, valueFont));
 
 
         // Third Column - Rating Date  Text
         projectDetailsCell3 = new PdfPCell();
         projectDetailsCell3.setBackgroundColor(BaseColor.BLACK);
-        projectDetailsCell3.setPhrase(new Phrase("Creation Date",headerfont));
+        projectDetailsCell3.setPhrase(new Phrase("Creation Date", headerfont));
 
         // Fourth Column - Loan Number
         projectDetailsCell4 = new PdfPCell();
@@ -211,7 +206,7 @@ public class RiskModelPDFHeaderTable {
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
         String dateAsString = sdf.format(riskModelTemplate.getRatingDate());
 
-        projectDetailsCell4.setPhrase(new Phrase(dateAsString ,valueFont));
+        projectDetailsCell4.setPhrase(new Phrase(dateAsString, valueFont));
 
         projectDetailsTable.addCell(projectDetailsCell1);
         projectDetailsTable.addCell(projectDetailsCell2);
@@ -220,8 +215,6 @@ public class RiskModelPDFHeaderTable {
         projectDetailsTable.completeRow();
 
         doc.add(projectDetailsTable);
-
-
 
 
         float[] columnWidthsLoanDetails = {3f, 7f, 4f, 3f};
@@ -233,23 +226,23 @@ public class RiskModelPDFHeaderTable {
         // First Column - Initiating Dept. Label
         PdfPCell workflowCell1 = new PdfPCell();
         workflowCell1.setBackgroundColor(BaseColor.BLACK);
-        workflowCell1.setPhrase(new Phrase("Initiating Dept.",headerfont));
+        workflowCell1.setPhrase(new Phrase("Initiating Dept.", headerfont));
 
         // Second Column - Initiating Department
         PdfPCell workflowCell2 = new PdfPCell();
         workflowCell2.setBackgroundColor(BaseColor.WHITE);
         // workflowCell2.setPhrase(new Phrase(riskModelTemplate.getPurpose().getDescription(),valueFont));
-        workflowCell2.setPhrase(new Phrase(initiator.getRiskDepartmentName(),valueFont));
+        workflowCell2.setPhrase(new Phrase(initiator.getRiskDepartmentName(), valueFont));
 
         // Third Column - Initator Label
         PdfPCell workflowCell3 = new PdfPCell();
         workflowCell3.setBackgroundColor(BaseColor.BLACK);
-        workflowCell3.setPhrase(new Phrase("Initiator",headerfont));
+        workflowCell3.setPhrase(new Phrase("Initiator", headerfont));
 
         // Fourth Column - Reviewed By Name
         PdfPCell workflowCell4 = new PdfPCell();
         workflowCell4.setBackgroundColor(BaseColor.WHITE);
-        workflowCell4.setPhrase(new Phrase(riskModelTemplate.getCreatedBy()  ,valueFont));
+        workflowCell4.setPhrase(new Phrase(riskModelTemplate.getCreatedBy(), valueFont));
 
         loanDetailsTable.addCell(workflowCell1);
         loanDetailsTable.addCell(workflowCell2);
@@ -288,33 +281,50 @@ public class RiskModelPDFHeaderTable {
 //        workflowTable.completeRow();
 
 
-
         // Row 6 - Loan Contract Amt and Loan Current Contract Amount
         // First Column - Loan Contract Amt.
         workflowCell1 = new PdfPCell();
         workflowCell1.setBackgroundColor(BaseColor.BLACK);
-        workflowCell1.setPhrase(new Phrase( "Loan Contract Amt." ,headerfont));
+        workflowCell1.setPhrase(new Phrase("Loan Contract Amt.", headerfont));
 
         // Second Column -  Loan Contract Amt
         workflowCell2 = new PdfPCell();
         workflowCell2.setBackgroundColor(BaseColor.WHITE);
-        if (riskModelTemplate.getLoanContractAmount() != null)
-            workflowCell2.setPhrase(new Phrase(String.valueOf(riskModelTemplate.getLoanContractAmount().longValue()),valueFont));
-        else
-            workflowCell2.setPhrase(new Phrase("",valueFont));
+        if (riskModelTemplate.getLoanContractAmount() != null) {
+            if (loanApplicationResource.getLoanApplication().getFunctionalStatus().equals("01") || //Enquiry
+                    loanApplicationResource.getLoanApplication().getFunctionalStatus().equals("02") || // ICC In-Principle
+                    loanApplicationResource.getLoanApplication().getFunctionalStatus().equals("11") || //Application Fee
+                    loanApplicationResource.getLoanApplication().getFunctionalStatus().equals("04")  // Board Approval
+            ) {
+                workflowCell2.setPhrase(new Phrase("", valueFont));
+            } else {
+                workflowCell2.setPhrase(new Phrase(String.valueOf(riskModelTemplate.getLoanContractAmount().longValue()), valueFont));
+            }
+        }
+            else
+            workflowCell2.setPhrase(new Phrase("", valueFont));
 
         // Third Column - Loan Current Contract Amount Label
         workflowCell3 = new PdfPCell();
         workflowCell3.setBackgroundColor(BaseColor.BLACK);
-        workflowCell3.setPhrase(new Phrase("Current Contract Amt.",headerfont));
+        workflowCell3.setPhrase(new Phrase("Current Contract Amt.", headerfont));
 
         // Fourth Column - oan Current Contract Amount
         workflowCell4 = new PdfPCell();
         workflowCell4.setBackgroundColor(BaseColor.WHITE);
         workflowCell4.setHorizontalAlignment(Element.ALIGN_LEFT);
         workflowCell4.setVerticalAlignment(Element.ALIGN_LEFT);
-        if (riskModelTemplate.getLoanContractAmount()!=null)
-            workflowCell4.setPhrase(new Phrase(String.valueOf(riskModelTemplate.getLoanContractAmount().longValue()), valueFont));
+        if (riskModelTemplate.getLoanContractAmount() != null){
+            if (loanApplicationResource.getLoanApplication().getFunctionalStatus().equals("01") || //Enquiry
+                loanApplicationResource.getLoanApplication().getFunctionalStatus().equals("02") || // ICC In-Principle
+                    loanApplicationResource.getLoanApplication().getFunctionalStatus().equals("11") || //Applicaition Fee
+                    loanApplicationResource.getLoanApplication().getFunctionalStatus().equals("04")  // Board Approval
+            ){
+                workflowCell4.setPhrase(new Phrase("", valueFont));
+            } else
+
+                workflowCell4.setPhrase(new Phrase(String.valueOf(riskModelTemplate.getLoanContractAmount().longValue()), valueFont));
+            }
         else
             workflowCell4.setPhrase(new Phrase("", valueFont));
 
