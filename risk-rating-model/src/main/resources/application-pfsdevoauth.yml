@@ -25,6 +25,7 @@ spring:
     mail-server-password: Sapsap@123
     mail-server-default-from: pfsriskmodel@gmail.com
     mail-server-use-tls: true
+    database-schema-update: true
 security:
   oauth2:
     client:
