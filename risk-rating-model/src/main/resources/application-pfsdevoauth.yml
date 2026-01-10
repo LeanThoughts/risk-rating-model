@@ -17,7 +17,6 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.MySQL57InnoDBDialect
     generate-ddl: true
-
   activiti:
     mail-server-host: smtp.gmail.com
     mail-server-port: 587
@@ -25,7 +24,7 @@ spring:
     mail-server-password: Sapsap@123
     mail-server-default-from: pfsriskmodel@gmail.com
     mail-server-use-tls: true
-    database-schema-update: true
+    database-schema-update: create-drop
 security:
   oauth2:
     client:
