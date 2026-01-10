@@ -144,34 +144,34 @@ export class RiskModelUIComponent implements OnInit {
             return disableButton;
         }
         else if (this._riskModelTemplate.id === undefined) {
-             console.log("this._riskModelTemplate.id == undefined");
+            // console.log("this._riskModelTemplate.id == undefined");
             disableButton = true;
-            console.log("Line 148 diasableButton" + disableButton)
+            //console.log("Line 148 diasableButton" + disableButton)
 
         }
         else if (this._riskModelTemplate.workflowStatusCode !== '01') {
              console.log("this._riskModelTemplate.workflowStatusCode  == " + this._riskModelTemplate.workflowStatusCode)
 
             disableButton = true;
-            console.log("Line 155 diasableButton : " + disableButton)
+            //console.log("Line 155 diasableButton : " + disableButton)
 
         }
         else if (this._riskModelTemplate.workflowStatusCode === '01' && this.validateTemplate()) {
              console.log("this._riskModelTemplate.workflowStatusCode == '01' && this.validateTemplate()")
             disableButton = false;
-             console.log("Line 161 diasableButton : " + disableButton);
+             //console.log("Line 161 diasableButton : " + disableButton);
 
         }
         if (this._riskModelTemplate.workflowStatusCode === '03' && this.validateTemplate()) {
             console.log("this._riskModelTemplate.workflowStatusCode == '03' " + "Validate Template : " && this.validateTemplate()  )
             disableButton = false;
-            console.log("Line 167 diasableButton : " + disableButton);
+            //console.log("Line 167 diasableButton : " + disableButton);
 
         }
         if (this._riskModelTemplate.workflowStatusCode === '06' && this.validateTemplate()) {
             console.log("this._riskModelTemplate.workflowStatusCode == '03' " + "Validate Template : " && this.validateTemplate()  )
             disableButton = false;
-            console.log("Line 167 diasableButton : " + disableButton);
+            //console.log("Line 167 diasableButton : " + disableButton);
 
         }
         // Enable Approval
@@ -184,7 +184,7 @@ export class RiskModelUIComponent implements OnInit {
             console.log("diasableButton" + disableButton)
 
             disableButton = false;
-            console.log("Line 174 diasableButton" + disableButton)
+            //console.log("Line 174 diasableButton" + disableButton)
 
         }
 
@@ -198,7 +198,7 @@ export class RiskModelUIComponent implements OnInit {
             console.log("current workflow level: " +this._riskModelTemplate.currentWorkflowLevel);
 
             disableButton = false;
-            console.log("Line 188 diasableButton" + disableButton)
+            //console.log("Line 188 diasableButton" + disableButton)
             
         }
 
@@ -221,7 +221,7 @@ export class RiskModelUIComponent implements OnInit {
         //     disableButton = false;
         // }
             
-        console.log("Finally.....Disable Approval Button :" + disableButton);
+        //console.log("Finally.....Disable Approval Button :" + disableButton);
 
         return disableButton;
     }

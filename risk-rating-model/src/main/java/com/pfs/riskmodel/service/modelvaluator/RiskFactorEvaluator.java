@@ -94,11 +94,11 @@ public class RiskFactorEvaluator {
        // Deflators and Multipliers
        for (RiskSubFactor riskSubFactor: riskFactor.getRiskSubFactors()) {
 
-           if ( riskFactorScore == 0D) {
-               riskFactorScore = 1D;
-           }
-
            if (riskSubFactor.getScoreType().getCode().equals("02") || riskSubFactor.getScoreType().getCode().equals("03")) {
+
+               if ( riskFactorScore == 0D) {
+                   riskFactorScore = 1D;
+               }
                riskFactorScore = riskFactorScore * riskSubFactor.getScore();
 
                riskFactorCalculation = "( " + riskFactorCalculation + " ) " +   " * " + riskSubFactor.getScore().toString();

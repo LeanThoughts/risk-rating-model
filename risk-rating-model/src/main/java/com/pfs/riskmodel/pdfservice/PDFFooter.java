@@ -99,6 +99,7 @@ class PDFFooter extends PdfPageEventHelper {
         Phrase header1 = new Phrase("PFS Risk Rating Model. ", ffont);
         Phrase header2 = new Phrase( projectType + ":" + riskLevelDescription , ffont);
 
+
         Phrase footer1 = new Phrase( "Project : " + projectName + ";    Loan Amount : " + loanAmount + "CR. ", ffont);
         Phrase footer2 = new Phrase( "Rating Date: " + ratingDate.toString(), ffont1);
 

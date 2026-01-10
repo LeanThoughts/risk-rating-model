@@ -9,6 +9,7 @@ import com.pfs.riskmodel.ModelTemplates.InfraTransmission.BuildPhase.InfraTransm
 import com.pfs.riskmodel.ModelTemplates.InfraTransmission.OperationalPhase.InfraTransmissionOperationalPhaseData;
 import com.pfs.riskmodel.ModelTemplates.Renewable.BuildPhase.RenewableProjectBuildPhaseData;
 import com.pfs.riskmodel.ModelTemplates.Renewable.OperationalPhase.RenewablesOperationalPhaseData;
+import com.pfs.riskmodel.ModelTemplates.SME_FI.BuildPhase.SME_FI_BuildPhaseData;
 import com.pfs.riskmodel.dto.RiskModelTemplateDTO;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,20 +39,22 @@ public  class All_Templates_ControllerTest extends AbstractTest {
     @Test
     public  void createAllTemplates() throws Exception {
 
-        renewables_OPERATIONAL_Template();
-        renewables_BUILD_Template();
+//        renewables_OPERATIONAL_Template();
+//        renewables_BUILD_Template();
+//
+//        holdingCompanyTemplate();
+//        holdingCompanyOperationalTemplate();
+//
+//        infraRoadHAM_BUILD_Template();
+//        infraRoadHAM_OPERATIONAL_Template();
+//
+//        infraRoadToll_BUILD_Template();
+//        infraRoadToll_OPERATIONAL_Template();
+//
+//        infraTrans_BUILD_Template();
+//        infraTransToll_OPERATIONAL_Template();
 
-        holdingCompanyTemplate();
-        holdingCompanyOperationalTemplate();
-
-        infraRoadHAM_BUILD_Template();
-        infraRoadHAM_OPERATIONAL_Template();
-
-        infraRoadToll_BUILD_Template();
-        infraRoadToll_OPERATIONAL_Template();
-
-        infraTrans_BUILD_Template();
-        infraTransToll_OPERATIONAL_Template();
+        sme_FI();
 
     }
 
@@ -268,6 +271,29 @@ public  class All_Templates_ControllerTest extends AbstractTest {
 
         System.out.println(content);
         System.out.println(" ------RENEWABLES  OPERATIONAL Template Create ");
+
+    }
+
+
+    private void sme_FI() throws Exception {
+        String uri = "/api/riskModelTemplate";
+        RiskModelTemplateDTO riskModelTemplateDTO = new RiskModelTemplateDTO();
+        SME_FI_BuildPhaseData sme_fi_buildPhaseData = new SME_FI_BuildPhaseData() ;
+
+        riskModelTemplateDTO = sme_fi_buildPhaseData.getSME_FI_BuildPhaseData();
+
+        String inputJson = super.mapToJson(riskModelTemplateDTO);
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(uri)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(inputJson)).andReturn();
+
+        int status = mvcResult.getResponse().getStatus();
+        assertEquals(200, status);
+        String content = mvcResult.getResponse().getContentAsString();
+
+        System.out.println(content);
+        System.out.println(" ------SME & FI Build Template Create ");
+
 
     }
 

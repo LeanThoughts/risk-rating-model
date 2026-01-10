@@ -18,6 +18,8 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Comparator;
+import java.util.stream.Collectors;
 
 
 /**
@@ -137,7 +139,9 @@ public class RiskModelPDFComponentTableDebugMode {
         projectDetailsTable.addCell(projectDetailsCell1);
         projectDetailsTable.completeRow();
 
+        //riskComponent.getRiskFactors().stream().sorted().collect(Collectors.toList());
 
+        riskComponent.getRiskFactors().sort(Comparator.comparing(a -> a.getItemNo(), Comparator.nullsFirst(Comparator.naturalOrder())));
 
         for (RiskFactor riskFactor : riskComponent.getRiskFactors()) {
 
@@ -177,6 +181,8 @@ public class RiskModelPDFComponentTableDebugMode {
             projectDetailsTable.completeRow();
 
         }
+
+        riskFactor.getRiskSubFactors().sort(Comparator.comparing(a ->a.getItemNo(), Comparator.nullsFirst(Comparator.naturalOrder())));
 
         for (RiskSubFactor riskSubFactor : riskFactor.getRiskSubFactors()) {
 
@@ -242,6 +248,10 @@ public class RiskModelPDFComponentTableDebugMode {
                     if (riskSubFactorAttribute.getIsSelected())
                         projectDetailsCell2.setPhrase(new Phrase(riskSubFactorAttribute.getScore().toString(), selectedValueFont));
                     else
+                        System.out.println( riskSubFactorAttribute.toString());
+                        if (riskSubFactorAttribute.getScore() == null){
+                            System.out.println( riskSubFactorAttribute.toString());
+                        }
                         projectDetailsCell2.setPhrase(new Phrase(riskSubFactorAttribute.getScore().toString(), valueFont));
                 }
                 else {
