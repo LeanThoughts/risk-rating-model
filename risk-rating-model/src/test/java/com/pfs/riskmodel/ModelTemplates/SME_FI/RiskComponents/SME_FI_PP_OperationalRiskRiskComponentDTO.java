@@ -290,14 +290,14 @@ public  class SME_FI_PP_OperationalRiskRiskComponentDTO {
         riskSubFactorAttributeDTO2.setId(null);
         riskSubFactorAttributeDTO2.setItemNo(2);
         riskSubFactorAttributeDTO2.setDescription("Key financial and operational performance indicators are identified\n and computed through Information technology systems which are not commensurate to the size and complexity of business operations/manually computed. \nNon-existence of framework for credit assessment, collection processes, security & collateral management, \n and risk management, with no defined timelines of review");
-        riskSubFactorAttributeDTO2.setScore(7.50D);
+        riskSubFactorAttributeDTO2.setScore(5.00D);
         riskSubFactorAttributeDTO2.setWeightage(00D);riskSubFactorAttributeDTO2.setIsSelected(false);
 
         riskSubFactorAttributeDTO3 = new RiskSubFactorAttributeDTO();
         riskSubFactorAttributeDTO3.setId(null);
         riskSubFactorAttributeDTO3.setItemNo(3);
         riskSubFactorAttributeDTO3.setDescription(" Key financial and operational performance indicators are not identified. \nNon-existence of framework for credit assessment, collection processes, security & collateral management, \n and risk management, with no defined timelines of review");
-        riskSubFactorAttributeDTO3.setScore(5.00D);
+        riskSubFactorAttributeDTO3.setScore(0.00D);
         riskSubFactorAttributeDTO3.setWeightage(00D);riskSubFactorAttributeDTO3.setIsSelected(false);
 
 

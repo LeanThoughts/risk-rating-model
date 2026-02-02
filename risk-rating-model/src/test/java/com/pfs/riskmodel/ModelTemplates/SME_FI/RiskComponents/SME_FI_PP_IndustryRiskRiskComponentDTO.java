@@ -59,7 +59,7 @@ public  class SME_FI_PP_IndustryRiskRiskComponentDTO {
         mixOfProductOfferingsRiskSubFactorDTO.setId(null);
         mixOfProductOfferingsRiskSubFactorDTO.setItemNo(1);
         mixOfProductOfferingsRiskSubFactorDTO.setDescription("Mix of Loan Product Offerings");
-        mixOfProductOfferingsRiskSubFactorDTO.setWeightage(0.40D);
+        mixOfProductOfferingsRiskSubFactorDTO.setWeightage(0.30D);
         mixOfProductOfferingsRiskSubFactorDTO.setScore(0D);
         mixOfProductOfferingsRiskSubFactorDTO.setScoreTypeCode("01");
         mixOfProductOfferingsRiskSubFactorDTO.setScoreTypeDescription("Normal");
