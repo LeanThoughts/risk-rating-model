@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -280,16 +281,25 @@ public  class All_Templates_ControllerTest extends AbstractTest {
         RiskModelTemplateDTO riskModelTemplateDTO = new RiskModelTemplateDTO();
         SME_FI_BuildPhaseData sme_fi_buildPhaseData = new SME_FI_BuildPhaseData() ;
 
+        System.out.println(" ----------------------- SME FI TEST -------------------");
+        System.out.println(uri);
+
+
         riskModelTemplateDTO = sme_fi_buildPhaseData.getSME_FI_BuildPhaseData();
 
         String inputJson = super.mapToJson(riskModelTemplateDTO);
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(uri)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(inputJson)).andReturn();
-
         int status = mvcResult.getResponse().getStatus();
-        assertEquals(200, status);
+
+        System.out.println(status);
+
         String content = mvcResult.getResponse().getContentAsString();
+        System.out.println(status);
+
+        assertEquals(200, status);
+
 
         System.out.println(content);
         System.out.println(" ------SME & FI Build Template Create ");
