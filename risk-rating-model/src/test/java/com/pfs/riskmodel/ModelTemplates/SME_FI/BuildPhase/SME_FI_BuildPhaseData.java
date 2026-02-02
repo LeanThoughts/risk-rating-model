@@ -52,7 +52,7 @@ public class SME_FI_BuildPhaseData {
         riskModelTemplateDTO.setProjectRiskLevelDescription("SME &FI Build Phase");
 
         riskModelTemplateDTO.setRiskProjectTypeCode("06");
-        riskModelTemplateDTO.setRiskProjectTypeDescription("Renewables");
+        riskModelTemplateDTO.setRiskProjectTypeDescription("SME &FI");
         riskModelTemplateDTO.setDescription("SME & FI Build Phase");
         riskModelTemplateDTO.setComputingMethodCode("03");
         riskModelTemplateDTO.setComputingMethodDescription("Minimum");
