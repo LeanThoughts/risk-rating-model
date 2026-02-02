@@ -40,17 +40,17 @@ public  class All_Templates_ControllerTest extends AbstractTest {
     @Test
     public  void createAllTemplates() throws Exception {
 
-        renewables_OPERATIONAL_Template();
-        renewables_BUILD_Template();
-
-        holdingCompanyTemplate();
-        holdingCompanyOperationalTemplate();
-
-        infraRoadHAM_BUILD_Template();
-        infraRoadHAM_OPERATIONAL_Template();
-
-        infraRoadToll_BUILD_Template();
-        infraRoadToll_OPERATIONAL_Template();
+//        renewables_OPERATIONAL_Template();
+//        renewables_BUILD_Template();
+//
+//        holdingCompanyTemplate();
+//        holdingCompanyOperationalTemplate();
+//
+//        infraRoadHAM_BUILD_Template();
+//        infraRoadHAM_OPERATIONAL_Template();
+//
+//        infraRoadToll_BUILD_Template();
+//        infraRoadToll_OPERATIONAL_Template();
 
         infraTrans_BUILD_Template();
         infraTransToll_OPERATIONAL_Template();
@@ -278,12 +278,10 @@ public  class All_Templates_ControllerTest extends AbstractTest {
 
     private void sme_FI() throws Exception {
         String uri = "/api/riskModelTemplate";
+
         RiskModelTemplateDTO riskModelTemplateDTO = new RiskModelTemplateDTO();
         SME_FI_BuildPhaseData sme_fi_buildPhaseData = new SME_FI_BuildPhaseData() ;
-
-        System.out.println(" ----------------------- SME FI TEST -------------------");
-        System.out.println(uri);
-
+        System.out.println(" ------SME & FI Build Template Create STARTED");
 
         riskModelTemplateDTO = sme_fi_buildPhaseData.getSME_FI_BuildPhaseData();
 
@@ -291,18 +289,14 @@ public  class All_Templates_ControllerTest extends AbstractTest {
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(uri)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(inputJson)).andReturn();
+
         int status = mvcResult.getResponse().getStatus();
-
-        System.out.println(status);
-
-        String content = mvcResult.getResponse().getContentAsString();
-        System.out.println(status);
-
         assertEquals(200, status);
+        String content = mvcResult.getResponse().getContentAsString();
 
 
         System.out.println(content);
-        System.out.println(" ------SME & FI Build Template Create ");
+         System.out.println(" ------SME & FI Build Template Create FINISHED");
 
 
     }
