@@ -19,7 +19,7 @@
                              formControlName="projectDepartmentInitiator"
                              [required]="projectDepartmentInitiatorReadonly"
                              [disabled]="projectDepartmentInitiatorDisabled">
-                    <mat-option *ngFor="let user of projectUsers" [value]="user.userName">
+                    <mat-option *ngFor="let user of allUsers" [value]="user.userName">
                         {{ user.firstName }} {{ user.lastName }}
                     </mat-option>
                 </mat-select>
@@ -32,7 +32,7 @@
                             formControlName="monitoringDepartmentInitiator"
                             [required]="monitoringDepartmentInitiatorReadonly"
                             [disabled]="monitoringDepartmentInitiatorDisabled">
-                    <mat-option *ngFor="let user of monitoringUsers" [value]="user.userName">
+                    <mat-option *ngFor="let user of allUsers" [value]="user.userName">
                         {{ user.firstName }} {{ user.lastName }}
                     </mat-option>
                 </mat-select>
@@ -57,7 +57,7 @@
                             placeholder="SARC Department Processor"
                             formControlName="sarcDepartmentInitiator"
                             [required]="sarcDepartmentInitiatorReadonly">
-                    <mat-option *ngFor="let user of sarcUsers" [value]="user.userName">
+                    <mat-option *ngFor="let user of allUsers" [value]="user.userName">
                         {{ user.firstName }} {{ user.lastName }}
                     </mat-option>
                 </mat-select>

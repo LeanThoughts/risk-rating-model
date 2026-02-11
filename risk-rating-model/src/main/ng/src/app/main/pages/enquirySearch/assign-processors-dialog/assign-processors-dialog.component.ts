@@ -6,6 +6,8 @@ import { AppService } from 'app/app.service';
 import { LoanEnquiryService } from '../enquiryApplication.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { EnquiryApplicationModel } from 'app/main/model/enquiryApplication.model';
+import {forkJoin} from 'rxjs';
+import { OnInit } from '@angular/core';
 
 @Component({
     selector: 'app-assign-processors-dialog-componenet',
@@ -13,7 +15,7 @@ import { EnquiryApplicationModel } from 'app/main/model/enquiryApplication.model
     styleUrls: ['./assign-processors-dialog.component.scss'],
     encapsulation: ViewEncapsulation.None,
 })
-export class AssignProcessorsDialogComponent {
+export class AssignProcessorsDialogComponent implements OnInit {
 
     /**
      * Reactive form on the dialog.
@@ -24,6 +26,8 @@ export class AssignProcessorsDialogComponent {
     monitoringUsers: Array<any> = [];
     riskUsers: Array<any> = [];
     sarcUsers: Array<any> = [];
+
+    allUsers: Array<any> = [];
 
     projectDepartmentInitiatorReadonly: boolean = false;
     monitoringDepartmentInitiatorReadonly: boolean = false;
@@ -57,37 +61,72 @@ export class AssignProcessorsDialogComponent {
             sarcDepartmentInitiator: ['']
         });
 
-        // Get Project department users.
-        _service.getProjectDepartmentUsers().subscribe(response => {
-            this.projectUsers = response;
-        },
-        error => {
-            this.handleError(error);
-        });
+        forkJoin([
+            _service.getProjectDepartmentUsers(),
+            _service.getMonitoringDepartmentUsers(),
+            _service.getRiskDepartmentUsers(),
+            _service.getSarcDepartmentUsers()
+        ]).subscribe(results => {
+            this.projectUsers = results[0];
+            this.monitoringUsers = results[1];
+            this.riskUsers = results[2];
+            this.sarcUsers = results[3];
 
-        // Get Monitoring department users.
-        _service.getMonitoringDepartmentUsers().subscribe(response => {
-            this.monitoringUsers = response;
-        },
-        error => {
-            this.handleError(error);
-        });
-
-         // Get Risk department users.
-        _service.getRiskDepartmentUsers().subscribe(response => {
-                this.riskUsers = response;
-            },
-            error => {
-                this.handleError(error);
+            this.projectUsers.forEach(user => {
+                this.allUsers.push(user);
+            });
+    
+            this.monitoringUsers.forEach(user => {
+                this.allUsers.push(user);
+            });
+    
+            this.riskUsers.forEach(user => {
+                this.allUsers.push(user);
+            });
+    
+            this.sarcUsers.forEach(user => {
+                this.allUsers.push(user);
             });
 
-        // Get SARC department users.
-        _service.getSarcDepartmentUsers().subscribe(response => {
-            this.sarcUsers = response;
+            this.allUsers.sort((a, b) => a.firstName.localeCompare(b.firstName));
+            console.log("allUsers", this.allUsers);
+
         },
         error => {
             this.handleError(error);
         });
+
+        // // Get Project department users.
+        // _service.getProjectDepartmentUsers().subscribe(response => {
+        //     this.projectUsers = response;
+        // },
+        // error => {
+        //     this.handleError(error);
+        // });
+
+        // // Get Monitoring department users.
+        // _service.getMonitoringDepartmentUsers().subscribe(response => {
+        //     this.monitoringUsers = response;
+        // },
+        // error => {
+        //     this.handleError(error);
+        // });
+
+        //  // Get Risk department users.
+        // _service.getRiskDepartmentUsers().subscribe(response => {
+        //         this.riskUsers = response;
+        //     },
+        //     error => {
+        //         this.handleError(error);
+        //     });
+
+        // // Get SARC department users.
+        // _service.getSarcDepartmentUsers().subscribe(response => {
+        //     this.sarcUsers = response;
+        // },
+        // error => {
+        //     this.handleError(error);
+        // });
         
         this.projectDepartmentInitiatorSelected = _service.selectedLoanApplicaton.projectDepartmentInitiator;
         this.monitoringDepartmentInitiatorSelected = _service.selectedLoanApplicaton.monitoringDepartmentInitiator;
@@ -138,6 +177,9 @@ export class AssignProcessorsDialogComponent {
         //     this.monitoringDepartmentInitiatorReadonly = false;
         //     this.riskDepartmentInitiatorReadonly = true;
         // }
+    }
+
+    ngOnInit(): void {
     }
 
     /**
