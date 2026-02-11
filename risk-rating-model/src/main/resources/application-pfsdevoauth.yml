@@ -17,14 +17,14 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.MySQL57InnoDBDialect
     generate-ddl: true
-
   activiti:
-    mail-server-host: smtp.gmail.com
+    mail-server-host: us2.smtp.mailhostbox.com
     mail-server-port: 587
-    mail-server-user-name: pfsriskmodel@gmail.com
-    mail-server-password: Sapsap@123
-    mail-server-default-from: pfsriskmodel@gmail.com
+    mail-server-user-name: portal.admin@pfs-ess.com
+    mail-server-password: Ess@hYYXIaN2#hYYXIaN2
+    mail-server-default-from: portal.admin@pfs-ess.com
     mail-server-use-tls: true
+    database-schema-update: true
 security:
   oauth2:
     client:

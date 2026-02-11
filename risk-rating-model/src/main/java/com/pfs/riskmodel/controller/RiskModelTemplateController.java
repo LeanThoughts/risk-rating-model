@@ -480,6 +480,8 @@ public class RiskModelTemplateController {
 
         Boolean isAccountConductRiskApplicable = false;
 
+        System.out.println( " INSIDE RISK MODEL TEMPLATE CONTROLLER :" + riskModelTemplateDTO.getDescription() );
+
         for (RiskTypeDTO riskTypeDTO : riskModelTemplateDTO.getRiskTypes()) {
             for (RiskComponentDTO riskComponentDTO : riskTypeDTO.getRiskComponents()) {
                 if (riskComponentDTO.getDescription().contains("Account Conduct") == true) {
@@ -493,12 +495,18 @@ public class RiskModelTemplateController {
 
         RiskModelTemplate riskModelTemplate = mapDTOToDomain(riskModelTemplateDTO);
 
-        Map<String, Object> result = riskModelTemplateService.createRiskModelTemplate(riskModelTemplate);
-        CheckServiceResult.checkResult(result);
+        System.out.println( " INSIDE RISK MODEL TEMPLATE CONTROLLER AFTER DOMAIN MAP :" + riskModelTemplateDTO.getDescription() );
 
+        try {
+            Map<String, Object> result = riskModelTemplateService.createRiskModelTemplate(riskModelTemplate);
+            CheckServiceResult.checkResult(result);
+            riskModelTemplate = (RiskModelTemplate) result.get("RiskModelTemplate");
+        } catch ( Exception e){
+            System.out.println( e);
+        }
 
-        riskModelTemplate = (RiskModelTemplate) result.get("RiskModelTemplate");
         RiskModelTemplateDTO riskModelTemplateDTOResponse = mapDomainToDTO(riskModelTemplate);
+
 
         return ResponseEntity.ok(riskModelTemplateDTOResponse);
     }

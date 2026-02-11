@@ -31,7 +31,7 @@ public class SME_FI_BuildPhaseData {
 //        Project Implementation Risk  -  Weighted Scores
 //        Completion Risk -50%
 //        Execution Risk 50%
-
+        System.out.println( " ----------------------- BUILDING SME & FI DATA --------------------------------------");
 
         riskModelTemplateDTO.setId(null);
         riskModelTemplateDTO.setStatus("X");
@@ -52,7 +52,7 @@ public class SME_FI_BuildPhaseData {
         riskModelTemplateDTO.setProjectRiskLevelDescription("SME &FI Build Phase");
 
         riskModelTemplateDTO.setRiskProjectTypeCode("06");
-        riskModelTemplateDTO.setRiskProjectTypeDescription("Renewables");
+        riskModelTemplateDTO.setRiskProjectTypeDescription("SME &FI");
         riskModelTemplateDTO.setDescription("SME & FI Build Phase");
         riskModelTemplateDTO.setComputingMethodCode("03");
         riskModelTemplateDTO.setComputingMethodDescription("Minimum");
@@ -105,6 +105,8 @@ public class SME_FI_BuildPhaseData {
         List<RiskModelSummaryDTO> riskModelSummaryDTOS = sme_fi_buildPhase_riskModelSummary.getRiskModelSummary();
         riskModelTemplateDTO.setRiskModelSummaries(riskModelSummaryDTOS);
 
+        System.out.println( " ----------------------- BUILDING SME & FI DATA --------------------------------------");
+        System.out.println( riskModelTemplateDTO.toString());
         return riskModelTemplateDTO;
     }
 

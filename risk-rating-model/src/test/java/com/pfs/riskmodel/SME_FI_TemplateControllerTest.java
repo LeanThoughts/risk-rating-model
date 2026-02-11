@@ -28,7 +28,7 @@ public class SME_FI_TemplateControllerTest extends AbstractTest {
     public void test () throws Exception {
     }
 
-   // @Test
+     @Test
     public void createRiskModelTemplate() throws Exception {
         String uri = "/api/riskModelTemplate";
 

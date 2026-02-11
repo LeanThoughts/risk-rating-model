@@ -168,4 +168,59 @@ public class RiskModelTemplateDTO {
 
     }
 
+    @Override
+    public String toString() {
+        return "RiskModelTemplateDTO{" +
+                "id=" + id +
+                ", version='" + version + '\'' +
+                ", status='" + status + '\'' +
+                ", description='" + description + '\'' +
+                ", createdBy='" + createdBy + '\'' +
+                ", createdByUserId='" + createdByUserId + '\'' +
+                ", reviewedBy='" + reviewedBy + '\'' +
+                ", currentProcessorUserId='" + currentProcessorUserId + '\'' +
+                ", firstLevelApprover='" + firstLevelApprover + '\'' +
+                ", secondLevelApprover='" + secondLevelApprover + '\'' +
+                ", thirdLevelApprover='" + thirdLevelApprover + '\'' +
+                ", currentWorkFlowLevel=" + currentWorkFlowLevel +
+                ", purposeCode='" + purposeCode + '\'' +
+                ", purposeDescription='" + purposeDescription + '\'' +
+                ", processInstanceId='" + processInstanceId + '\'' +
+                ", workflowStatusCode='" + workflowStatusCode + '\'' +
+                ", workflowStatusDescription='" + workflowStatusDescription + '\'' +
+                ", rejectedByRiskDepartment=" + rejectedByRiskDepartment +
+                ", modelType=" + modelType +
+                ", modelCategoryCode=" + modelCategoryCode +
+                ", modelCategoryDescription='" + modelCategoryDescription + '\'' +
+                ", riskProjectTypeCode='" + riskProjectTypeCode + '\'' +
+                ", riskProjectTypeDescription='" + riskProjectTypeDescription + '\'' +
+                ", projectRiskLevelCode='" + projectRiskLevelCode + '\'' +
+                ", projectRiskLevelDescription='" + projectRiskLevelDescription + '\'' +
+                ", computingMethodCode='" + computingMethodCode + '\'' +
+                ", computingMethodDescription='" + computingMethodDescription + '\'' +
+                ", loanEnquiryId='" + loanEnquiryId + '\'' +
+                ", loanNumber='" + loanNumber + '\'' +
+                ", projectName='" + projectName + '\'' +
+                ", loanAmountInCrores=" + loanAmountInCrores +
+                ", loanContractAmount=" + loanContractAmount +
+                ", ratingDate=" + ratingDate +
+                ", score=" + score +
+                ", overallProjectGrade='" + overallProjectGrade + '\'' +
+                ", modifiedProjectGrade='" + modifiedProjectGrade + '\'' +
+                ", afterParentalNotchUpGrade='" + afterParentalNotchUpGrade + '\'' +
+                ", finalProjectGrade='" + finalProjectGrade + '\'' +
+                ", applyRatingModifiers=" + applyRatingModifiers +
+                ", applyParentalNotchup=" + applyParentalNotchup +
+                ", firstApprovalReceiptDate=" + firstApprovalReceiptDate +
+                ", firstApprovalProcessDate=" + firstApprovalProcessDate +
+                ", secondApprovalReceiptDate=" + secondApprovalReceiptDate +
+                ", secondApprovalProcessDate=" + secondApprovalProcessDate +
+                ", thirdApprovalReceiptDate=" + thirdApprovalReceiptDate +
+                ", thirdApprovalProcessDate=" + thirdApprovalProcessDate +
+                ", riskTypes=" + riskTypes +
+                ", riskRatingModifiers=" + riskRatingModifiers +
+                ", riskParentalNotchUps=" + riskParentalNotchUps +
+                ", riskModelSummaries=" + riskModelSummaries +
+                '}';
+    }
 }

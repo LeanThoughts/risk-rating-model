@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -50,9 +51,9 @@ public  class All_Templates_ControllerTest extends AbstractTest {
 //
 //        infraRoadToll_BUILD_Template();
 //        infraRoadToll_OPERATIONAL_Template();
-//
-//        infraTrans_BUILD_Template();
-//        infraTransToll_OPERATIONAL_Template();
+
+        infraTrans_BUILD_Template();
+        infraTransToll_OPERATIONAL_Template();
 
         sme_FI();
 
@@ -277,8 +278,10 @@ public  class All_Templates_ControllerTest extends AbstractTest {
 
     private void sme_FI() throws Exception {
         String uri = "/api/riskModelTemplate";
+
         RiskModelTemplateDTO riskModelTemplateDTO = new RiskModelTemplateDTO();
         SME_FI_BuildPhaseData sme_fi_buildPhaseData = new SME_FI_BuildPhaseData() ;
+        System.out.println(" ------SME & FI Build Template Create STARTED");
 
         riskModelTemplateDTO = sme_fi_buildPhaseData.getSME_FI_BuildPhaseData();
 
@@ -291,8 +294,9 @@ public  class All_Templates_ControllerTest extends AbstractTest {
         assertEquals(200, status);
         String content = mvcResult.getResponse().getContentAsString();
 
+
         System.out.println(content);
-        System.out.println(" ------SME & FI Build Template Create ");
+         System.out.println(" ------SME & FI Build Template Create FINISHED");
 
 
     }
