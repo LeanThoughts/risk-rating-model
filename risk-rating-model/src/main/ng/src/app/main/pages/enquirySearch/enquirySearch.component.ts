@@ -125,9 +125,11 @@ export class EnquirySearchComponent implements OnChanges {
         
         if (this._service.selectedLoanApplicaton.monitoringDepartmentInitiator === '' && 
             this._service.selectedLoanApplicaton.projectDepartmentInitiator === '' &&
-            this._service.selectedLoanApplicaton.sarcDepartmentInitiator === '') {
+            this._service.selectedLoanApplicaton.sarcDepartmentInitiator === '' &&
+            this._service.selectedLoanApplicaton.smeDepartmentInitiator === ''
+    ) {
             
-            this._matSnackBar.open('Project Officer, Monitoring Officer and SARC Officer is not assigned to the Loan. Please request your department ' +
+            this._matSnackBar.open('Project Officer, Monitoring Officer  SARC Officer or SME Officer is not assigned to the Loan. Please request your department ' +
                 'head to assign the officers', 'Ok', { duration: 7000 });
         }
         else {
