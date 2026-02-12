@@ -37,7 +37,7 @@ public class SME_FI_BuildPhaseData {
         riskModelTemplateDTO.setStatus("X");
         riskModelTemplateDTO.setVersion("v1");
         // Renewable-Build
-        riskModelTemplateDTO.setModelCategoryCode(10);
+        riskModelTemplateDTO.setModelCategoryCode(11);
 
         riskModelTemplateDTO.setModelType(0); //Template
 
