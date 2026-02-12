@@ -72,6 +72,18 @@ export class EnquirySearchComponent implements OnChanges {
                         enquiryApplications.push(new EnquiryApplicationModel(loanApplicationResourceModel));
                     }
                 }
+                else if (this._appService.userDetails.riskDepartment === '04') {
+                    // If the user is from the monitoring assesssment department (03), return applications where application monitoringDepartmentInitiator is himself.
+                    if (loanApplicationResourceModel.loanApplication.sarcDepartmentInitiator === this._appService.userDetails.email) {
+                        enquiryApplications.push(new EnquiryApplicationModel(loanApplicationResourceModel));
+                    }
+                }
+                else if (this._appService.userDetails.riskDepartment === '05') {
+                    // If the user is from the monitoring assesssment department (03), return applications where application monitoringDepartmentInitiator is himself.
+                    if (loanApplicationResourceModel.loanApplication.smeDepartmentInitiator === this._appService.userDetails.email) {
+                        enquiryApplications.push(new EnquiryApplicationModel(loanApplicationResourceModel));
+                    }
+                }
                 else if (this._appService.userDetails.riskDepartment === '12') {
                     // If the user is from the monitoring assesssment department (03), return applications where application monitoringDepartmentInitiator is himself.
                     if (loanApplicationResourceModel.loanApplication.sarcDepartmentInitiator === this._appService.userDetails.email) {
