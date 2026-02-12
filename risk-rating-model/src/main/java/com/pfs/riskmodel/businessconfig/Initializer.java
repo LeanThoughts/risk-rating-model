@@ -170,6 +170,7 @@ public class Initializer implements CommandLineRunner{
             RiskPurpose r2 = new RiskPurpose(null, "02", "Risk Assessment");
             RiskPurpose r3 = new RiskPurpose(null, "03", "Monitoring");
             RiskPurpose r4 = new RiskPurpose(null, "04", "SARC");
+            RiskPurpose r5 = new RiskPurpose(null, "05", "SME");
 
 
             purposeRepository.saveAll(Arrays.asList(r1,r2,r3 ));
@@ -244,6 +245,13 @@ public class Initializer implements CommandLineRunner{
                    System.out.println("-------------------------- Saved Risk Purpose :" + r4.toString());
                }
 
+                RiskPurpose r5 = riskPurposeRepository.findByCode("05");
+                if (r5 == null) {
+                    r5 = new RiskPurpose(null, "05", "SME");
+                    System.out.println("Risk Purpose :" + r5.toString());
+                    r5 = riskPurposeRepository.saveAndFlush(r5);
+                    System.out.println("-------------------------- Saved Risk Purpose :" + r5.toString());
+                }
 
 
 
