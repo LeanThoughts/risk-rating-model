@@ -63,6 +63,18 @@
                 </mat-select>
             </mat-form-field>
         </div>
+        <div fxLayout="row">
+            <mat-form-field fxFlex>
+                <mat-select [(ngModel)]="smeDepartmentOfficerSelected"
+                            placeholder="SME Department Processor"
+                            formControlName="smeDepartmentInitiator"
+                            [required]="smeDepartmentInitiatorReadonly">
+                    <mat-option *ngFor="let user of allUsers" [value]="user.userName">
+                        {{ user.firstName }} {{ user.lastName }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
 
         <div>
             <button mat-raised-button type="submit" class="mr-8 mb-8 mat-raised-button">

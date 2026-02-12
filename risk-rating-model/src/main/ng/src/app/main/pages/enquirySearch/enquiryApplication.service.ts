@@ -674,6 +674,13 @@ export class LoanEnquiryService {
     }
 
     /**
+     * getSmeDepartmentUsers()
+     */
+    public getSmeDepartmentUsers(): Observable<any> {
+        return this._http.get('risk/api/users/department/05');
+    }
+
+    /**
      * updateProcessors()
      * @param loanApplication 
      * @param processors 
@@ -692,7 +699,8 @@ export class LoanEnquiryService {
             projectDepartmentInitiator: processors.projectDepartmentInitiator,
             monitoringDepartmentInitiator: processors.monitoringDepartmentInitiator,
             riskDepartmentInitiator: processors.riskDepartmentInitiator,
-            sarcDepartmentInitiator: processors.sarcDepartmentInitiator
+            sarcDepartmentInitiator: processors.sarcDepartmentInitiator,
+            smeDepartmentInitiator: processors.smeDepartmentInitiator
          }
 
         // console.log("processorResource Project :" + processorResource.enquiryNo.id);

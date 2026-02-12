@@ -26,6 +26,7 @@ export class AssignProcessorsDialogComponent implements OnInit {
     monitoringUsers: Array<any> = [];
     riskUsers: Array<any> = [];
     sarcUsers: Array<any> = [];
+    smeUsers: Array<any> = [];
 
     allUsers: Array<any> = [];
 
@@ -33,7 +34,7 @@ export class AssignProcessorsDialogComponent implements OnInit {
     monitoringDepartmentInitiatorReadonly: boolean = false;
     riskDepartmentInitiatorReadonly: boolean = false;
     sarcDepartmentInitiatorReadonly: boolean = false;
-
+    smeDepartmentInitiatorReadonly: boolean = false;
 
     projectDepartmentInitiatorDisabled: boolean = true;
     monitoringDepartmentInitiatorDisabled : boolean = true;
@@ -46,7 +47,7 @@ export class AssignProcessorsDialogComponent implements OnInit {
     monitoringDepartmentInitiatorSelected: string;
     riskDepartmentOfficerSelected: string;
     sarcDepartmentOfficerSelected: string;
-
+    smeDepartmentOfficerSelected: string;
 
     constructor(public _dialogRef: MatDialogRef<AssignProcessorsDialogComponent>, @Inject(MAT_DIALOG_DATA) private _data: any,
         _formBuilder: FormBuilder, private _service: LoanEnquiryService, private _appService: AppService, private _matSnackBar: MatSnackBar) {
@@ -58,19 +59,22 @@ export class AssignProcessorsDialogComponent implements OnInit {
             projectDepartmentInitiator: [''],
             monitoringDepartmentInitiator: [''],
             riskDepartmentInitiator: [''],
-            sarcDepartmentInitiator: ['']
+            sarcDepartmentInitiator: [''],
+            smeDepartmentInitiator: ['']
         });
 
         forkJoin([
             _service.getProjectDepartmentUsers(),
             _service.getMonitoringDepartmentUsers(),
             _service.getRiskDepartmentUsers(),
-            _service.getSarcDepartmentUsers()
+            _service.getSarcDepartmentUsers(),
+            _service.getSmeDepartmentUsers()
         ]).subscribe(results => {
             this.projectUsers = results[0];
             this.monitoringUsers = results[1];
             this.riskUsers = results[2];
             this.sarcUsers = results[3];
+            this.smeUsers = results[4];
 
             this.projectUsers.forEach(user => {
                 this.allUsers.push(user);
@@ -85,6 +89,10 @@ export class AssignProcessorsDialogComponent implements OnInit {
             });
     
             this.sarcUsers.forEach(user => {
+                this.allUsers.push(user);
+            });
+
+            this.smeUsers.forEach(user => {
                 this.allUsers.push(user);
             });
 
