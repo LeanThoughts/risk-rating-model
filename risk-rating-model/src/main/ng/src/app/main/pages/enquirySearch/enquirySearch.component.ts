@@ -86,7 +86,7 @@ export class EnquirySearchComponent implements OnChanges {
                 }
                 else if (this._appService.userDetails.riskDepartment === '06') {
                     // If the user is from the credit functions - B assesssment department (03), return applications where application monitoringDepartmentInitiator is himself.
-                    if (loanApplicationResourceModel.loanApplication.smeDepartmentInitiator === this._appService.userDetails.email) {
+                    if (loanApplicationResourceModel.loanApplication.projectDepartmentInitiator === this._appService.userDetails.email) {
                         enquiryApplications.push(new EnquiryApplicationModel(loanApplicationResourceModel));
                     }
                 }
