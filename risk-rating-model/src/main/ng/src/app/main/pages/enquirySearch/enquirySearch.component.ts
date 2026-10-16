@@ -72,6 +72,24 @@ export class EnquirySearchComponent implements OnChanges {
                         enquiryApplications.push(new EnquiryApplicationModel(loanApplicationResourceModel));
                     }
                 }
+                else if (this._appService.userDetails.riskDepartment === '04') {
+                    // If the user is from the monitoring assesssment department (03), return applications where application monitoringDepartmentInitiator is himself.
+                    if (loanApplicationResourceModel.loanApplication.sarcDepartmentInitiator === this._appService.userDetails.email) {
+                        enquiryApplications.push(new EnquiryApplicationModel(loanApplicationResourceModel));
+                    }
+                }
+                else if (this._appService.userDetails.riskDepartment === '05') {
+                    // If the user is from the monitoring assesssment department (03), return applications where application monitoringDepartmentInitiator is himself.
+                    if (loanApplicationResourceModel.loanApplication.smeDepartmentInitiator === this._appService.userDetails.email) {
+                        enquiryApplications.push(new EnquiryApplicationModel(loanApplicationResourceModel));
+                    }
+                }
+                else if (this._appService.userDetails.riskDepartment === '06') {
+                    // If the user is from the credit functions - B assesssment department (03), return applications where application monitoringDepartmentInitiator is himself.
+                    if (loanApplicationResourceModel.loanApplication.projectDepartmentInitiator === this._appService.userDetails.email) {
+                        enquiryApplications.push(new EnquiryApplicationModel(loanApplicationResourceModel));
+                    }
+                }
                 else if (this._appService.userDetails.riskDepartment === '12') {
                     // If the user is from the monitoring assesssment department (03), return applications where application monitoringDepartmentInitiator is himself.
                     if (loanApplicationResourceModel.loanApplication.sarcDepartmentInitiator === this._appService.userDetails.email) {
@@ -113,9 +131,11 @@ export class EnquirySearchComponent implements OnChanges {
         
         if (this._service.selectedLoanApplicaton.monitoringDepartmentInitiator === '' && 
             this._service.selectedLoanApplicaton.projectDepartmentInitiator === '' &&
-            this._service.selectedLoanApplicaton.sarcDepartmentInitiator === '') {
+            this._service.selectedLoanApplicaton.sarcDepartmentInitiator === '' &&
+            this._service.selectedLoanApplicaton.smeDepartmentInitiator === ''
+    ) {
             
-            this._matSnackBar.open('Project Officer, Monitoring Officer and SARC Officer is not assigned to the Loan. Please request your department ' +
+            this._matSnackBar.open('Project Officer, Monitoring Officer  SARC Officer or SME Officer is not assigned to the Loan. Please request your department ' +
                 'head to assign the officers', 'Ok', { duration: 7000 });
         }
         else {

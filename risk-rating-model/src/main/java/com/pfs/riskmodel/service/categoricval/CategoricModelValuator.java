@@ -63,6 +63,10 @@ public class CategoricModelValuator {
                 riskModelTemplate = holdingCompany_valuator.valuate(riskModelTemplate);
                 break;
             case 10:
+                  holdingCompany_valuator = new HoldingCompany_Valuator();
+                riskModelTemplate = holdingCompany_valuator.valuate(riskModelTemplate);
+                break;
+            case 11:
                 SME_FI_BuildPhase_Valuator sme_fi_buildPhase_valuator = new SME_FI_BuildPhase_Valuator();
                 riskModelTemplate = sme_fi_buildPhase_valuator.valuate(riskModelTemplate);
                 break;
