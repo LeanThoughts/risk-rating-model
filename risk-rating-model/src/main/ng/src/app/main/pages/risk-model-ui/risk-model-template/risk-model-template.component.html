@@ -342,7 +342,7 @@
                                         placeholder="{{ riskModelTemplate['riskParentalNotchUps'][0].riskParentalConditions[1].description }}"
                                         [(ngModel)]="riskModelTemplate['riskParentalNotchUps'][0].riskParentalConditions[1].natureOfRatingOfParentFirm"
                                         (selectionChange)="fetchObligatorRatingGrades()" required [disabled]="display">
-                                        <mat-option value=" "></mat-option>
+                                        <mat-option [value]="null"></mat-option>
                                         <mat-option value="0">Short Term</mat-option>
                                         <mat-option value="1">Long Term</mat-option>
                                     </mat-select>
@@ -380,7 +380,7 @@
                                                 placeholder="{{ riskModelTemplate['riskParentalNotchUps'][0].riskParentalConditions[4].description }}"
                                                 [(ngModel)]="riskModelTemplate['riskParentalNotchUps'][0].riskParentalConditions[4].yesNoIndicatorValue"
                                                 required [disabled]="display">
-                                        <mat-option value=" ">  </mat-option>
+                                        <mat-option [value]="null"></mat-option>
                                         <mat-option value="Y">Yes</mat-option>
                                         <mat-option value="N">No</mat-option>
                                     </mat-select>
@@ -392,7 +392,7 @@
                                                 placeholder="{{ riskModelTemplate['riskParentalNotchUps'][0].riskParentalConditions[5].description }}"
                                                 [(ngModel)]="riskModelTemplate['riskParentalNotchUps'][0].riskParentalConditions[5].yesNoIndicatorValue"
                                                 required [disabled]="display">
-                                        <mat-option value=" ">  </mat-option>
+                                        <mat-option [value]="null"></mat-option>
                                         <mat-option value="Y">Yes</mat-option>
                                         <mat-option value="N">No</mat-option>
                                     </mat-select>
