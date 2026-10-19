@@ -31,14 +31,14 @@ security:
     client:
       client-id: pfs-client
       client-secret: pfs-secret
-      access-token-uri: http://13.71.85.200:9999/auth/oauth/token
-      user-authorization-uri: http://13.71.85.200:9999/auth/oauth/authorize
+      access-token-uri: http://52.172.88.79:9999/auth/oauth/token
+      user-authorization-uri: http://52.172.88.79:9999/auth/oauth/authorize
     resource:
-      userInfoUri: http://13.71.85.200:9999/auth/api/me
+      userInfoUri: http://52.172.88.79:9999/auth/api/me
 lmsEnquiry:
-  baseUrl: http://13.71.85.200:8080/enquiry
+  baseUrl: http://52.172.88.79:8080/enquiry
 sap:
-  postUrl: http://13.71.85.200:8000/sap/opu/odata/sap/ZPFS_RISK_MODEL_EVALUATION_SRV/RiskEvaluationSet?sap-client=500
+  postUrl: http://52.172.88.79:8000/sap/opu/odata/sap/ZPFS_RISK_MODEL_EVALUATION_SRV/RiskEvaluationSet?sap-client=500
   userName: SAP_PFS_GW
   password: Sapsap@4646
 
